@@ -15,43 +15,43 @@ import edu.wpi.first.wpilibj2.command.ProfiledPIDCommand;
  * profile.
  */
 public class TurnToAngleProfiled extends ProfiledPIDCommand {
-    /**
-     * Turns to robot to the specified angle using a motion profile.
-     *
-     * @param targetAngleDegrees The angle to turn to
-     * @param drive              The drive subsystem to use
-     */
-    public TurnToAngleProfiled(double targetAngleDegrees, Drivetrain drive) {
-        super(
-                new ProfiledPIDController(
-                        Constants.DriveConstants.kTurnP,
-                        Constants.DriveConstants.kTurnI,
-                        Constants.DriveConstants.kTurnD,
-                        new TrapezoidProfile.Constraints(
-                                Constants.DriveConstants.kMaxTurnRateDegPerS,
-                                Constants.DriveConstants.kMaxTurnAccelerationDegPerSSquared)),
-                // Close loop on heading
-                drive::getHeading,
-                // Set reference to target
-                targetAngleDegrees,
-                // Pipe output to turn robot
-                (output, setpoint) -> drive.arcadeDrive(0, (output/* /25 */)),
-                // Require the drive
-                drive);
+	/**
+	 * Turns to robot to the specified angle using a motion profile.
+	 *
+	 * @param targetAngleDegrees The angle to turn to
+	 * @param drive              The drive subsystem to use
+	 */
+	public TurnToAngleProfiled(double targetAngleDegrees, Drivetrain drive) {
+		super(
+				new ProfiledPIDController(
+						Constants.DriveConstants.kTurnP,
+						Constants.DriveConstants.kTurnI,
+						Constants.DriveConstants.kTurnD,
+						new TrapezoidProfile.Constraints(
+								Constants.DriveConstants.kMaxTurnRateDegPerS,
+								Constants.DriveConstants.kMaxTurnAccelerationDegPerSSquared)),
+				// Close loop on heading
+				drive::getHeading,
+				// Set reference to target
+				targetAngleDegrees,
+				// Pipe output to turn robot
+				(output, setpoint) -> drive.arcadeDrive(0, (output/* /25 */)),
+				// Require the drive
+				drive);
 
-        // Set the controller to be continuous (because it is an angle controller)
-        getController().enableContinuousInput(-180, 180);
-        // Set the controller tolerance - the delta tolerance ensures the robot is
-        // stationary at the
-        // setpoint before it is considered as having reached the reference
-        getController()
-                .setTolerance(Constants.DriveConstants.kTurnToleranceDeg,
-                        Constants.DriveConstants.kTurnRateToleranceDegPerS);
-    }
+		// Set the controller to be continuous (because it is an angle controller)
+		getController().enableContinuousInput(-180, 180);
+		// Set the controller tolerance - the delta tolerance ensures the robot is
+		// stationary at the
+		// setpoint before it is considered as having reached the reference
+		getController()
+				.setTolerance(Constants.DriveConstants.kTurnToleranceDeg,
+						Constants.DriveConstants.kTurnRateToleranceDegPerS);
+	}
 
-    @Override
-    public boolean isFinished() {
-        // End when the controller is at the reference.
-        return getController().atGoal();
-    }
+	@Override
+	public boolean isFinished() {
+		// End when the controller is at the reference.
+		return getController().atGoal();
+	}
 }
