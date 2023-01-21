@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
@@ -42,6 +43,9 @@ public class Drivetrain extends SubsystemBase {
 	// Gyro Sensor
 	private final Gyro m_gyro = new ADXRS450_Gyro();
 
+	// SlewRate Limiter to limit turn speed
+	private final SlewRateLimiter limiter = new SlewRateLimiter(1);
+
 	/** Creates a new Drivetrain. */
 	public Drivetrain() {
 		// CANSparkMax Controllers
@@ -67,11 +71,12 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public void arcadeDrive(double moveSpeed, double rotateSpeed) {
-		differentialDrive.arcadeDrive(moveSpeed, rotateSpeed);
+
+		differentialDrive.arcadeDrive(moveSpeed, limiter.calculate(rotateSpeed));
 	}
 
 	public void tankDrive(double moveSpeed, double rotateSpeed) {
-		differentialDrive.tankDrive(moveSpeed, rotateSpeed);
+		differentialDrive.tankDrive(moveSpeed, limiter.calculate(rotateSpeed));
 	}
 
 	/**

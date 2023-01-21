@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
 
@@ -56,6 +57,7 @@ public class DriveTime extends CommandBase {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
+		SmartDashboard.putNumber("Auto Running", ((double) ((int) (autoTimer.get() * 10))) / 10);
 		return autoTimer.get() >= m_time;
 	}
 }
