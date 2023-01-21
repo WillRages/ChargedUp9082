@@ -5,10 +5,8 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,21 +26,9 @@ public class Robot extends TimedRobot {
 
 	private RobotContainer m_robotContainer;
 
-	private final DigitalInput button_0 = new DigitalInput(0);
-	private final DigitalInput button_1 = new DigitalInput(1);
-	private final DigitalInput button_2 = new DigitalInput(2);
-	private final DigitalInput button_3 = new DigitalInput(3);
-	private final DigitalInput button_4 = new DigitalInput(4);
-	private final DigitalInput button_5 = new DigitalInput(5);
-	private final DigitalInput button_6 = new DigitalInput(6);
-	private final DigitalInput button_7 = new DigitalInput(7);
-	private final DigitalInput button_8 = new DigitalInput(8);
-	private final DigitalInput button_9 = new DigitalInput(9);
+	private final DigitalInput[] buttons = new DigitalInput[10];
 
-	private final AnalogInput analog_0 = new AnalogInput(0);
-	private final AnalogInput analog_1 = new AnalogInput(1);
-	private final AnalogInput analog_2 = new AnalogInput(2);
-	private final AnalogInput analog_3 = new AnalogInput(3);
+	private final AnalogInput[] analogs = new AnalogInput[4];
 
 	// private static final SPI.Port port = SPI.Port.kOnboardCS0;
 
@@ -55,6 +41,14 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+		for (int i = 0; i < buttons.length; i++) {
+			buttons[i] = new DigitalInput(i);
+		}
+
+		for (int i = 0; i < analogs.length; i++) {
+			analogs[i] = new AnalogInput(i);
+		}
+
 		// SmartDashboard.putString("Port", "" + port.value);
 		// Instantiate our RobotContainer. This will perform all our button bindings,
 		// and put our
@@ -84,21 +78,14 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotPeriodic() {
 		// there has to be a better way to do this, but it's good enough for now.
-		SmartDashboard.putBoolean("Button 0", button_0.get());
-		SmartDashboard.putBoolean("Button 1", button_1.get());
-		SmartDashboard.putBoolean("Button 2", button_2.get());
-		SmartDashboard.putBoolean("Button 3", button_3.get());
-		SmartDashboard.putBoolean("Button 4", button_4.get());
-		SmartDashboard.putBoolean("Button 5", button_5.get());
-		SmartDashboard.putBoolean("Button 6", button_6.get());
-		SmartDashboard.putBoolean("Button 7", button_7.get());
-		SmartDashboard.putBoolean("Button 8", button_8.get());
-		SmartDashboard.putBoolean("Button 9", button_9.get());
 
-		SmartDashboard.putNumber("Voltage 0", analog_0.getVoltage());
-		SmartDashboard.putNumber("Voltage 1", analog_1.getVoltage());
-		SmartDashboard.putNumber("Voltage 2", analog_2.getVoltage());
-		SmartDashboard.putNumber("Voltage 3", analog_3.getVoltage());
+		for (int i = 0; i < buttons.length; i++) {
+			SmartDashboard.putBoolean("Button " + i, buttons[i].get());
+		}
+
+		for (int i = 0; i < analogs.length; i++) {
+			SmartDashboard.putNumber("Analog " + i, analogs[i].getVoltage());
+		}
 
 		// SmartDashboard.putNumber("Gyro", gyro.getAngle());
 
