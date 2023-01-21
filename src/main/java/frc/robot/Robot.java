@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -32,7 +33,7 @@ public class Robot extends TimedRobot {
 
 	// private static final SPI.Port port = SPI.Port.kOnboardCS0;
 
-	// private static final ADXRS450_Gyro gyro = new ADXRS450_Gyro(port);
+	private static final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -41,11 +42,11 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < buttons.length; i++) {
 			buttons[i] = new DigitalInput(i);
 		}
 
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < analogs.length; i++) {
 			analogs[i] = new AnalogInput(i);
 		}
 
@@ -59,7 +60,7 @@ public class Robot extends TimedRobot {
 		// never go out of scope (unless explicitly removed).
 		CameraServer.startAutomaticCapture();
 
-		// gyro.calibrate();
+		gyro.calibrate();
 
 		m_robotContainer = new RobotContainer();
 
@@ -79,15 +80,15 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic() {
 		// there has to be a better way to do this, but it's good enough for now.
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < buttons.length; i++) {
 			SmartDashboard.putBoolean("Button " + i, buttons[i].get());
 		}
 
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < analogs.length; i++) {
 			SmartDashboard.putNumber("Analog " + i, analogs[i].getVoltage());
 		}
 
-		// SmartDashboard.putNumber("Gyro", gyro.getAngle());
+		SmartDashboard.putNumber("Heading", gyro.getAngle());
 
 		// Runs the Scheduler. This is responsible for polling buttons, adding
 		// newly-scheduled

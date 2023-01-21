@@ -62,11 +62,6 @@ public class RobotContainer {
 		// Set default commands of subsystems
 		m_drivetrain.setDefaultCommand(new DriveArcade());
 
-		SmartDashboard.putNumber("Encoder Value Left 1", m_drivetrain.m_encoder_left_1.getPosition());
-		SmartDashboard.putNumber("Encoder Value Left 2", m_drivetrain.m_encoder_left_2.getPosition());
-		SmartDashboard.putNumber("Encoder Value Right 1", m_drivetrain.m_encoder_right_1.getPosition());
-		SmartDashboard.putNumber("Encoder Value Right 2", m_drivetrain.m_encoder_right_2.getPosition());
-
 		// Autonomous Chooser
 		m_chooser.setDefaultOption("Drive Forward Encoders", m_DriveForwardEncodersAuto);
 		m_chooser.addOption("Drive Backwards Encoders", m_DriveBackwardsEncodersAuto);
