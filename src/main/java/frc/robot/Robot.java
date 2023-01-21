@@ -5,8 +5,10 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -42,6 +44,10 @@ public class Robot extends TimedRobot {
 	private final AnalogInput analog_2 = new AnalogInput(2);
 	private final AnalogInput analog_3 = new AnalogInput(3);
 
+	// private static final SPI.Port port = SPI.Port.kOnboardCS0;
+
+	// private static final ADXRS450_Gyro gyro = new ADXRS450_Gyro(port);
+
 	/**
 	 * This function is run when the robot is first started up and should be used
 	 * for any
@@ -49,6 +55,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+		// SmartDashboard.putString("Port", "" + port.value);
 		// Instantiate our RobotContainer. This will perform all our button bindings,
 		// and put our
 		// autonomous chooser on the dashboard.
@@ -57,6 +64,8 @@ public class Robot extends TimedRobot {
 		// CameraServer functions, so sources and sinks created in that way effectively
 		// never go out of scope (unless explicitly removed).
 		CameraServer.startAutomaticCapture();
+
+		// gyro.calibrate();
 
 		m_robotContainer = new RobotContainer();
 
@@ -90,6 +99,9 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("Voltage 1", analog_1.getVoltage());
 		SmartDashboard.putNumber("Voltage 2", analog_2.getVoltage());
 		SmartDashboard.putNumber("Voltage 3", analog_3.getVoltage());
+
+		// SmartDashboard.putNumber("Gyro", gyro.getAngle());
+
 		// Runs the Scheduler. This is responsible for polling buttons, adding
 		// newly-scheduled
 		// commands, running already-scheduled commands, removing finished or
