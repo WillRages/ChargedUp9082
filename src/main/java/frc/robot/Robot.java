@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -51,6 +52,12 @@ public class Robot extends TimedRobot {
 		// Instantiate our RobotContainer. This will perform all our button bindings,
 		// and put our
 		// autonomous chooser on the dashboard.
+
+		// The CameraServer class keeps a registry of all objects created with
+		// CameraServer functions, so sources and sinks created in that way effectively
+		// never go out of scope (unless explicitly removed).
+		CameraServer.startAutomaticCapture();
+
 		m_robotContainer = new RobotContainer();
 
 	}
