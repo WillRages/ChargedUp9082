@@ -17,7 +17,7 @@ public class DriveForwardEncoders extends CommandBase {
 	private final double m_speed;
 
 	public DriveForwardEncoders(double inches, double speed, Drivetrain drive) {
-		m_distance = inches / Constants.AutoConstants.kinchToEncoder;
+		m_distance = inches / Constants.AutoConstants.INCH_TO_ENCODER;
 		m_speed = speed;
 		m_drive = drive;
 		// Use addRequirements() here to declare subsystem dependencies.

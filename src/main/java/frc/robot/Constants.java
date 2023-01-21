@@ -19,39 +19,38 @@ package frc.robot;
 public final class Constants {
 	public static class OperatorConstants {
 		// Constants for driver controller port (likely unnecessary)
-		public static final int kDriverControllerPort = 0;
-
+		public static final int DRIVER_CONTROLLER_PORT = 0;
 	}
 
 	public static class DriveConstants {
-		public static final int kEncoderCPR = 1024;
-		public static final double kWheelDiameterInches = 6;
-		public static final double kEncoderDistancePerPulse =
+		public static final int TICKS_PER_ROTATION = 1024;
+		public static final double WHEEL_DIAMETER_INCH = 6;
+		public static final double INCHES_PER_TICK =
 				// Assumes the encoders are directly mounted on the wheel shafts
-				(kWheelDiameterInches * Math.PI) / (double) kEncoderCPR;
+				(WHEEL_DIAMETER_INCH * Math.PI) / (double) TICKS_PER_ROTATION;
 
-		public static final boolean kGyroReversed = false;
+		public static final boolean GYRO_REVERSED = false;
 
-		public static final double kStabilizationP = 1;
-		public static final double kStabilizationI = 0.5;
-		public static final double kStabilizationD = 0;
+		public static final double STABILIZATION_P = 1;
+		public static final double STABILIZATION_I = 0.5;
+		public static final double STABILIZATION_D = 0;
 
-		public static final double kTurnP = 1;
-		public static final double kTurnI = 0;
-		public static final double kTurnD = 0;
+		public static final double TURN_P = 1;
+		public static final double TURN_I = 0;
+		public static final double TURN_D = 0;
 
-		public static final double kMaxTurnRateDegPerS = 10;
-		public static final double kMaxTurnAccelerationDegPerSSquared = 30;
+		public static final double MAX_TURN_RATE_DPS = 10;
+		public static final double MAX_TURN_ACCEL_DPS2 = 30;
 
-		public static final double kTurnToleranceDeg = 10;
-		public static final double kTurnRateToleranceDegPerS = 10; // degrees per second
+		public static final double TURN_TOLERANCE_DEG = 10;
+		public static final double TURN_RATE_TOLERANCE_DPS = 10; // degrees per second
 	}
 
 	public static class AutoConstants {
 		// These are constants for autonomous
-		public static final double kAutoDriveDistanceInches = 200;
-		public static final double kinchToEncoder = 1.7525;
-		public static final double kAutoDriveSpeed = .2;
+		public static final double AUTO_DRIVE_DISTANCE_INCH = 200;
+		public static final double INCH_TO_ENCODER = 1.7525;
+		public static final double AUTO_DRIVE_SPEED = .2;
 	}
 
 	// Motor Controllers for Drive Train
@@ -62,7 +61,13 @@ public final class Constants {
 
 	// Joysticks
 	public static final int DRIVER_CONTROLLER = 0;
-	public static final int DRIVER_CONTROLLER_MOVE_AXIS = 1;
-	public static final int DRIVER_CONTROLLER_ROTATE_AXIS = 0;
+
+	public static final int STICK_X_INDEX = 0;
+	public static final int STICK_Y_INDEX = 1;
+	public static final int STICK_TWIST_INDEX = 2;
+	public static final int STICK_SLIDE_INDEX = 3;
+
+	public static final int DRIVER_CONTROLLER_MOVE_AXIS = STICK_X_INDEX;
+	public static final int DRIVER_CONTROLLER_ROTATE_AXIS = STICK_Y_INDEX;
 
 }

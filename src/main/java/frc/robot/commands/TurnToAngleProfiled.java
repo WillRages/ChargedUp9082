@@ -24,12 +24,12 @@ public class TurnToAngleProfiled extends ProfiledPIDCommand {
 	public TurnToAngleProfiled(double targetAngleDegrees, Drivetrain drive) {
 		super(
 				new ProfiledPIDController(
-						Constants.DriveConstants.kTurnP,
-						Constants.DriveConstants.kTurnI,
-						Constants.DriveConstants.kTurnD,
+						Constants.DriveConstants.TURN_P,
+						Constants.DriveConstants.TURN_I,
+						Constants.DriveConstants.TURN_D,
 						new TrapezoidProfile.Constraints(
-								Constants.DriveConstants.kMaxTurnRateDegPerS,
-								Constants.DriveConstants.kMaxTurnAccelerationDegPerSSquared)),
+								Constants.DriveConstants.MAX_TURN_RATE_DPS,
+								Constants.DriveConstants.MAX_TURN_ACCEL_DPS2)),
 				// Close loop on heading
 				drive::getHeading,
 				// Set reference to target
@@ -45,8 +45,8 @@ public class TurnToAngleProfiled extends ProfiledPIDCommand {
 		// stationary at the
 		// setpoint before it is considered as having reached the reference
 		getController()
-				.setTolerance(Constants.DriveConstants.kTurnToleranceDeg,
-						Constants.DriveConstants.kTurnRateToleranceDegPerS);
+				.setTolerance(Constants.DriveConstants.TURN_TOLERANCE_DEG,
+						Constants.DriveConstants.TURN_RATE_TOLERANCE_DPS);
 	}
 
 	@Override

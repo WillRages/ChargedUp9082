@@ -22,10 +22,10 @@ public class Drivetrain extends SubsystemBase {
 	// Declare Variables
 
 	// Declare Motors
-	public CANSparkMax m_motor_left_front;
-	public CANSparkMax m_motor_left_back;
-	public CANSparkMax m_motor_right_front;
-	public CANSparkMax m_motor_right_back;
+	public CANSparkMax motor_left_front;
+	public CANSparkMax motor_left_back;
+	public CANSparkMax motor_right_front;
+	public CANSparkMax motor_right_back;
 
 	// Declare Encoders
 	public RelativeEncoder m_encoder_left_1;
@@ -49,18 +49,18 @@ public class Drivetrain extends SubsystemBase {
 	/** Creates a new Drivetrain. */
 	public Drivetrain() {
 		// CANSparkMax Controllers
-		m_motor_left_front = new CANSparkMax(Constants.DRIVETRAIN_LEFT_FRONT_CANSPARKMAX, MotorType.kBrushless);
-		m_motor_left_back = new CANSparkMax(Constants.DRIVETRAIN_LEFT_BACK_CANSPARKMAX, MotorType.kBrushless);
-		m_motor_right_front = new CANSparkMax(Constants.DRIVETRAIN_RIGHT_FRONT_CANSPARKMAX, MotorType.kBrushless);
-		m_motor_right_back = new CANSparkMax(Constants.DRIVETRAIN_RIGHT_BACK_CANSPARKMAX, MotorType.kBrushless);
+		motor_left_front = new CANSparkMax(Constants.DRIVETRAIN_LEFT_FRONT_CANSPARKMAX, MotorType.kBrushless);
+		motor_left_back = new CANSparkMax(Constants.DRIVETRAIN_LEFT_BACK_CANSPARKMAX, MotorType.kBrushless);
+		motor_right_front = new CANSparkMax(Constants.DRIVETRAIN_RIGHT_FRONT_CANSPARKMAX, MotorType.kBrushless);
+		motor_right_back = new CANSparkMax(Constants.DRIVETRAIN_RIGHT_BACK_CANSPARKMAX, MotorType.kBrushless);
 
-		leftMotors = new MotorControllerGroup(m_motor_left_front, m_motor_left_back);
-		rightMotors = new MotorControllerGroup(m_motor_right_front, m_motor_right_back);
+		leftMotors = new MotorControllerGroup(motor_left_front, motor_left_back);
+		rightMotors = new MotorControllerGroup(motor_right_front, motor_right_back);
 
-		m_encoder_left_1 = m_motor_left_back.getEncoder();
-		m_encoder_left_2 = m_motor_left_front.getEncoder();
-		m_encoder_right_1 = m_motor_right_back.getEncoder();
-		m_encoder_right_2 = m_motor_right_front.getEncoder();
+		m_encoder_left_1 = motor_left_back.getEncoder();
+		m_encoder_left_2 = motor_left_front.getEncoder();
+		m_encoder_right_1 = motor_right_back.getEncoder();
+		m_encoder_right_2 = motor_right_front.getEncoder();
 
 		// One of the sides needs to be inverted so positive voltage means forwards,
 		// rather than turning
@@ -99,7 +99,7 @@ public class Drivetrain extends SubsystemBase {
 	 * @return the robot's heading in degrees, from 180 to 180
 	 */
 	public double getHeading() {
-		return Math.IEEEremainder(m_gyro.getAngle(), 360) * (Constants.DriveConstants.kGyroReversed ? -1.0 : 1.0);
+		return Math.IEEEremainder(m_gyro.getAngle(), 360) * (Constants.DriveConstants.GYRO_REVERSED ? -1.0 : 1.0);
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class Drivetrain extends SubsystemBase {
 	 * @return The turn rate of the robot, in degrees per second
 	 */
 	public double getTurnRate() {
-		return m_gyro.getRate() * (Constants.DriveConstants.kGyroReversed ? -1.0 : 1.0);
+		return m_gyro.getRate() * (Constants.DriveConstants.GYRO_REVERSED ? -1.0 : 1.0);
 	}
 
 	@Override

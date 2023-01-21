@@ -16,7 +16,7 @@ public class DriveBackwardsEncoders extends CommandBase {
 	private final double m_speed;
 
 	public DriveBackwardsEncoders(double inches, double speed, Drivetrain drive) {
-		m_distance = inches * Constants.AutoConstants.kinchToEncoder;
+		m_distance = inches * Constants.AutoConstants.INCH_TO_ENCODER;
 		m_speed = speed;
 		m_drive = drive;
 		// Use addRequirements() here to declare subsystem dependencies.
@@ -28,10 +28,10 @@ public class DriveBackwardsEncoders extends CommandBase {
 	@Override
 	public void initialize() {
 		// Reset Motor Controller Encoders
-		m_drive.m_motor_left_back.restoreFactoryDefaults();
-		m_drive.m_motor_left_front.restoreFactoryDefaults();
-		m_drive.m_motor_right_back.restoreFactoryDefaults();
-		m_drive.m_motor_right_front.restoreFactoryDefaults();
+		m_drive.motor_left_back.restoreFactoryDefaults();
+		m_drive.motor_left_front.restoreFactoryDefaults();
+		m_drive.motor_right_back.restoreFactoryDefaults();
+		m_drive.motor_right_front.restoreFactoryDefaults();
 
 		// Initialize ArcadeDrive
 		m_drive.arcadeDrive(-m_speed, 0);

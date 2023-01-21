@@ -20,8 +20,8 @@ public class TurnToAngle extends PIDCommand {
 	 */
 	public TurnToAngle(double targetAngleDegrees, Drivetrain drive) {
 		super(
-				new PIDController(Constants.DriveConstants.kTurnP, Constants.DriveConstants.kTurnI,
-						Constants.DriveConstants.kTurnD),
+				new PIDController(Constants.DriveConstants.TURN_P, Constants.DriveConstants.TURN_I,
+						Constants.DriveConstants.TURN_D),
 				// Close loop on heading
 				drive::getHeading,
 				// Set reference to target
@@ -37,8 +37,8 @@ public class TurnToAngle extends PIDCommand {
 		// stationary at the
 		// setpoint before it is considered as having reached the reference
 		getController()
-				.setTolerance(Constants.DriveConstants.kTurnToleranceDeg,
-						Constants.DriveConstants.kTurnRateToleranceDegPerS);
+				.setTolerance(Constants.DriveConstants.TURN_TOLERANCE_DEG,
+						Constants.DriveConstants.TURN_RATE_TOLERANCE_DPS);
 	}
 
 	@Override

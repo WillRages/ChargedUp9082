@@ -29,7 +29,7 @@ import frc.robot.subsystems.Drivetrain;
  */
 public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
-	public static final Drivetrain m_drivetrain = new Drivetrain();
+	public static final Drivetrain drivetrain = new Drivetrain();
 	public static Joystick driverController = new Joystick(Constants.DRIVER_CONTROLLER);
 
 	// Replace with CommandPS4Controller or CommandJoystick if needed
@@ -42,15 +42,15 @@ public class RobotContainer {
 	// A simple auto routine that drives forward for a specified amount of distance,
 	// and then stops.
 
-	private final Command m_DriveForwardEncodersAuto = new DriveForwardEncoders(60,
-			Constants.AutoConstants.kAutoDriveSpeed, m_drivetrain);
+	private final Command DriveForwardEncodersAuto = new DriveForwardEncoders(60,
+			Constants.AutoConstants.AUTO_DRIVE_SPEED, drivetrain);
 
-	private final Command m_DriveBackwardsEncodersAuto = new DriveBackwardsEncoders(60,
-			Constants.AutoConstants.kAutoDriveSpeed, m_drivetrain);
+	private final Command DriveBackwardsEncodersAuto = new DriveBackwardsEncoders(60,
+			Constants.AutoConstants.AUTO_DRIVE_SPEED, drivetrain);
 
-	private final Command m_DriveTimeAuto = new DriveTime(10, -.2, m_drivetrain);
+	private final Command DriveTimeAuto = new DriveTime(10, -.2, drivetrain);
 	// Create the chooser for autonomous commands
-	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	SendableChooser<Command> auto_chooser = new SendableChooser<>();
 
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -60,14 +60,14 @@ public class RobotContainer {
 		configureBindings();
 
 		// Set default commands of subsystems
-		m_drivetrain.setDefaultCommand(new DriveArcade());
+		drivetrain.setDefaultCommand(new DriveArcade());
 
 		// Autonomous Chooser
-		m_chooser.setDefaultOption("Drive Forward Encoders", m_DriveForwardEncodersAuto);
-		m_chooser.addOption("Drive Backwards Encoders", m_DriveBackwardsEncodersAuto);
-		m_chooser.addOption("Drive for Time", m_DriveTimeAuto);
+		auto_chooser.setDefaultOption("Drive Forward Encoders", DriveForwardEncodersAuto);
+		auto_chooser.addOption("Drive Backwards Encoders", DriveBackwardsEncodersAuto);
+		auto_chooser.addOption("Drive for Time", DriveTimeAuto);
 
-		SmartDashboard.putData("Auto Chooser", m_chooser);
+		SmartDashboard.putData("Auto Chooser", auto_chooser);
 	}
 
 	/**
@@ -95,35 +95,35 @@ public class RobotContainer {
 		// m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 		// Drive at half speed when the right bumper is held
 		new JoystickButton(driverController, 3)
-				.onTrue(new InstantCommand(() -> m_drivetrain.setMaxOutput(0.5)))
-				.onFalse(new InstantCommand(() -> m_drivetrain.setMaxOutput(1)));
+				.onTrue(new InstantCommand(() -> drivetrain.setMaxOutput(0.5)))
+				.onFalse(new InstantCommand(() -> drivetrain.setMaxOutput(1)));
 
 		// Stabilize robot to drive straight with gyro when left bumper is held
 		new JoystickButton(driverController, 4)
 				.whileTrue(
 						new PIDCommand(
 								new PIDController(
-										Constants.DriveConstants.kStabilizationP,
-										Constants.DriveConstants.kStabilizationI,
-										Constants.DriveConstants.kStabilizationD),
+										Constants.DriveConstants.STABILIZATION_P,
+										Constants.DriveConstants.STABILIZATION_I,
+										Constants.DriveConstants.STABILIZATION_D),
 								// Close the loop on the turn rate
-								m_drivetrain::getTurnRate,
+								drivetrain::getTurnRate,
 								// Setpoint is 0
 								0,
 								// Pipe the output to the turning controls
-								output -> m_drivetrain.arcadeDrive(
+								output -> drivetrain.arcadeDrive(
 										-driverController.getY(), output),
 								// Require the robot drive
-								m_drivetrain));
+								drivetrain));
 
 		// Turn to 90 degrees when the 'X' button is pressed, with a 5 second timeout
 		new JoystickButton(driverController, 5)
-				.onTrue(new TurnToAngleProfiled(90, m_drivetrain).withTimeout(5));
+				.onTrue(new TurnToAngleProfiled(90, drivetrain).withTimeout(5));
 
 		// Turn to -90 degrees with a profile when the Circle button is pressed, with a
 		// 5 second timeout
 		new JoystickButton(driverController, 6)
-				.onTrue(new TurnToAngleProfiled(-90, m_drivetrain).withTimeout(5));
+				.onTrue(new TurnToAngleProfiled(-90, drivetrain).withTimeout(5));
 
 	}
 
@@ -134,6 +134,6 @@ public class RobotContainer {
 	 */
 	public Command getAutonomousCommand() {
 		// An example command will be run in autonomous
-		return m_chooser.getSelected();
+		return auto_chooser.getSelected();
 	}
 }
