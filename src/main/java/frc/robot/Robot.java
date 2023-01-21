@@ -41,11 +41,11 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		for (int i = 0; i < buttons.length; i++) {
+		for (int i = 0; i < 10; i++) {
 			buttons[i] = new DigitalInput(i);
 		}
 
-		for (int i = 0; i < analogs.length; i++) {
+		for (int i = 0; i < 4; i++) {
 			analogs[i] = new AnalogInput(i);
 		}
 
@@ -79,11 +79,11 @@ public class Robot extends TimedRobot {
 	public void robotPeriodic() {
 		// there has to be a better way to do this, but it's good enough for now.
 
-		for (int i = 0; i < buttons.length; i++) {
+		for (int i = 0; i < 10; i++) {
 			SmartDashboard.putBoolean("Button " + i, buttons[i].get());
 		}
 
-		for (int i = 0; i < analogs.length; i++) {
+		for (int i = 0; i < 4; i++) {
 			SmartDashboard.putNumber("Analog " + i, analogs[i].getVoltage());
 		}
 

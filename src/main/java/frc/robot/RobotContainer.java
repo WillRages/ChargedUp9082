@@ -6,7 +6,6 @@ package frc.robot;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -49,7 +48,7 @@ public class RobotContainer {
 	private final Command m_DriveBackwardsEncodersAuto = new DriveBackwardsEncoders(60,
 			Constants.AutoConstants.kAutoDriveSpeed, m_drivetrain);
 
-	private final Command m_DriveTimeAuto = new DriveTime(300, -.2, m_drivetrain);
+	private final Command m_DriveTimeAuto = new DriveTime(10, -.2, m_drivetrain);
 	// Create the chooser for autonomous commands
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -73,8 +72,7 @@ public class RobotContainer {
 		m_chooser.addOption("Drive Backwards Encoders", m_DriveBackwardsEncodersAuto);
 		m_chooser.addOption("Drive for Time", m_DriveTimeAuto);
 
-		Shuffleboard.getTab("Autonomous").add(m_chooser);
-
+		SmartDashboard.putData("Auto Chooser", m_chooser);
 	}
 
 	/**
