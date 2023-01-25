@@ -23,6 +23,10 @@ public class DriveArcade extends CommandBase {
 	@Override
 	public void initialize() {
 		RobotContainer.drivetrain.zeroHeading();
+		RobotContainer.drivetrain.m_encoder_left_1.setPosition(0);
+		RobotContainer.drivetrain.m_encoder_left_2.setPosition(0);
+		RobotContainer.drivetrain.m_encoder_right_1.setPosition(0);
+		RobotContainer.drivetrain.m_encoder_right_2.setPosition(0);
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.

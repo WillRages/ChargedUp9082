@@ -5,7 +5,6 @@
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -33,8 +32,6 @@ public class Robot extends TimedRobot {
 
 	// private static final SPI.Port port = SPI.Port.kOnboardCS0;
 
-	private static final ADXRS450_Gyro gyro = new ADXRS450_Gyro();
-
 	/**
 	 * This function is run when the robot is first started up and should be used
 	 * for any
@@ -59,8 +56,6 @@ public class Robot extends TimedRobot {
 		// CameraServer functions, so sources and sinks created in that way effectively
 		// never go out of scope (unless explicitly removed).
 		CameraServer.startAutomaticCapture();
-
-		gyro.calibrate();
 
 		robotContainer = new RobotContainer();
 
@@ -87,8 +82,6 @@ public class Robot extends TimedRobot {
 		for (int i = 0; i < analogs.length; i++) {
 			SmartDashboard.putNumber("Analog " + i, analogs[i].getVoltage());
 		}
-
-		// SmartDashboard.putNumber("Heading", gyro.getAngle());
 
 		// Runs the Scheduler. This is responsible for polling buttons, adding
 		// newly-scheduled
