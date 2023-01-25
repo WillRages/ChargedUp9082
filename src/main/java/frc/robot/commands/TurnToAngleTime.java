@@ -27,6 +27,9 @@ public class TurnToAngleTime extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    autoTimer.reset();
+    autoTimer.start();
+
     drivetrain.arcadeDrive(0, speed);
   }
 

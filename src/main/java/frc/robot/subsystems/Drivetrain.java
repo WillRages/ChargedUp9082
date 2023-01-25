@@ -41,7 +41,7 @@ public class Drivetrain extends SubsystemBase {
 	DifferentialDrive differentialDrive = null;
 
 	// Gyro Sensor
-	private final Gyro m_gyro = new ADXRS450_Gyro();
+	public final Gyro m_gyro = new ADXRS450_Gyro();
 
 	// SlewRate Limiter to limit turn speed
 	private final SlewRateLimiter limiter = new SlewRateLimiter(1);

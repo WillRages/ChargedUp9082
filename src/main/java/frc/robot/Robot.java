@@ -88,7 +88,7 @@ public class Robot extends TimedRobot {
 			SmartDashboard.putNumber("Analog " + i, analogs[i].getVoltage());
 		}
 
-		SmartDashboard.putNumber("Heading", gyro.getAngle());
+		// SmartDashboard.putNumber("Heading", gyro.getAngle());
 
 		// Runs the Scheduler. This is responsible for polling buttons, adding
 		// newly-scheduled
