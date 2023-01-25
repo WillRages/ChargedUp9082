@@ -6,17 +6,18 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.Constants.AutoConstants;
 
 public class TurnToAngleEncoders extends CommandBase {
 	/** Creates a new TurnToAngleEncoders. */
 
 	private final Drivetrain drivetrain;
-	private final double distance;
+	private final double degrees;
 	private final double speed;
 
-	public TurnToAngleEncoders(Drivetrain drivetrain, double distance, double speed) {
+	public TurnToAngleEncoders(Drivetrain drivetrain, double degrees, double speed) {
 		this.speed = speed;
-		this.distance = distance;
+		this.degrees = degrees * 0.9; // adjust for overshoot
 		this.drivetrain = drivetrain;
 		addRequirements(drivetrain);
 	}
@@ -49,6 +50,6 @@ public class TurnToAngleEncoders extends CommandBase {
 				+ Math.abs(drivetrain.m_encoder_right_1.getPosition())
 				+ Math.abs(drivetrain.m_encoder_left_2.getPosition())
 				+ Math.abs(drivetrain.m_encoder_right_2.getPosition()))
-				/ 4.0 >= distance;
+				/ 4.0 >= degrees * AutoConstants.TICKS_PER_DEGREE;
 	}
 }

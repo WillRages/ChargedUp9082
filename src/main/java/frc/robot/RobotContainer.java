@@ -54,7 +54,7 @@ public class RobotContainer {
 
 	private final Command TurnToAngleTimeAuto = new TurnToAngleTime(drivetrain, .8, .5);
 
-	private final Command TurnToAngleEncodersAuto = new TurnToAngleEncoders(drivetrain, 100, .5);
+	private final Command TurnToAngleEncodersAuto = new TurnToAngleEncoders(drivetrain, 90, .35);
 
 	// Create the chooser for autonomous commands
 	SendableChooser<Command> auto_chooser = new SendableChooser<>();
