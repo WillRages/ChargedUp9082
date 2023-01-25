@@ -62,8 +62,8 @@ public final class Constants {
 	// Joysticks
 	public static final int DRIVER_CONTROLLER = 0;
 
-	public static final int STICK_X_INDEX = 0;
-	public static final int STICK_Y_INDEX = 1;
+	public static final int STICK_X_INDEX = 1;
+	public static final int STICK_Y_INDEX = 0;
 	public static final int STICK_TWIST_INDEX = 2;
 	public static final int STICK_SLIDE_INDEX = 3;
 
