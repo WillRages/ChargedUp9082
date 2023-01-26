@@ -24,7 +24,7 @@ public class TurnToAngleGyro extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    drivetrain.getHeading();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -52,6 +52,11 @@ public class TurnToAngleGyro extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    // check if we are within 10 degrees of the target
+    if (Math.abs(drivetrain.getHeading() - target_head) < 10) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
