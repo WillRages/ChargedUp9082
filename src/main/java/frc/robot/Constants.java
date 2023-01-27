@@ -50,7 +50,7 @@ public final class Constants {
 		// These are constants for autonomous
 		public static final double AUTO_DRIVE_DISTANCE_INCH = 200;
 		public static final double INCH_TO_ENCODER = 1.7525;
-		public static final double AUTO_DRIVE_SPEED = .2;
+		public static final double AUTO_DRIVE_SPEED = .3;
 		public static final double TICKS_PER_DEGREE = 0.15555555555555555555555555555555555555555555555555555555555;
 	}
 
@@ -63,12 +63,12 @@ public final class Constants {
 	// Joysticks
 	public static final int DRIVER_CONTROLLER = 0;
 
-	public static final int STICK_X_INDEX = 1;
-	public static final int STICK_Y_INDEX = 0;
+	public static final int STICK_X_INDEX = 0;
+	public static final int STICK_Y_INDEX = 1;
 	public static final int STICK_TWIST_INDEX = 2;
 	public static final int STICK_SLIDE_INDEX = 3;
 
-	public static final int DRIVER_CONTROLLER_MOVE_AXIS = STICK_X_INDEX;
-	public static final int DRIVER_CONTROLLER_ROTATE_AXIS = STICK_Y_INDEX;
+	public static final int DRIVER_CONTROLLER_MOVE_AXIS = STICK_Y_INDEX;
+	public static final int DRIVER_CONTROLLER_ROTATE_AXIS = STICK_X_INDEX;
 
 }

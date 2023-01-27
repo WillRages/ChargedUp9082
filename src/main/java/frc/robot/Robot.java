@@ -55,7 +55,7 @@ public class Robot extends TimedRobot {
 		// The CameraServer class keeps a registry of all objects created with
 		// CameraServer functions, so sources and sinks created in that way effectively
 		// never go out of scope (unless explicitly removed).
-		CameraServer.startAutomaticCapture();
+		// CameraServer.startAutomaticCapture();
 
 		robotContainer = new RobotContainer();
 

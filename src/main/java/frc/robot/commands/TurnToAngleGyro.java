@@ -4,18 +4,19 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
 public class TurnToAngleGyro extends CommandBase {
 	/** Creates a new AngleGyroTurn. */
-	private Drivetrain drivetrain;
+	private final Drivetrain drivetrain;
 	private double speed;
-	private double target_head;
+	private final double target_head;
 
 	public TurnToAngleGyro(Drivetrain drivetrain, double angle, double speed) {
 		// Use addRequirements() here to declare subsystem dependencies.
-		this.speed = speed;
+		this.speed = -speed;
 		this.target_head = angle;
 		this.drivetrain = drivetrain;
 		addRequirements(drivetrain);
@@ -24,28 +25,24 @@ public class TurnToAngleGyro extends CommandBase {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		drivetrain.getHeading();
+		drivetrain.zeroHeading();
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
 		if (target_head < 0) {
-			speed = -speed;
-			while (drivetrain.getHeading() > target_head) {
-				drivetrain.arcadeDrive(0, speed);
-			}
+			speed *= -1;
 		}
-		while (drivetrain.getHeading() < target_head) {
-			drivetrain.arcadeDrive(0, speed);
-		}
-		drivetrain.getHeading();
 		drivetrain.arcadeDrive(0, speed);
+		SmartDashboard.putNumber("Heading", drivetrain.getHeading());
 	}
 
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
+		speed *= -1;
+		drivetrain.arcadeDrive(0, speed * 0.10);
 		drivetrain.arcadeDrive(0, 0);
 	}
 
