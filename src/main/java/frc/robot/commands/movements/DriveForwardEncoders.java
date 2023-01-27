@@ -12,16 +12,16 @@ import frc.robot.subsystems.*;
 public class DriveForwardEncoders extends CommandBase {
 	/** Creates a new DriveForwardTime. */
 
-	private final Drivetrain m_drive;
-	private final double m_distance;
-	private final double m_speed;
+	private final Drivetrain drive;
+	private final double distance;
+	private final double speed;
 
 	public DriveForwardEncoders(double inches, double speed, Drivetrain drive) {
-		m_distance = inches / Constants.AutoConstants.INCH_TO_ENCODER;
-		m_speed = speed;
-		m_drive = drive;
+		this.distance = inches / Constants.AutoConstants.INCH_TO_ENCODER;
+		this.speed = speed;
+		this.drive = drive;
 		// Use addRequirements() here to declare subsystem dependencies.
-		addRequirements(m_drive);
+		addRequirements(drive);
 
 	}
 
@@ -29,37 +29,37 @@ public class DriveForwardEncoders extends CommandBase {
 	@Override
 	public void initialize() {
 		// Reset Motor Controller Encoders
-		m_drive.m_encoder_left_1.setPosition(0.0);
-		m_drive.m_encoder_right_1.setPosition(0.0);
-		m_drive.m_encoder_left_2.setPosition(0.0);
-		m_drive.m_encoder_right_2.setPosition(0.0);
+		drive.encoder_left_1.setPosition(0.0);
+		drive.encoder_right_1.setPosition(0.0);
+		drive.encoder_left_2.setPosition(0.0);
+		drive.encoder_right_2.setPosition(0.0);
 
 		// Initialize ArcadeDrive
-		m_drive.arcadeDrive(m_speed, 0);
+		drive.arcadeDrive(speed, 0);
 
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		m_drive.arcadeDrive(m_speed, 0);
-		SmartDashboard.putNumber("Encoder Value Left 1", m_drive.m_encoder_left_1.getPosition());
-		SmartDashboard.putNumber("Encoder Value Left 2", m_drive.m_encoder_left_2.getPosition());
-		SmartDashboard.putNumber("Encoder Value Right 1", m_drive.m_encoder_right_1.getPosition());
-		SmartDashboard.putNumber("Encoder Value Right 2", m_drive.m_encoder_right_2.getPosition());
+		drive.arcadeDrive(speed, 0);
+		SmartDashboard.putNumber("Encoder Value Left 1", drive.encoder_left_1.getPosition());
+		SmartDashboard.putNumber("Encoder Value Left 2", drive.encoder_left_2.getPosition());
+		SmartDashboard.putNumber("Encoder Value Right 1", drive.encoder_right_1.getPosition());
+		SmartDashboard.putNumber("Encoder Value Right 2", drive.encoder_right_2.getPosition());
 	}
 
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		m_drive.arcadeDrive(0, 0);
+		drive.arcadeDrive(0, 0);
 	}
 
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		return (((Math.abs(m_drive.m_encoder_left_1.getPosition()) + Math.abs(m_drive.m_encoder_left_2.getPosition())
-				+ Math.abs(m_drive.m_encoder_right_1.getPosition()) + Math.abs(m_drive.m_encoder_right_2.getPosition()))
-				/ 4.0) >= m_distance);
+		return (((Math.abs(drive.encoder_left_1.getPosition()) + Math.abs(drive.encoder_left_2.getPosition())
+				+ Math.abs(drive.encoder_right_1.getPosition()) + Math.abs(drive.encoder_right_2.getPosition()))
+				/ 4.0) >= distance);
 	}
 }

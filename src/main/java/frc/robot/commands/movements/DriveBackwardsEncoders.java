@@ -53,8 +53,8 @@ public class DriveBackwardsEncoders extends CommandBase {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		return Math.abs((m_drive.m_encoder_left_1.getPosition() + m_drive.m_encoder_left_2.getPosition()
-				+ m_drive.m_encoder_right_1.getPosition() + m_drive.m_encoder_right_2.getPosition())
+		return Math.abs((m_drive.encoder_left_1.getPosition() + m_drive.encoder_left_2.getPosition()
+				+ m_drive.encoder_right_1.getPosition() + m_drive.encoder_right_2.getPosition())
 				/ 4.0) >= m_distance;
 	}
 
