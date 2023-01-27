@@ -28,10 +28,10 @@ public class Drivetrain extends SubsystemBase {
 	public CANSparkMax motor_right_back;
 
 	// Declare Encoders
-	public RelativeEncoder m_encoder_left_1;
-	public RelativeEncoder m_encoder_left_2;
-	public RelativeEncoder m_encoder_right_1;
-	public RelativeEncoder m_encoder_right_2;
+	public RelativeEncoder encoder_left_1;
+	public RelativeEncoder encoder_left_2;
+	public RelativeEncoder encoder_right_1;
+	public RelativeEncoder encoder_right_2;
 
 	// Speed Controls
 	MotorControllerGroup leftMotors = null;
@@ -57,10 +57,10 @@ public class Drivetrain extends SubsystemBase {
 		leftMotors = new MotorControllerGroup(motor_left_front, motor_left_back);
 		rightMotors = new MotorControllerGroup(motor_right_front, motor_right_back);
 
-		m_encoder_left_1 = motor_left_back.getEncoder();
-		m_encoder_left_2 = motor_left_front.getEncoder();
-		m_encoder_right_1 = motor_right_back.getEncoder();
-		m_encoder_right_2 = motor_right_front.getEncoder();
+		encoder_left_1 = motor_left_back.getEncoder();
+		encoder_left_2 = motor_left_front.getEncoder();
+		encoder_right_1 = motor_right_back.getEncoder();
+		encoder_right_2 = motor_right_front.getEncoder();
 
 		// One of the sides needs to be inverted so positive voltage means forwards,
 		// rather than turning
