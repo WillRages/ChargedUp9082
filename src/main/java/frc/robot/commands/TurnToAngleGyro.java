@@ -7,17 +7,16 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
-public class AngleGyroTurn extends CommandBase {
+public class TurnToAngleGyro extends CommandBase {
   /** Creates a new AngleGyroTurn. */
-  private double angle;
   private Drivetrain drivetrain;
   private double speed;
   private double target_head;
 
-  public AngleGyroTurn(Drivetrain drivetrain, double angle, double speed) {
+  public TurnToAngleGyro(Drivetrain drivetrain, double angle, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.speed = speed;
-    this.angle = angle;
+    this.target_head = angle;
     this.drivetrain = drivetrain;
     addRequirements(drivetrain);
   }
@@ -31,7 +30,6 @@ public class AngleGyroTurn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    angle = target_head;
     if (target_head < 0) {
       speed = -speed;
       while (drivetrain.getHeading() > target_head) {

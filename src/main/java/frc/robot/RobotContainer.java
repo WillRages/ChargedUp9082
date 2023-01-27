@@ -19,6 +19,7 @@ import frc.robot.commands.DriveBackwardsEncoders;
 import frc.robot.commands.DriveForwardEncoders;
 import frc.robot.commands.DriveTime;
 import frc.robot.commands.TurnToAngleEncoders;
+import frc.robot.commands.TurnToAngleGyro;
 import frc.robot.commands.TurnToAngleProfiled;
 import frc.robot.commands.TurnToAngleTime;
 import frc.robot.subsystems.Drivetrain;
@@ -56,6 +57,7 @@ public class RobotContainer {
 
 	private final Command TurnToAngleEncodersAuto = new TurnToAngleEncoders(drivetrain, 90, .35);
 
+	private final Command TurnToAngleGyroAuto = new TurnToAngleGyro(drivetrain, 90, .35);
 	// Create the chooser for autonomous commands
 	SendableChooser<Command> auto_chooser = new SendableChooser<>();
 
@@ -75,6 +77,7 @@ public class RobotContainer {
 		auto_chooser.addOption("Drive for Time", DriveTimeAuto);
 		auto_chooser.addOption("Turn for time", TurnToAngleTimeAuto);
 		auto_chooser.addOption("Turn with encoders", TurnToAngleEncodersAuto);
+		auto_chooser.addOption("Turn with gyro", TurnToAngleGyroAuto);
 
 		SmartDashboard.putData("Auto Chooser", auto_chooser);
 	}
