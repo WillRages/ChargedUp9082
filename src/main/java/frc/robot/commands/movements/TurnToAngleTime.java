@@ -2,28 +2,26 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.movements;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.*;
+import frc.robot.subsystems.Drivetrain;
 
-public class DriveTime extends CommandBase {
-	/* Creates a new DriveTime. */
-
-	private final Drivetrain drive;
+public class TurnToAngleTime extends CommandBase {
+	/** Creates a new TurnToAngleTime. */
+	private Drivetrain drivetrain;
+	private final Timer autoTimer;
 	private final double time;
 	private final double speed;
-	private final Timer autoTimer;
 
-	public DriveTime(double seconds, double speed, Drivetrain drive) {
-		this.time = seconds;
+	public TurnToAngleTime(Drivetrain drivetrain, double time, double speed) {
+		this.time = time;
 		this.speed = speed;
-		this.drive = drive;
-		// Use addRequirements() here to declare subsystem dependencies.
-		addRequirements(drive);
-		autoTimer = new Timer();
+		this.drivetrain = drivetrain;
+		this.autoTimer = new Timer();
+		addRequirements(drivetrain);
 	}
 
 	// Called when the command is initially scheduled.
@@ -31,27 +29,20 @@ public class DriveTime extends CommandBase {
 	public void initialize() {
 		autoTimer.reset();
 		autoTimer.start();
-		// Reset Motor Controller Encoders
-		drive.motor_left_back.restoreFactoryDefaults();
-		drive.motor_left_front.restoreFactoryDefaults();
-		drive.motor_right_back.restoreFactoryDefaults();
-		drive.motor_right_front.restoreFactoryDefaults();
 
-		// Initialize ArcadeDrive
-		drive.arcadeDrive(speed, 0);
-
+		drivetrain.arcadeDrive(0, speed);
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		drive.arcadeDrive(speed, 0);
+		drivetrain.arcadeDrive(0, speed);
 	}
 
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		drive.arcadeDrive(0, 0);
+		drivetrain.arcadeDrive(0, 0);
 	}
 
 	// Returns true when the command should end.

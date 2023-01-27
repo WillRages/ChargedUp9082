@@ -1,33 +1,41 @@
-
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.movements;
 
-import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import frc.robot.Constants;
 import frc.robot.subsystems.*;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
+import edu.wpi.first.wpilibj2.command.ProfiledPIDCommand;
 
-/** A command that will turn the robot to the specified angle. */
-public class TurnToAngle extends PIDCommand {
+/**
+ * A command that will turn the robot to the specified angle using a motion
+ * profile.
+ */
+public class TurnToAngleProfiled extends ProfiledPIDCommand {
 	/**
-	 * Turns to robot to the specified angle.
+	 * Turns to robot to the specified angle using a motion profile.
 	 *
 	 * @param targetAngleDegrees The angle to turn to
 	 * @param drive              The drive subsystem to use
 	 */
-	public TurnToAngle(double targetAngleDegrees, Drivetrain drive) {
+	public TurnToAngleProfiled(double targetAngleDegrees, Drivetrain drive) {
 		super(
-				new PIDController(Constants.DriveConstants.TURN_P, Constants.DriveConstants.TURN_I,
-						Constants.DriveConstants.TURN_D),
+				new ProfiledPIDController(
+						Constants.DriveConstants.TURN_P,
+						Constants.DriveConstants.TURN_I,
+						Constants.DriveConstants.TURN_D,
+						new TrapezoidProfile.Constraints(
+								Constants.DriveConstants.MAX_TURN_RATE_DPS,
+								Constants.DriveConstants.MAX_TURN_ACCEL_DPS2)),
 				// Close loop on heading
 				drive::getHeading,
 				// Set reference to target
 				targetAngleDegrees,
 				// Pipe output to turn robot
-				output -> drive.arcadeDrive(0, (output/* /40 */)),
+				(output, setpoint) -> drive.arcadeDrive(0, (output/* /25 */)),
 				// Require the drive
 				drive);
 
@@ -44,6 +52,6 @@ public class TurnToAngle extends PIDCommand {
 	@Override
 	public boolean isFinished() {
 		// End when the controller is at the reference.
-		return getController().atSetpoint();
+		return getController().atGoal();
 	}
 }

@@ -15,13 +15,13 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DriveArcade;
-import frc.robot.commands.DriveBackwardsEncoders;
-import frc.robot.commands.DriveForwardEncoders;
-import frc.robot.commands.DriveTime;
-import frc.robot.commands.TurnToAngleEncoders;
-import frc.robot.commands.TurnToAngleGyro;
-import frc.robot.commands.TurnToAngleProfiled;
-import frc.robot.commands.TurnToAngleTime;
+import frc.robot.commands.movements.DriveBackwardsEncoders;
+import frc.robot.commands.movements.DriveForwardEncoders;
+import frc.robot.commands.movements.DriveTime;
+import frc.robot.commands.movements.TurnToAngleEncoders;
+import frc.robot.commands.movements.TurnToAngleGyro;
+import frc.robot.commands.movements.TurnToAngleProfiled;
+import frc.robot.commands.movements.TurnToAngleTime;
 import frc.robot.subsystems.Drivetrain;
 
 /*
