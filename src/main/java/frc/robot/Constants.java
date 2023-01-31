@@ -52,6 +52,7 @@ public final class Constants {
 		public static final double INCH_TO_ENCODER = 1.7525;
 		public static final double AUTO_DRIVE_SPEED = .3;
 		public static final double TICKS_PER_DEGREE = 0.15555555555555555555555555555555555555555555555555555555555;
+		public static final int GYRO_TURN_EPSILON = 10;
 	}
 
 	// Motor Controllers for Drive Train

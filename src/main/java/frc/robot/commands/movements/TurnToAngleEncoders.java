@@ -9,8 +9,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.Constants.AutoConstants;
 
 public class TurnToAngleEncoders extends CommandBase {
-	/** Creates a new TurnToAngleEncoders. */
-
+	
 	private final Drivetrain drivetrain;
 	private final double degrees;
 	private final double speed;
@@ -25,10 +24,7 @@ public class TurnToAngleEncoders extends CommandBase {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		drivetrain.encoder_left_1.setPosition(0.0);
-		drivetrain.encoder_right_1.setPosition(0.0);
-		drivetrain.encoder_left_2.setPosition(0.0);
-		drivetrain.encoder_right_2.setPosition(0.0);
+		drivetrain.setZeroEncoders();
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
@@ -46,10 +42,6 @@ public class TurnToAngleEncoders extends CommandBase {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		return (Math.abs(drivetrain.encoder_left_1.getPosition())
-				+ Math.abs(drivetrain.encoder_right_1.getPosition())
-				+ Math.abs(drivetrain.encoder_left_2.getPosition())
-				+ Math.abs(drivetrain.encoder_right_2.getPosition()))
-				/ 4.0 >= degrees * AutoConstants.TICKS_PER_DEGREE;
+		return drivetrain.getAverageEncoder() >= degrees * AutoConstants.TICKS_PER_DEGREE;
 	}
 }

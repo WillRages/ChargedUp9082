@@ -15,23 +15,16 @@ public class DriveForwardEncoders extends CommandBase {
 	private final double speed;
 
 	public DriveForwardEncoders(double inches, double speed, Drivetrain drive) {
-		this.distance = inches / Constants.AutoConstants.INCH_TO_ENCODER;
-		this.speed = speed;
 		this.drive = drive;
 		addRequirements(drive);
-
+		this.distance = inches / Constants.AutoConstants.INCH_TO_ENCODER;
+		this.speed = speed;
 	}
 
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		drive.encoder_left_1.setPosition(0.0);
-		drive.encoder_right_1.setPosition(0.0);
-		drive.encoder_left_2.setPosition(0.0);
-		drive.encoder_right_2.setPosition(0.0);
-
-		drive.arcadeDrive(speed, 0);
-
+		drive.setZeroEncoders();
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
@@ -54,7 +47,6 @@ public class DriveForwardEncoders extends CommandBase {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		// is the average of the absolute values of the	encoders greater than the target distance
-		return (drive.getAverageEncoder() >= distance);
+		return drive.getAverageEncoder() >= distance;
 	}
 }

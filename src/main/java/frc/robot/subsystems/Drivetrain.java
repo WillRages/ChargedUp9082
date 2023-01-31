@@ -76,6 +76,13 @@ public class Drivetrain extends SubsystemBase {
 				/ 4);
 	}
 
+	public void setZeroEncoders() {
+		encoder_left_1.setPosition(0.0);
+		encoder_left_2.setPosition(0.0);
+		encoder_right_1.setPosition(0.0);
+		encoder_right_2.setPosition(0.0);
+	}
+
 	public void arcadeDrive(double moveSpeed, double rotateSpeed) {
 		differentialDrive.arcadeDrive(moveSpeed, limiter.calculate(rotateSpeed));
 	}

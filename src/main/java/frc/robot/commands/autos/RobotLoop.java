@@ -12,9 +12,9 @@ import frc.robot.subsystems.Drivetrain;
 public class RobotLoop extends CommandBase {
 	private final Drivetrain drivetrain;
 	private final double distance, speed;
-	private final int loops;
 	private final TurnToAngleGyro turn_command;
 	private final DriveForwardEncoders drive_command;
+	private int loops;
 
 	public RobotLoop(Drivetrain drivetrain, double distance, double speed, int loops, TurnToAngleGyro turn_command,
 			DriveForwardEncoders drive_command) {
@@ -30,12 +30,12 @@ public class RobotLoop extends CommandBase {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
+
 	}
 
 	// Called once the command ends or is interrupted.
