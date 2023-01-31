@@ -8,20 +8,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Gyro_sub;
 
 public class TurnToAngleGyro extends CommandBase {
 	/** Creates a new AngleGyroTurn. */
 	private final Drivetrain drivetrain;
+	private final Gyro_sub gyro;
 	private double speed;
 	private final double target_head;
 
 	// TurnToAngleGyro x = new TurnToAngleGyro();
 	// x.initialize();
 
-
-	public TurnToAngleGyro(Drivetrain drivetrain, double angle, double speed) {
+	public TurnToAngleGyro(Drivetrain drivetrain, Gyro_sub gyro, double angle, double speed) {
 		this.drivetrain = drivetrain;
-		addRequirements(drivetrain);
+		this.gyro = gyro;
+		addRequirements(drivetrain, gyro);
 		this.speed = angle < 0 ? speed : -speed;
 		this.target_head = angle;
 	}
@@ -29,14 +31,14 @@ public class TurnToAngleGyro extends CommandBase {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		drivetrain.zeroHeading();
+		gyro.zeroHeading();
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
 		drivetrain.arcadeDrive(0, speed);
-		SmartDashboard.putNumber("Heading", drivetrain.getHeading());
+		SmartDashboard.putNumber("Heading", gyro.getHeading());
 	}
 
 	// Called once the command ends or is interrupted.
@@ -49,6 +51,6 @@ public class TurnToAngleGyro extends CommandBase {
 	@Override
 	public boolean isFinished() {
 		// check if we are within <epsilon> degrees of the target
-		return Math.abs(drivetrain.getHeading() - target_head) < AutoConstants.GYRO_TURN_EPSILON;
+		return Math.abs(gyro.getHeading() - target_head) < AutoConstants.GYRO_TURN_EPSILON;
 	}
 }

@@ -4,10 +4,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -25,10 +22,6 @@ public class Robot extends TimedRobot {
 
 	private RobotContainer robotContainer;
 
-	private final DigitalInput[] buttons = new DigitalInput[10];
-
-	private final AnalogInput[] analogs = new AnalogInput[4];
-
 	// private static final SPI.Port port = SPI.Port.kOnboardCS0;
 
 	/**
@@ -38,13 +31,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		for (int i = 0; i < buttons.length; i++) {
-			buttons[i] = new DigitalInput(i);
-		}
-
-		for (int i = 0; i < analogs.length; i++) {
-			analogs[i] = new AnalogInput(i);
-		}
 
 		// SmartDashboard.putString("Port", "" + port.value);
 		// Instantiate our RobotContainer. This will perform all our button bindings,
@@ -72,15 +58,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotPeriodic() {
-		// there has to be a better way to do this, but it's good enough for now.
-
-		for (int i = 0; i < buttons.length; i++) {
-			SmartDashboard.putBoolean("Button " + i, buttons[i].get());
-		}
-
-		for (int i = 0; i < analogs.length; i++) {
-			SmartDashboard.putNumber("Analog " + i, analogs[i].getVoltage());
-		}
 
 		// Runs the Scheduler. This is responsible for polling buttons, adding
 		// newly-scheduled

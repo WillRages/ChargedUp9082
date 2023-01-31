@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.commands.movements.DriveForwardEncoders;
 import frc.robot.commands.movements.TurnToAngleGyro;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Gyro_sub;
 
 public class RobotLoop extends CommandBase {
 	// private final Drivetrain drivetrain;
@@ -18,10 +19,10 @@ public class RobotLoop extends CommandBase {
 	// is_turn is false when we are driving, testing with off
 	// private boolean is_turn = false;
 
-	public RobotLoop(Drivetrain drivetrain, double distance, double speed, int loops) {
+	public RobotLoop(Drivetrain drivetrain, Gyro_sub gyro, double distance, double speed, int loops) {
 		addRequirements(drivetrain);
 		this.loops = loops;
-		this.turn_command = new TurnToAngleGyro(drivetrain, 90, speed);
+		this.turn_command = new TurnToAngleGyro(drivetrain, gyro, 90, speed);
 		this.drive_command = new DriveForwardEncoders(distance, speed, drivetrain);
 	}
 

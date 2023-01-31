@@ -4,15 +4,11 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DriveArcade;
 import frc.robot.commands.movements.DriveBackwardsEncoders;
@@ -20,9 +16,9 @@ import frc.robot.commands.movements.DriveForwardEncoders;
 import frc.robot.commands.movements.DriveTime;
 import frc.robot.commands.movements.TurnToAngleEncoders;
 import frc.robot.commands.movements.TurnToAngleGyro;
-import frc.robot.commands.movements.TurnToAngleProfiled;
 import frc.robot.commands.movements.TurnToAngleTime;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Gyro_sub;
 
 /*
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -33,6 +29,7 @@ import frc.robot.subsystems.Drivetrain;
 public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
 	public static final Drivetrain drivetrain = new Drivetrain();
+	public static final Gyro_sub gyro_sub = new Gyro_sub();
 	public static Joystick driverController = new Joystick(Constants.DRIVER_CONTROLLER);
 
 	// Replace with CommandPS4Controller or CommandJoystick if needed
@@ -57,7 +54,7 @@ public class RobotContainer {
 
 	private final Command TurnToAngleEncodersAuto = new TurnToAngleEncoders(drivetrain, 90, .35);
 
-	private final Command TurnToAngleGyroAuto = new TurnToAngleGyro(drivetrain, 90, .35);
+	private final Command TurnToAngleGyroAuto = new TurnToAngleGyro(drivetrain, gyro_sub, 90, .35);
 	// Create the chooser for autonomous commands
 	SendableChooser<Command> auto_chooser = new SendableChooser<>();
 
@@ -96,6 +93,7 @@ public class RobotContainer {
 	 * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
 	 * joysticks}.
 	 */
+
 	private void configureBindings() {
 		// Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 		// new Trigger(m_exampleSubsystem::exampleCondition)
@@ -106,36 +104,37 @@ public class RobotContainer {
 		// cancelling on release.
 		// m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 		// Drive at half speed when the right bumper is held
-		new JoystickButton(driverController, 3)
-				.onTrue(new InstantCommand(() -> drivetrain.setMaxOutput(0.5)))
-				.onFalse(new InstantCommand(() -> drivetrain.setMaxOutput(1)));
+		// new JoystickButton(driverController, 3)
+		// .onTrue(new InstantCommand(() -> drivetrain.setMaxOutput(0.5)))
+		// .onFalse(new InstantCommand(() -> drivetrain.setMaxOutput(1)));
 
-		// Stabilize robot to drive straight with gyro when left bumper is held
-		new JoystickButton(driverController, 4)
-				.whileTrue(
-						new PIDCommand(
-								new PIDController(
-										Constants.DriveConstants.STABILIZATION_P,
-										Constants.DriveConstants.STABILIZATION_I,
-										Constants.DriveConstants.STABILIZATION_D),
-								// Close the loop on the turn rate
-								drivetrain::getTurnRate,
-								// Setpoint is 0
-								0,
-								// Pipe the output to the turning controls
-								output -> drivetrain.arcadeDrive(
-										-driverController.getY(), output),
-								// Require the robot drive
-								drivetrain));
+		// // Stabilize robot to drive straight with gyro when left bumper is held
+		// new JoystickButton(driverController, 4)
+		// .whileTrue(
+		// new PIDCommand(
+		// new PIDController(
+		// Constants.DriveConstants.STABILIZATION_P,
+		// Constants.DriveConstants.STABILIZATION_I,
+		// Constants.DriveConstants.STABILIZATION_D),
+		// // Close the loop on the turn rate
+		// drivetrain::getTurnRate,
+		// // Setpoint is 0
+		// 0,
+		// // Pipe the output to the turning controls
+		// output -> drivetrain.arcadeDrive(
+		// -driverController.getY(), output),
+		// // Require the robot drive
+		// drivetrain));
 
-		// Turn to 90 degrees when the 'X' button is pressed, with a 5 second timeout
-		new JoystickButton(driverController, 5)
-				.onTrue(new TurnToAngleProfiled(90, drivetrain).withTimeout(5));
+		// // Turn to 90 degrees when the 'X' button is pressed, with a 5 second timeout
+		// new JoystickButton(driverController, 5)
+		// .onTrue(new TurnToAngleProfiled(90, drivetrain).withTimeout(5));
 
-		// Turn to -90 degrees with a profile when the Circle button is pressed, with a
-		// 5 second timeout
-		new JoystickButton(driverController, 6)
-				.onTrue(new TurnToAngleProfiled(-90, drivetrain).withTimeout(5));
+		// // Turn to -90 degrees with a profile when the Circle button is pressed, with
+		// a
+		// // 5 second timeout
+		// new JoystickButton(driverController, 6)
+		// .onTrue(new TurnToAngleProfiled(-90, drivetrain).withTimeout(5));
 
 	}
 

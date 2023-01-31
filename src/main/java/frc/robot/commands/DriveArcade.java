@@ -22,7 +22,7 @@ public class DriveArcade extends CommandBase {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		RobotContainer.drivetrain.zeroHeading();
+		RobotContainer.gyro_sub.zeroHeading();
 		RobotContainer.drivetrain.encoder_left_1.setPosition(0);
 		RobotContainer.drivetrain.encoder_left_2.setPosition(0);
 		RobotContainer.drivetrain.encoder_right_1.setPosition(0);
@@ -37,7 +37,7 @@ public class DriveArcade extends CommandBase {
 		SmartDashboard.putNumber("Right 1 Encoder", RobotContainer.drivetrain.encoder_right_1.getPosition());
 		SmartDashboard.putNumber("Right 2 Encoder", RobotContainer.drivetrain.encoder_right_1.getPosition());
 
-		SmartDashboard.putNumber("Current Heading", RobotContainer.drivetrain.getHeading());
+		SmartDashboard.putNumber("Current Heading", RobotContainer.gyro_sub.getHeading());
 
 		double moveSpeed = RobotContainer.driverController.getRawAxis(Constants.DRIVER_CONTROLLER_MOVE_AXIS);
 		double rotateSpeed = -RobotContainer.driverController.getRawAxis(Constants.DRIVER_CONTROLLER_ROTATE_AXIS);

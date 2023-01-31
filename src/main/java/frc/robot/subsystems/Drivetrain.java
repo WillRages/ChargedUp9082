@@ -4,18 +4,15 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -39,9 +36,6 @@ public class Drivetrain extends SubsystemBase {
 
 	// Differential Drive
 	DifferentialDrive differentialDrive = null;
-
-	// Gyro Sensor
-	public final Gyro m_gyro = new ADXRS450_Gyro();
 
 	// SlewRate Limiter to limit turn speed
 	private final SlewRateLimiter limiter = new SlewRateLimiter(1);
@@ -69,11 +63,11 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public double getAverageEncoder() {
-		return (Math.abs(encoder_left_1.getPosition())+
-				Math.abs(encoder_left_2.getPosition())+
-				Math.abs(encoder_right_1.getPosition())+
+		return (Math.abs(encoder_left_1.getPosition()) +
+				Math.abs(encoder_left_2.getPosition()) +
+				Math.abs(encoder_right_1.getPosition()) +
 				Math.abs(encoder_right_2.getPosition())
-				/ 4);
+						/ 4);
 	}
 
 	public void setZeroEncoders() {
@@ -99,28 +93,6 @@ public class Drivetrain extends SubsystemBase {
 	 */
 	public void setMaxOutput(double maxOutput) {
 		differentialDrive.setMaxOutput(maxOutput);
-	}
-
-	public void zeroHeading() {
-		m_gyro.reset();
-	}
-
-	/**
-	 * Returns the heading of the robot.
-	 *
-	 * @return the robot's heading in degrees, from -180 to 180
-	 */
-	public double getHeading() {
-		return Math.IEEEremainder(m_gyro.getAngle(), 360) * (Constants.DriveConstants.GYRO_REVERSED ? -1.0 : 1.0);
-	}
-
-	/**
-	 * Returns the turn rate of the robot.
-	 *
-	 * @return The turn rate of the robot, in degrees per second
-	 */
-	public double getTurnRate() {
-		return m_gyro.getRate() * (Constants.DriveConstants.GYRO_REVERSED ? -1.0 : 1.0);
 	}
 
 	@Override
