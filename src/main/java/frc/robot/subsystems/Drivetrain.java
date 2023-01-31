@@ -62,16 +62,21 @@ public class Drivetrain extends SubsystemBase {
 		encoder_right_1 = motor_right_back.getEncoder();
 		encoder_right_2 = motor_right_front.getEncoder();
 
-		// One of the sides needs to be inverted so positive voltage means forwards,
-		// rather than turning
+		// Need to invert one side
 		rightMotors.setInverted(true);
 
 		differentialDrive = new DifferentialDrive(leftMotors, rightMotors);
+	}
 
+	public double getAverageEncoder() {
+		return (Math.abs(encoder_left_1.getPosition())+
+				Math.abs(encoder_left_2.getPosition())+
+				Math.abs(encoder_right_1.getPosition())+
+				Math.abs(encoder_right_2.getPosition())
+				/ 4);
 	}
 
 	public void arcadeDrive(double moveSpeed, double rotateSpeed) {
-
 		differentialDrive.arcadeDrive(moveSpeed, limiter.calculate(rotateSpeed));
 	}
 
@@ -96,7 +101,7 @@ public class Drivetrain extends SubsystemBase {
 	/**
 	 * Returns the heading of the robot.
 	 *
-	 * @return the robot's heading in degrees, from 180 to 180
+	 * @return the robot's heading in degrees, from -180 to 180
 	 */
 	public double getHeading() {
 		return Math.IEEEremainder(m_gyro.getAngle(), 360) * (Constants.DriveConstants.GYRO_REVERSED ? -1.0 : 1.0);

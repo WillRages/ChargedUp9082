@@ -10,8 +10,6 @@ import frc.robot.Constants;
 import frc.robot.subsystems.*;
 
 public class DriveForwardEncoders extends CommandBase {
-	/** Creates a new DriveForwardTime. */
-
 	private final Drivetrain drive;
 	private final double distance;
 	private final double speed;
@@ -20,7 +18,6 @@ public class DriveForwardEncoders extends CommandBase {
 		this.distance = inches / Constants.AutoConstants.INCH_TO_ENCODER;
 		this.speed = speed;
 		this.drive = drive;
-		// Use addRequirements() here to declare subsystem dependencies.
 		addRequirements(drive);
 
 	}
@@ -28,13 +25,11 @@ public class DriveForwardEncoders extends CommandBase {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		// Reset Motor Controller Encoders
 		drive.encoder_left_1.setPosition(0.0);
 		drive.encoder_right_1.setPosition(0.0);
 		drive.encoder_left_2.setPosition(0.0);
 		drive.encoder_right_2.setPosition(0.0);
 
-		// Initialize ArcadeDrive
 		drive.arcadeDrive(speed, 0);
 
 	}
@@ -43,6 +38,7 @@ public class DriveForwardEncoders extends CommandBase {
 	@Override
 	public void execute() {
 		drive.arcadeDrive(speed, 0);
+
 		SmartDashboard.putNumber("Encoder Value Left 1", drive.encoder_left_1.getPosition());
 		SmartDashboard.putNumber("Encoder Value Left 2", drive.encoder_left_2.getPosition());
 		SmartDashboard.putNumber("Encoder Value Right 1", drive.encoder_right_1.getPosition());
@@ -58,8 +54,7 @@ public class DriveForwardEncoders extends CommandBase {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		return (((Math.abs(drive.encoder_left_1.getPosition()) + Math.abs(drive.encoder_left_2.getPosition())
-				+ Math.abs(drive.encoder_right_1.getPosition()) + Math.abs(drive.encoder_right_2.getPosition()))
-				/ 4.0) >= distance);
+		// is the average of the absolute values of the	encoders greater than the target distance
+		return (drive.getAverageEncoder() >= distance);
 	}
 }
