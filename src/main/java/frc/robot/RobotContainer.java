@@ -19,6 +19,7 @@ import frc.robot.commands.movements.TurnToAngleGyro;
 import frc.robot.commands.movements.TurnToAngleTime;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Gyro_sub;
+import frc.robot.subsystems.Sensors;
 
 /*
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -30,6 +31,7 @@ public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
 	public static final Drivetrain drivetrain = new Drivetrain();
 	public static final Gyro_sub gyro_sub = new Gyro_sub();
+	public static final Sensors sensors = new Sensors();
 	public static Joystick driverController = new Joystick(Constants.DRIVER_CONTROLLER);
 
 	// Replace with CommandPS4Controller or CommandJoystick if needed

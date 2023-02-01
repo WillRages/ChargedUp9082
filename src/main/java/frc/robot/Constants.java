@@ -72,4 +72,11 @@ public final class Constants {
 	public static final int DRIVER_CONTROLLER_MOVE_AXIS = STICK_Y_INDEX;
 	public static final int DRIVER_CONTROLLER_ROTATE_AXIS = STICK_X_INDEX;
 
+	// divide voltage by 9.77mV to get cm
+	// https://www.maxbotix.com/firstrobotics
+	// 0.0248158
+	public static final double VOLTAGE_TO_INCH = 40.29691;
+
+	public static final int DISTANCE_PORT = 0;
+
 }

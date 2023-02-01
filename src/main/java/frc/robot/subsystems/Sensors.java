@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Sensors extends SubsystemBase {
 	/** Creates a new Sensors. */
 
 	private final DigitalInput[] buttons = new DigitalInput[10];
-
 	private final AnalogInput[] analogs = new AnalogInput[4];
 
 	public Sensors() {
@@ -38,6 +38,9 @@ public class Sensors extends SubsystemBase {
 		for (int i = 0; i < analogs.length; i++) {
 			SmartDashboard.putNumber("Analog " + i, analogs[i].getVoltage());
 		}
+
+		SmartDashboard.putNumber("Distance",
+				Math.round(analogs[Constants.DISTANCE_PORT].getVoltage() * Constants.VOLTAGE_TO_INCH * 100) / 100d);
 
 	}
 }
