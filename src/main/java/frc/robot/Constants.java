@@ -49,7 +49,8 @@ public final class Constants {
 	public static class AutoConstants {
 		// These are constants for autonomous
 		public static final double AUTO_DRIVE_DISTANCE_INCH = 200;
-		public static final double INCH_TO_ENCODER = 1.7525;
+		// 72 inch per 43 ticks
+		public static final double INCH_TO_ENCODER = 43 / 72;
 		public static final double AUTO_DRIVE_SPEED = .3;
 		public static final double TICKS_PER_DEGREE = 0.15555555555555555555555555555555555555555555555555555555555;
 		public static final int GYRO_TURN_EPSILON = 10;
@@ -70,7 +71,8 @@ public final class Constants {
 	public static final int STICK_SLIDE_INDEX = 3;
 
 	public static final int DRIVER_CONTROLLER_MOVE_AXIS = STICK_Y_INDEX;
-	public static final int DRIVER_CONTROLLER_ROTATE_AXIS = STICK_X_INDEX;
+	public static final int DRIVER_CONTROLLER_ROTATE_AXIS = STICK_TWIST_INDEX;
+	public static final int DRIVER_DAMPING_AXIS = STICK_SLIDE_INDEX;
 
 	// divide voltage by 9.77mV to get cm
 	// https://www.maxbotix.com/firstrobotics

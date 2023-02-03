@@ -39,9 +39,10 @@ public class DriveArcade extends CommandBase {
 
 		SmartDashboard.putNumber("Current Heading", RobotContainer.gyro_sub.getHeading());
 
-		double moveSpeed = RobotContainer.driverController.getRawAxis(Constants.DRIVER_CONTROLLER_MOVE_AXIS);
-		double rotateSpeed = -RobotContainer.driverController.getRawAxis(Constants.DRIVER_CONTROLLER_ROTATE_AXIS);
-		RobotContainer.drivetrain.arcadeDrive(moveSpeed, rotateSpeed);
+		var moveSpeed = RobotContainer.driverController.getRawAxis(Constants.DRIVER_CONTROLLER_MOVE_AXIS);
+		var rotateSpeed = -RobotContainer.driverController.getRawAxis(Constants.DRIVER_CONTROLLER_ROTATE_AXIS);
+		var damping = 1 - ((RobotContainer.driverController.getRawAxis(Constants.DRIVER_DAMPING_AXIS) + 1) / 2);
+		RobotContainer.drivetrain.arcadeDrive(moveSpeed * damping, rotateSpeed * damping);
 	}
 
 	// Called once the command ends or is interrupted.
