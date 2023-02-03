@@ -4,6 +4,11 @@
 
 package frc.robot.subsystems;
 
+import org.opencv.core.Mat;
+
+import edu.wpi.first.apriltag.AprilTagDetector;
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CvSink;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -13,8 +18,12 @@ import frc.robot.Constants;
 public class Sensors extends SubsystemBase {
 	/** Creates a new Sensors. */
 
-	private final DigitalInput[] buttons = new DigitalInput[10];
-	private final AnalogInput[] analogs = new AnalogInput[4];
+	public final DigitalInput[] buttons = new DigitalInput[10];
+	public final AnalogInput[] analogs = new AnalogInput[4];
+
+	public final AprilTagDetector april_camera = new AprilTagDetector();
+	public final CvSink april_sink;
+	public final Mat image_Mat;
 
 	public Sensors() {
 		for (int i = 0; i < buttons.length; i++) {
@@ -24,6 +33,24 @@ public class Sensors extends SubsystemBase {
 		for (int i = 0; i < analogs.length; i++) {
 			analogs[i] = new AnalogInput(i);
 		}
+
+		CameraServer.startAutomaticCapture();
+		april_sink = CameraServer.getVideo();
+		image_Mat = new Mat();
+		april_camera.addFamily("tag16h5");
+	}
+
+	public int detect(Mat imgMat) {
+		var detections = april_camera.detect(imgMat);
+		try {
+			return detections[0].getId();
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return 0;
+		}
+	}
+
+	public double getDistance() {
+		return analogs[Constants.DISTANCE_PORT].getVoltage() * Constants.VOLTAGE_TO_INCH;
 	}
 
 	// This method will be called once per scheduler run
@@ -39,8 +66,10 @@ public class Sensors extends SubsystemBase {
 			SmartDashboard.putNumber("Analog " + i, analogs[i].getVoltage());
 		}
 
-		SmartDashboard.putNumber("Distance",
-				Math.round(analogs[Constants.DISTANCE_PORT].getVoltage() * Constants.VOLTAGE_TO_INCH * 100) / 100d);
+		SmartDashboard.putNumber("Distance", Math.round(getDistance() * 100) / 100d);
 
+		// if (april_sink.grabFrame(image_Mat, 10) != 0) {
+		// SmartDashboard.putNumber("Tag ID", detect(image_Mat));
+		// }
 	}
 }
