@@ -8,7 +8,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -37,9 +36,6 @@ public class Drivetrain extends SubsystemBase {
 	// Differential Drive
 	DifferentialDrive differentialDrive = null;
 
-	// SlewRate Limiter to limit turn speed
-	private final SlewRateLimiter limiter = new SlewRateLimiter(1);
-
 	/** Creates a new Drivetrain. */
 	public Drivetrain() {
 		// CANSparkMax Controllers
@@ -66,8 +62,7 @@ public class Drivetrain extends SubsystemBase {
 		return (Math.abs(encoder_left_1.getPosition()) +
 				Math.abs(encoder_left_2.getPosition()) +
 				Math.abs(encoder_right_1.getPosition()) +
-				Math.abs(encoder_right_2.getPosition())
-						/ 4);
+				Math.abs(encoder_right_2.getPosition())) / 4;
 	}
 
 	public void setZeroEncoders() {
@@ -78,11 +73,11 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public void arcadeDrive(double moveSpeed, double rotateSpeed) {
-		differentialDrive.arcadeDrive(moveSpeed, limiter.calculate(rotateSpeed));
+		differentialDrive.arcadeDrive(moveSpeed, rotateSpeed);
 	}
 
 	public void tankDrive(double moveSpeed, double rotateSpeed) {
-		differentialDrive.tankDrive(moveSpeed, limiter.calculate(rotateSpeed));
+		differentialDrive.tankDrive(moveSpeed, rotateSpeed);
 	}
 
 	/**

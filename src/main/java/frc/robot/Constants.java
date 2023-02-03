@@ -50,7 +50,7 @@ public final class Constants {
 		// These are constants for autonomous
 		public static final double AUTO_DRIVE_DISTANCE_INCH = 200;
 		// 72 inch per 43 ticks
-		public static final double INCH_TO_ENCODER = 43 / 72;
+		public static final double INCH_TO_ENCODER = 43d / 72d;
 		public static final double AUTO_DRIVE_SPEED = .3;
 		public static final double TICKS_PER_DEGREE = 0.15555555555555555555555555555555555555555555555555555555555;
 		public static final int GYRO_TURN_EPSILON = 10;

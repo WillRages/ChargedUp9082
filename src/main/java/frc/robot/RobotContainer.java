@@ -44,7 +44,7 @@ public class RobotContainer {
 	// A simple auto routine that drives forward for a specified amount of distance,
 	// and then stops.
 
-	private final Command DriveForwardEncodersAuto = new DriveForwardEncoders(60,
+	private final Command DriveForwardEncodersAuto = new DriveForwardEncoders(72,
 			Constants.AutoConstants.AUTO_DRIVE_SPEED, drivetrain);
 
 	private final Command DriveBackwardsEncodersAuto = new DriveBackwardsEncoders(60,

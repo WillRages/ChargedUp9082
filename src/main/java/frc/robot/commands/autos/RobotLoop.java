@@ -11,6 +11,7 @@ import frc.robot.commands.movements.TurnToAngleGyro;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Gyro_sub;
 
+@Deprecated
 public class RobotLoop extends CommandBase {
 	// private final Drivetrain drivetrain;
 	private final TurnToAngleGyro turn_command;
@@ -22,8 +23,10 @@ public class RobotLoop extends CommandBase {
 	public RobotLoop(Drivetrain drivetrain, Gyro_sub gyro, double distance, double speed, int loops) {
 		addRequirements(drivetrain);
 		this.loops = loops;
-		this.turn_command = new TurnToAngleGyro(drivetrain, gyro, 90, speed);
-		this.drive_command = new DriveForwardEncoders(distance, speed, drivetrain);
+		this.turn_command = null;
+		this.drive_command = null;
+		// this.turn_command = new TurnToAngleGyro(drivetrain, gyro, 90, speed);
+		// this.drive_command = new DriveForwardEncoders(distance, speed, drivetrain);
 	}
 
 	// Called when the command is initially scheduled.
