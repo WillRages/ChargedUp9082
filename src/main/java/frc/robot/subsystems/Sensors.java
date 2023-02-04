@@ -4,7 +4,10 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.apriltag.AprilTagDetection;
 import org.opencv.core.Mat;
+import org.opencv.core.Size;
+import org.opencv.imgproc.Imgproc;
 
 import edu.wpi.first.apriltag.AprilTagDetector;
 import edu.wpi.first.cameraserver.CameraServer;
@@ -25,6 +28,9 @@ public class Sensors extends SubsystemBase {
 	public final CvSink april_sink;
 	public final Mat image_Mat;
 
+	private final Mat img_x;
+	private final Mat img_z;
+
 	public Sensors() {
 		for (int i = 0; i < buttons.length; i++) {
 			buttons[i] = new DigitalInput(i);
@@ -37,15 +43,21 @@ public class Sensors extends SubsystemBase {
 		CameraServer.startAutomaticCapture();
 		april_sink = CameraServer.getVideo();
 		image_Mat = new Mat();
+		img_x = new Mat();
+		img_z = new Mat();
 		april_camera.addFamily("tag16h5");
 	}
 
-	public int detect(Mat imgMat) {
-		var detections = april_camera.detect(imgMat);
+	public AprilTagDetection detect(Mat imgMat) {
+		Imgproc.cvtColor(imgMat, img_x, Imgproc.COLOR_RGB2GRAY);
+
+		Imgproc.resize(img_x, img_z, new Size(320, 180));
+
+		var detections = april_camera.detect(img_z);
 		try {
-			return detections[0].getId();
+			return detections[0];
 		} catch (ArrayIndexOutOfBoundsException e) {
-			return 0;
+			return null;
 		}
 	}
 
@@ -66,10 +78,16 @@ public class Sensors extends SubsystemBase {
 			SmartDashboard.putNumber("Analog " + i, analogs[i].getVoltage());
 		}
 
+		// Multiplying is for rounding to hundreds place
 		SmartDashboard.putNumber("Distance", Math.round(getDistance() * 100) / 100d);
 
-		// if (april_sink.grabFrame(image_Mat, 10) != 0) {
-		// SmartDashboard.putNumber("Tag ID", detect(image_Mat));
-		// }
+		if (april_sink.grabFrame(image_Mat, 10) != 0) {
+			var detection = detect(image_Mat);
+			if (detection == null)
+				return;
+			SmartDashboard.putNumber("Tag ID", detection.getId());
+			SmartDashboard.putNumber("Tag X", detection.getCenterX() * 4);
+			SmartDashboard.putNumber("Tag Y", detection.getCenterY() * 4);
+		}
 	}
 }
