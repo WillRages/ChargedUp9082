@@ -160,3 +160,24 @@ bin/
 
 # Simulation GUI and other tools window save file
 *-window.json
+/.idea/.gitignore
+/.run/Build & Deploy Robot.run.xml
+/.run/Build & Deploy Robot for Debugging.run.xml
+/.run/Build & Run Simulate Java.run.xml
+/.run/Build Robot.run.xml
+/.idea/modules/ChargedUp9082.main.iml
+/.run/Clean.run.xml
+/.run/Clean Build & Deploy Robot.run.xml
+/.run/Clean Build & Deploy Robot for Debugging.run.xml
+/.run/Clean Build & Run Simulate Java.run.xml
+/.run/Clean Build Robot.run.xml
+/.idea/compiler.xml
+/.run/Debug Robot via IP.run.xml
+/.run/Debug Robot via USB.run.xml
+/.idea/gradle.xml
+/.idea/jarRepositories.xml
+/.idea/misc.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/simgui.json
+/simgui-ds.json
+/.idea/vcs.xml
