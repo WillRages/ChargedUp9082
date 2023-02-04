@@ -30,19 +30,23 @@ public class Drivetrain extends SubsystemBase {
 	public RelativeEncoder encoder_right_2;
 
 	// Speed Controls
-	MotorControllerGroup leftMotors = null;
-	MotorControllerGroup rightMotors = null;
+	MotorControllerGroup leftMotors;
+	MotorControllerGroup rightMotors;
 
 	// Differential Drive
-	DifferentialDrive differentialDrive = null;
+	DifferentialDrive differentialDrive;
 
 	/** Creates a new Drivetrain. */
 	public Drivetrain() {
 		// CANSparkMax Controllers
-		motor_left_front = new CANSparkMax(Constants.DRIVETRAIN_LEFT_FRONT_CANSPARKMAX, MotorType.kBrushless);
-		motor_left_back = new CANSparkMax(Constants.DRIVETRAIN_LEFT_BACK_CANSPARKMAX, MotorType.kBrushless);
-		motor_right_front = new CANSparkMax(Constants.DRIVETRAIN_RIGHT_FRONT_CANSPARKMAX, MotorType.kBrushless);
-		motor_right_back = new CANSparkMax(Constants.DRIVETRAIN_RIGHT_BACK_CANSPARKMAX, MotorType.kBrushless);
+		motor_left_front =
+				new CANSparkMax(Constants.DRIVETRAIN_LEFT_FRONT_CANSPARKMAX, MotorType.kBrushless);
+		motor_left_back =
+				new CANSparkMax(Constants.DRIVETRAIN_LEFT_BACK_CANSPARKMAX, MotorType.kBrushless);
+		motor_right_front =
+				new CANSparkMax(Constants.DRIVETRAIN_RIGHT_FRONT_CANSPARKMAX, MotorType.kBrushless);
+		motor_right_back =
+				new CANSparkMax(Constants.DRIVETRAIN_RIGHT_BACK_CANSPARKMAX, MotorType.kBrushless);
 
 		leftMotors = new MotorControllerGroup(motor_left_front, motor_left_back);
 		rightMotors = new MotorControllerGroup(motor_right_front, motor_right_back);
@@ -59,10 +63,9 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public double getAverageEncoder() {
-		return (Math.abs(encoder_left_1.getPosition()) +
-				Math.abs(encoder_left_2.getPosition()) +
-				Math.abs(encoder_right_1.getPosition()) +
-				Math.abs(encoder_right_2.getPosition())) / 4;
+		return (Math.abs(encoder_left_1.getPosition()) + Math.abs(encoder_left_2.getPosition())
+				+ Math.abs(encoder_right_1.getPosition()) + Math.abs(encoder_right_2.getPosition()))
+				/ 4;
 	}
 
 	public void setZeroEncoders() {
@@ -81,8 +84,7 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	/**
-	 * Sets the max output of the drive. Useful for scaling the drive to drive more
-	 * slowly.
+	 * Sets the max output of the drive. Useful for scaling the drive to drive more slowly.
 	 *
 	 * @param maxOutput the maximum output to which the drive will be constrained
 	 */

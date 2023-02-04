@@ -35,28 +35,22 @@ public class RobotContainer {
 	public static Joystick driverController = new Joystick(Constants.DRIVER_CONTROLLER);
 
 	// Replace with CommandPS4Controller or CommandJoystick if needed
-	// private final CommandXboxController m_driverController =
-	// new CommandXboxController(OperatorConstants.kDriverControllerPort);
+	// private final CommandXboxController m_driverController
+	// = new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
-	// The Autonomous Routines
+	final Command DriveForwardEncodersAuto =
+			new DriveForwardEncoders(72, Constants.AutoConstants.AUTO_DRIVE_SPEED, drivetrain);
 
-	// Drive Forward Encoders
-	// A simple auto routine that drives forward for a specified amount of distance,
-	// and then stops.
+	final Command DriveBackwardsEncodersAuto =
+			new DriveBackwardsEncoders(60, Constants.AutoConstants.AUTO_DRIVE_SPEED, drivetrain);
 
-	private final Command DriveForwardEncodersAuto = new DriveForwardEncoders(72,
-			Constants.AutoConstants.AUTO_DRIVE_SPEED, drivetrain);
+	final Command DriveTimeAuto = new DriveTime(10, -.2, drivetrain);
 
-	private final Command DriveBackwardsEncodersAuto = new DriveBackwardsEncoders(60,
-			Constants.AutoConstants.AUTO_DRIVE_SPEED, drivetrain);
+	final Command TurnToAngleTimeAuto = new TurnToAngleTime(drivetrain, .8, .5);
 
-	private final Command DriveTimeAuto = new DriveTime(10, -.2, drivetrain);
+	final Command TurnToAngleEncodersAuto = new TurnToAngleEncoders(drivetrain, 90, .35);
 
-	private final Command TurnToAngleTimeAuto = new TurnToAngleTime(drivetrain, .8, .5);
-
-	private final Command TurnToAngleEncodersAuto = new TurnToAngleEncoders(drivetrain, 90, .35);
-
-	private final Command TurnToAngleGyroAuto = new TurnToAngleGyro(drivetrain, gyro_sub, 90, .35);
+	final Command TurnToAngleGyroAuto = new TurnToAngleGyro(drivetrain, gyro_sub, 90, .35);
 	// Create the chooser for autonomous commands
 	SendableChooser<Command> auto_chooser = new SendableChooser<>();
 
@@ -82,63 +76,16 @@ public class RobotContainer {
 	}
 
 	/**
-	 * Use this method to define your trigger->command mappings. Triggers can be
-	 * created via the
-	 * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with
-	 * an arbitrary
-	 * predicate, or via the named factories in {@link
-	 * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-	 * {@link
-	 * CommandXboxController
-	 * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-	 * PS4} controllers or
-	 * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-	 * joysticks}.
+	 * Use this method to define your trigger->command mappings. Triggers can be created via the
+	 * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
+	 * predicate, or via the named factories in
+	 * {@link edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
+	 * {@link CommandXboxController
+	 * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller PS4} controllers or
+	 * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
 	 */
 
-	private void configureBindings() {
-		// Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-		// new Trigger(m_exampleSubsystem::exampleCondition)
-		// .onTrue(new ExampleCommand(m_exampleSubsystem));
-
-		// Schedule `exampleMethodCommand` when the Xbox controller's B button is
-		// pressed,
-		// cancelling on release.
-		// m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-		// Drive at half speed when the right bumper is held
-		// new JoystickButton(driverController, 3)
-		// .onTrue(new InstantCommand(() -> drivetrain.setMaxOutput(0.5)))
-		// .onFalse(new InstantCommand(() -> drivetrain.setMaxOutput(1)));
-
-		// // Stabilize robot to drive straight with gyro when left bumper is held
-		// new JoystickButton(driverController, 4)
-		// .whileTrue(
-		// new PIDCommand(
-		// new PIDController(
-		// Constants.DriveConstants.STABILIZATION_P,
-		// Constants.DriveConstants.STABILIZATION_I,
-		// Constants.DriveConstants.STABILIZATION_D),
-		// // Close the loop on the turn rate
-		// drivetrain::getTurnRate,
-		// // Setpoint is 0
-		// 0,
-		// // Pipe the output to the turning controls
-		// output -> drivetrain.arcadeDrive(
-		// -driverController.getY(), output),
-		// // Require the robot drive
-		// drivetrain));
-
-		// // Turn to 90 degrees when the 'X' button is pressed, with a 5 second timeout
-		// new JoystickButton(driverController, 5)
-		// .onTrue(new TurnToAngleProfiled(90, drivetrain).withTimeout(5));
-
-		// // Turn to -90 degrees with a profile when the Circle button is pressed, with
-		// a
-		// // 5 second timeout
-		// new JoystickButton(driverController, 6)
-		// .onTrue(new TurnToAngleProfiled(-90, drivetrain).withTimeout(5));
-
-	}
+	private void configureBindings() {}
 
 	/**
 	 * Use this to pass the autonomous command to the main {@link Robot} class.

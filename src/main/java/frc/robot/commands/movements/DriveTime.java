@@ -28,7 +28,7 @@ public class DriveTime extends CommandBase {
 	public void initialize() {
 		timer.reset();
 		timer.start();
-		
+
 		drive.setZeroEncoders();
 	}
 

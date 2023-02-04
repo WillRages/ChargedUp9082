@@ -14,8 +14,7 @@ public class Gyro_sub extends SubsystemBase {
 	public final Gyro gyro = new ADXRS450_Gyro();
 
 	/** Creates a new Gyro. */
-	public Gyro_sub() {
-	}
+	public Gyro_sub() {}
 
 	public void zeroHeading() {
 		gyro.reset();
@@ -27,7 +26,8 @@ public class Gyro_sub extends SubsystemBase {
 	 * @return the robot's heading in degrees, from -180 to 180
 	 */
 	public double getHeading() {
-		return Math.IEEEremainder(gyro.getAngle(), 360) * (Constants.DriveConstants.GYRO_REVERSED ? -1.0 : 1.0);
+		return Math.IEEEremainder(gyro.getAngle(), 360)
+				* (Constants.DriveConstants.GYRO_MULT);
 	}
 
 	/**
@@ -36,7 +36,7 @@ public class Gyro_sub extends SubsystemBase {
 	 * @return The turn rate of the robot, in degrees per second
 	 */
 	public double getTurnRate() {
-		return gyro.getRate() * (Constants.DriveConstants.GYRO_REVERSED ? -1.0 : 1.0);
+		return gyro.getRate() * (Constants.DriveConstants.GYRO_MULT);
 	}
 
 	@Override

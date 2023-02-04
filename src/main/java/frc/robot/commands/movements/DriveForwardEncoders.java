@@ -50,9 +50,9 @@ public class DriveForwardEncoders extends CommandBase {
 	public boolean isFinished() {
 		SmartDashboard.putNumber("Average Encoder", drive.getAverageEncoder());
 		SmartDashboard.putNumber("Distance To Move", distance);
-		return (Math.abs(drive.encoder_left_1.getPosition()) +
-				Math.abs(drive.encoder_left_2.getPosition()) +
-				Math.abs(drive.encoder_right_1.getPosition()) +
-				Math.abs(drive.encoder_right_2.getPosition())) / 4 >= distance;
+		return (Math.abs(drive.encoder_left_1.getPosition())
+				+ Math.abs(drive.encoder_left_2.getPosition())
+				+ Math.abs(drive.encoder_right_1.getPosition())
+				+ Math.abs(drive.encoder_right_2.getPosition())) / 4 >= distance;
 	}
 }
