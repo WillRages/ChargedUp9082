@@ -1,3 +1,9 @@
+//file:noinspection GroovyAssignabilityCheck
+//file:noinspection DependencyNotationArgument
+//file:noinspection GroovyAccessibility
+//file:noinspection UnnecessaryQualifiedReference
+//file:noinspection ConfigurationAvoidance
+//file:noinspection GroovyUnusedAssignment
 plugins {
     id "java"
     id "edu.wpi.first.GradleRIO" version "2023.2.1"
@@ -45,9 +51,16 @@ wpi.java.debugJni = false
 // Set this to true to enable desktop support.
 def includeDesktopSupport = true
 
+repositories {
+    mavenCentral()
+}
+
+
 // Defining my dependencies. In this case, WPILib (+ friends), and vendor libraries.
 // Also defines JUnit 5.
 dependencies {
+    implementation 'com.moandjiezana.toml:toml4j:0.7.2'
+
     implementation wpi.java.deps.wpilib()
     implementation wpi.java.vendor.java()
 
