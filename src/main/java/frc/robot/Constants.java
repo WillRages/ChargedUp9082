@@ -26,7 +26,7 @@ public final class Constants {
 				// Assumes the encoders are directly mounted on the wheel shafts
 				(WHEEL_DIAMETER_INCH * Math.PI) / (double) TICKS_PER_ROTATION;
 
-		public static final int GYRO_MULT = 1;
+		public static final int GYRO_MULTIPLIER = 1;
 
 		public static final double STABILIZATION_P = 1;
 		public static final double STABILIZATION_I = 0.5;

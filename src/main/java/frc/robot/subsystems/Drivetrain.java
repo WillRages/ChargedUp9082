@@ -7,9 +7,9 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
-
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -94,6 +94,9 @@ public class Drivetrain extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		// This method will be called once per scheduler run
+		SmartDashboard.putNumber("Left 1 Encoder", encoder_left_1.getPosition());
+		SmartDashboard.putNumber("Left 2 Encoder", encoder_left_2.getPosition());
+		SmartDashboard.putNumber("Right 1 Encoder", encoder_right_1.getPosition());
+		SmartDashboard.putNumber("Right 2 Encoder", encoder_right_1.getPosition());
 	}
 }

@@ -4,7 +4,6 @@
 
 package frc.robot.commands.movements;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.Drivetrain;
@@ -14,7 +13,7 @@ public class TurnToAngleGyro extends CommandBase {
 	/** Creates a new AngleGyroTurn. */
 	private final Drivetrain drivetrain;
 	private final Gyro_sub gyro;
-	private double speed;
+	private final double speed;
 	private final double target_head;
 
 	// TurnToAngleGyro x = new TurnToAngleGyro();
@@ -38,7 +37,6 @@ public class TurnToAngleGyro extends CommandBase {
 	@Override
 	public void execute() {
 		drivetrain.arcadeDrive(0, speed);
-		SmartDashboard.putNumber("Heading", gyro.getHeading());
 	}
 
 	// Called once the command ends or is interrupted.

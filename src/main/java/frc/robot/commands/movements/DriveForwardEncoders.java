@@ -4,10 +4,9 @@
 
 package frc.robot.commands.movements;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.*;
+import frc.robot.subsystems.Drivetrain;
 
 public class DriveForwardEncoders extends CommandBase {
 	private final Drivetrain drive;
@@ -32,11 +31,6 @@ public class DriveForwardEncoders extends CommandBase {
 	@Override
 	public void execute() {
 		drive.arcadeDrive(speed, 0);
-
-		SmartDashboard.putNumber("Encoder Value Left 1", drive.encoder_left_1.getPosition());
-		SmartDashboard.putNumber("Encoder Value Left 2", drive.encoder_left_2.getPosition());
-		SmartDashboard.putNumber("Encoder Value Right 1", drive.encoder_right_1.getPosition());
-		SmartDashboard.putNumber("Encoder Value Right 2", drive.encoder_right_2.getPosition());
 	}
 
 	// Called once the command ends or is interrupted.
@@ -48,11 +42,6 @@ public class DriveForwardEncoders extends CommandBase {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		SmartDashboard.putNumber("Average Encoder", drive.getAverageEncoder());
-		SmartDashboard.putNumber("Distance To Move", distance);
-		return (Math.abs(drive.encoder_left_1.getPosition())
-				+ Math.abs(drive.encoder_left_2.getPosition())
-				+ Math.abs(drive.encoder_right_1.getPosition())
-				+ Math.abs(drive.encoder_right_2.getPosition())) / 4 >= distance;
+		return drive.getAverageEncoder() / 4 >= distance;
 	}
 }

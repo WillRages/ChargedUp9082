@@ -5,13 +5,12 @@
 package frc.robot.commands.movements;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
 public class TurnToAngleTime extends CommandBase {
 	/** Creates a new TurnToAngleTime. */
-	private Drivetrain drivetrain;
+	private final Drivetrain drivetrain;
 	private final Timer autoTimer;
 	private final double time;
 	private final double speed;
@@ -48,7 +47,6 @@ public class TurnToAngleTime extends CommandBase {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		SmartDashboard.putNumber("Auto Running", ((double) ((int) (autoTimer.get() * 10))) / 10);
 		return autoTimer.get() >= time;
 	}
 }

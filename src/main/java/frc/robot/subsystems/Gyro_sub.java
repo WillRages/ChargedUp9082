@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -27,7 +28,7 @@ public class Gyro_sub extends SubsystemBase {
 	 */
 	public double getHeading() {
 		return Math.IEEEremainder(gyro.getAngle(), 360)
-				* (Constants.DriveConstants.GYRO_MULT);
+				* (Constants.DriveConstants.GYRO_MULTIPLIER);
 	}
 
 	/**
@@ -36,11 +37,11 @@ public class Gyro_sub extends SubsystemBase {
 	 * @return The turn rate of the robot, in degrees per second
 	 */
 	public double getTurnRate() {
-		return gyro.getRate() * (Constants.DriveConstants.GYRO_MULT);
+		return gyro.getRate() * (Constants.DriveConstants.GYRO_MULTIPLIER);
 	}
 
 	@Override
 	public void periodic() {
-		// This method will be called once per scheduler run
+		SmartDashboard.putNumber("Heading", getHeading());
 	}
 }

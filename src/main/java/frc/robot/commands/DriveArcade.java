@@ -5,11 +5,9 @@
 // Packages
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-// Library imports
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 // Functioning Code Starts Here
 public class DriveArcade extends CommandBase {
@@ -32,17 +30,6 @@ public class DriveArcade extends CommandBase {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		SmartDashboard.putNumber("Left 1 Encoder",
-				RobotContainer.drivetrain.encoder_left_1.getPosition());
-		SmartDashboard.putNumber("Left 2 Encoder",
-				RobotContainer.drivetrain.encoder_left_2.getPosition());
-		SmartDashboard.putNumber("Right 1 Encoder",
-				RobotContainer.drivetrain.encoder_right_1.getPosition());
-		SmartDashboard.putNumber("Right 2 Encoder",
-				RobotContainer.drivetrain.encoder_right_1.getPosition());
-
-		SmartDashboard.putNumber("Current Heading", RobotContainer.gyro_sub.getHeading());
-
 		var moveSpeed =
 				RobotContainer.driverController.getRawAxis(Constants.DRIVER_CONTROLLER_MOVE_AXIS);
 		var rotateSpeed = -RobotContainer.driverController

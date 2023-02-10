@@ -4,7 +4,6 @@
 
 package frc.robot.commands.autos;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.commands.movements.DriveForwardEncoders;
 import frc.robot.commands.movements.TurnToAngleGyro;
@@ -38,8 +37,6 @@ public class RobotLoop extends CommandBase {
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		SmartDashboard.putBoolean("Drive Fin", drive_command.isFinished());
-		SmartDashboard.putBoolean("Turn Finished", turn_command.isFinished());
 		if (drive_command.isFinished()) {
 			loops -= 1;
 			turn_command.schedule();
