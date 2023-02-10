@@ -10,35 +10,35 @@ import org.opencv.imgproc.Imgproc;
 
 public class PiVision {
     // Capturing Mat for input image
-    private final Mat img_mat = new Mat();
+    private final Mat imgMat = new Mat();
 
     // `Mats` for ping-pong buffer
-    private final Mat img_x = new Mat();
-    private final Mat img_z = new Mat();
+    private final Mat imgX = new Mat();
+    private final Mat imgZ = new Mat();
 
     // Image source generator
     private final CvSink source;
 
     // Image processor
-    private final AprilTagDetector april_camera = new AprilTagDetector();
-    private final AprilTagPoseEstimator april_pose =
+    private final AprilTagDetector aprilCamera = new AprilTagDetector();
+    private final AprilTagPoseEstimator aprilPose =
             new AprilTagPoseEstimator(new AprilTagPoseEstimator.Config(1, 1, 1, 1, 1));
 
     // Initialize pi-vision AFTER starting capture,
     // otherwise OpenCV won't be initialized
     public PiVision(CvSink source) {
         this.source = source;
-        april_camera.addFamily("tag16h5");
+        aprilCamera.addFamily("tag16h5");
     }
 
     public AprilTagDetection getImage() {
-        source.grabFrame(img_mat);
-        Imgproc.cvtColor(img_mat, img_x, Imgproc.COLOR_RGB2GRAY);
-        Imgproc.resize(img_x, img_z, new Size(320, 180));
+        source.grabFrame(imgMat);
+        Imgproc.cvtColor(imgMat, imgX, Imgproc.COLOR_RGB2GRAY);
+        Imgproc.resize(imgX, imgZ, new Size(320, 180));
 
-        var detections = april_camera.detect(img_z);
+        var detections = aprilCamera.detect(imgZ);
 
-        april_pose.estimate(detections[0]).getX();
+        aprilPose.estimate(detections[0]).getX();
 
         try {
             return detections[0];

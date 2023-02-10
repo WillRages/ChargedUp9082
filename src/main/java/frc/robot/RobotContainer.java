@@ -18,7 +18,7 @@ import frc.robot.commands.movements.TurnToAngleEncoders;
 import frc.robot.commands.movements.TurnToAngleGyro;
 import frc.robot.commands.movements.TurnToAngleTime;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Gyro_sub;
+import frc.robot.subsystems.GyroSubsystem;
 import frc.robot.subsystems.Sensors;
 
 /*
@@ -30,7 +30,7 @@ import frc.robot.subsystems.Sensors;
 public class RobotContainer {
 	// The robot's subsystems and commands are defined here...
 	public static final Drivetrain drivetrain = new Drivetrain();
-	public static final Gyro_sub gyro_sub = new Gyro_sub();
+	public static final GyroSubsystem gyroSub = new GyroSubsystem();
 	public static final Sensors sensors = new Sensors();
 	public static Joystick driverController = new Joystick(Constants.DRIVER_CONTROLLER);
 
@@ -50,9 +50,9 @@ public class RobotContainer {
 
 	final Command TurnToAngleEncodersAuto = new TurnToAngleEncoders(drivetrain, 90, .35);
 
-	final Command TurnToAngleGyroAuto = new TurnToAngleGyro(drivetrain, gyro_sub, 90, .35);
+	final Command TurnToAngleGyroAuto = new TurnToAngleGyro(drivetrain, gyroSub, 90, .35);
 	// Create the chooser for autonomous commands
-	SendableChooser<Command> auto_chooser = new SendableChooser<>();
+	SendableChooser<Command> autoChooser = new SendableChooser<>();
 
 	/**
 	 * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -65,14 +65,14 @@ public class RobotContainer {
 		drivetrain.setDefaultCommand(new DriveArcade());
 
 		// Autonomous Chooser
-		auto_chooser.setDefaultOption("Drive Forward Encoders", DriveForwardEncodersAuto);
-		auto_chooser.addOption("Drive Backwards Encoders", DriveBackwardsEncodersAuto);
-		auto_chooser.addOption("Drive for Time", DriveTimeAuto);
-		auto_chooser.addOption("Turn for time", TurnToAngleTimeAuto);
-		auto_chooser.addOption("Turn with encoders", TurnToAngleEncodersAuto);
-		auto_chooser.addOption("Turn with gyro", TurnToAngleGyroAuto);
+		autoChooser.setDefaultOption("Drive Forward Encoders", DriveForwardEncodersAuto);
+		autoChooser.addOption("Drive Backwards Encoders", DriveBackwardsEncodersAuto);
+		autoChooser.addOption("Drive for Time", DriveTimeAuto);
+		autoChooser.addOption("Turn for time", TurnToAngleTimeAuto);
+		autoChooser.addOption("Turn with encoders", TurnToAngleEncodersAuto);
+		autoChooser.addOption("Turn with gyro", TurnToAngleGyroAuto);
 
-		SmartDashboard.putData("Auto Chooser", auto_chooser);
+		SmartDashboard.putData("Auto Chooser", autoChooser);
 	}
 
 	/**
@@ -94,6 +94,6 @@ public class RobotContainer {
 	 */
 	public Command getAutonomousCommand() {
 		// An example command will be run in autonomous
-		return auto_chooser.getSelected();
+		return autoChooser.getSelected();
 	}
 }

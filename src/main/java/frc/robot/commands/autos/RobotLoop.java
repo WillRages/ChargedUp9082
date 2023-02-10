@@ -9,52 +9,52 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.commands.movements.DriveForwardEncoders;
 import frc.robot.commands.movements.TurnToAngleGyro;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Gyro_sub;
+import frc.robot.subsystems.GyroSubsystem;
 
 public class RobotLoop extends CommandBase {
 	// private final Drivetrain drivetrain;
-	private final TurnToAngleGyro turn_command;
-	private final DriveForwardEncoders drive_command;
+	private final TurnToAngleGyro turnCommand;
+	private final DriveForwardEncoders driveCommand;
 	private int loops;
 	// is_turn is false when we are driving, testing with off
 	// private boolean is_turn = false;
 
-	public RobotLoop(Drivetrain drivetrain, Gyro_sub gyro, double distance, double speed,
-			int loops) {
+	public RobotLoop(Drivetrain drivetrain, GyroSubsystem gyro, double distance, double speed,
+					 int loops) {
 		addRequirements(drivetrain);
 		this.loops = loops;
 //		this.turn_command = null;
 //		this.drive_command = null;
-		this.turn_command = new TurnToAngleGyro(drivetrain, gyro, 90, speed);
-		this.drive_command = new DriveForwardEncoders(distance, speed, drivetrain);
+		this.turnCommand = new TurnToAngleGyro(drivetrain, gyro, 90, speed);
+		this.driveCommand = new DriveForwardEncoders(distance, speed, drivetrain);
 	}
 
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		drive_command.schedule();
+		driveCommand.schedule();
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
-		SmartDashboard.putBoolean("Drive Fin", drive_command.isFinished());
-		SmartDashboard.putBoolean("Turn Finished", turn_command.isFinished());
-		if (drive_command.isFinished()) {
+		SmartDashboard.putBoolean("Drive Fin", driveCommand.isFinished());
+		SmartDashboard.putBoolean("Turn Finished", turnCommand.isFinished());
+		if (driveCommand.isFinished()) {
 			loops -= 1;
-			turn_command.schedule();
+			turnCommand.schedule();
 		}
 
-		if (turn_command.isFinished()) {
-			drive_command.schedule();
+		if (turnCommand.isFinished()) {
+			driveCommand.schedule();
 		}
 	}
 
 	// Called once the command ends or is interrupted.
 	@Override
 	public void end(boolean interrupted) {
-		drive_command.cancel();
-		turn_command.cancel();
+		driveCommand.cancel();
+		turnCommand.cancel();
 	}
 
 	// Returns true when the command should end.

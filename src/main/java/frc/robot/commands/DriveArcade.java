@@ -22,26 +22,26 @@ public class DriveArcade extends CommandBase {
 	// Called when the command is initially scheduled.
 	@Override
 	public void initialize() {
-		RobotContainer.gyro_sub.zeroHeading();
-		RobotContainer.drivetrain.encoder_left_1.setPosition(0);
-		RobotContainer.drivetrain.encoder_left_2.setPosition(0);
-		RobotContainer.drivetrain.encoder_right_1.setPosition(0);
-		RobotContainer.drivetrain.encoder_right_2.setPosition(0);
+		RobotContainer.gyroSub.zeroHeading();
+		RobotContainer.drivetrain.encoderLeft1.setPosition(0);
+		RobotContainer.drivetrain.encoderLeft2.setPosition(0);
+		RobotContainer.drivetrain.encoderRight1.setPosition(0);
+		RobotContainer.drivetrain.encoderRight2.setPosition(0);
 	}
 
 	// Called every time the scheduler runs while the command is scheduled.
 	@Override
 	public void execute() {
 		SmartDashboard.putNumber("Left 1 Encoder",
-				RobotContainer.drivetrain.encoder_left_1.getPosition());
+				RobotContainer.drivetrain.encoderLeft1.getPosition());
 		SmartDashboard.putNumber("Left 2 Encoder",
-				RobotContainer.drivetrain.encoder_left_2.getPosition());
+				RobotContainer.drivetrain.encoderLeft2.getPosition());
 		SmartDashboard.putNumber("Right 1 Encoder",
-				RobotContainer.drivetrain.encoder_right_1.getPosition());
+				RobotContainer.drivetrain.encoderRight1.getPosition());
 		SmartDashboard.putNumber("Right 2 Encoder",
-				RobotContainer.drivetrain.encoder_right_1.getPosition());
+				RobotContainer.drivetrain.encoderRight1.getPosition());
 
-		SmartDashboard.putNumber("Current Heading", RobotContainer.gyro_sub.getHeading());
+		SmartDashboard.putNumber("Current Heading", RobotContainer.gyroSub.getHeading());
 
 		var moveSpeed =
 				RobotContainer.driverController.getRawAxis(Constants.DRIVER_CONTROLLER_MOVE_AXIS);

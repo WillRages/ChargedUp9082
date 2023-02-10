@@ -8,24 +8,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Gyro_sub;
+import frc.robot.subsystems.GyroSubsystem;
 
 public class TurnToAngleGyro extends CommandBase {
 	/** Creates a new AngleGyroTurn. */
 	private final Drivetrain drivetrain;
-	private final Gyro_sub gyro;
-	private double speed;
-	private final double target_head;
+	private final GyroSubsystem gyro;
+	private final double speed;
+	private final double targetHead;
 
 	// TurnToAngleGyro x = new TurnToAngleGyro();
 	// x.initialize();
 
-	public TurnToAngleGyro(Drivetrain drivetrain, Gyro_sub gyro, double angle, double speed) {
+	public TurnToAngleGyro(Drivetrain drivetrain, GyroSubsystem gyro, double angle, double speed) {
 		this.drivetrain = drivetrain;
 		this.gyro = gyro;
 		addRequirements(drivetrain, gyro);
 		this.speed = angle < 0 ? speed : -speed;
-		this.target_head = angle;
+		this.targetHead = angle;
 	}
 
 	// Called when the command is initially scheduled.
@@ -51,6 +51,6 @@ public class TurnToAngleGyro extends CommandBase {
 	@Override
 	public boolean isFinished() {
 		// check if we are within <epsilon> degrees of the target
-		return Math.abs(gyro.getHeading() - target_head) < AutoConstants.GYRO_TURN_EPSILON;
+		return Math.abs(gyro.getHeading() - targetHead) < AutoConstants.GYRO_TURN_EPSILON;
 	}
 }

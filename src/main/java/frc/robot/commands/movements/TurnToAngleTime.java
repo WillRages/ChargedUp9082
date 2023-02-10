@@ -11,7 +11,7 @@ import frc.robot.subsystems.Drivetrain;
 
 public class TurnToAngleTime extends CommandBase {
 	/** Creates a new TurnToAngleTime. */
-	private Drivetrain drivetrain;
+	private final Drivetrain drivetrain;
 	private final Timer autoTimer;
 	private final double time;
 	private final double speed;

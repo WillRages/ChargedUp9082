@@ -33,10 +33,10 @@ public class DriveForwardEncoders extends CommandBase {
 	public void execute() {
 		drive.arcadeDrive(speed, 0);
 
-		SmartDashboard.putNumber("Encoder Value Left 1", drive.encoder_left_1.getPosition());
-		SmartDashboard.putNumber("Encoder Value Left 2", drive.encoder_left_2.getPosition());
-		SmartDashboard.putNumber("Encoder Value Right 1", drive.encoder_right_1.getPosition());
-		SmartDashboard.putNumber("Encoder Value Right 2", drive.encoder_right_2.getPosition());
+		SmartDashboard.putNumber("Encoder Value Left 1", drive.encoderLeft1.getPosition());
+		SmartDashboard.putNumber("Encoder Value Left 2", drive.encoderLeft2.getPosition());
+		SmartDashboard.putNumber("Encoder Value Right 1", drive.encoderRight1.getPosition());
+		SmartDashboard.putNumber("Encoder Value Right 2", drive.encoderRight2.getPosition());
 	}
 
 	// Called once the command ends or is interrupted.
@@ -50,9 +50,9 @@ public class DriveForwardEncoders extends CommandBase {
 	public boolean isFinished() {
 		SmartDashboard.putNumber("Average Encoder", drive.getAverageEncoder());
 		SmartDashboard.putNumber("Distance To Move", distance);
-		return (Math.abs(drive.encoder_left_1.getPosition())
-				+ Math.abs(drive.encoder_left_2.getPosition())
-				+ Math.abs(drive.encoder_right_1.getPosition())
-				+ Math.abs(drive.encoder_right_2.getPosition())) / 4 >= distance;
+		return (Math.abs(drive.encoderLeft1.getPosition())
+				+ Math.abs(drive.encoderLeft2.getPosition())
+				+ Math.abs(drive.encoderRight1.getPosition())
+				+ Math.abs(drive.encoderRight2.getPosition())) / 4 >= distance;
 	}
 }

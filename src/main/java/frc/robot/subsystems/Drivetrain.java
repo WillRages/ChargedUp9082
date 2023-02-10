@@ -18,16 +18,16 @@ public class Drivetrain extends SubsystemBase {
 	// Declare Variables
 
 	// Declare Motors
-	public CANSparkMax motor_left_front;
-	public CANSparkMax motor_left_back;
-	public CANSparkMax motor_right_front;
-	public CANSparkMax motor_right_back;
+	public CANSparkMax motorLeftFront;
+	public CANSparkMax motorLeftBack;
+	public CANSparkMax motorRightFront;
+	public CANSparkMax motorRightBack;
 
 	// Declare Encoders
-	public RelativeEncoder encoder_left_1;
-	public RelativeEncoder encoder_left_2;
-	public RelativeEncoder encoder_right_1;
-	public RelativeEncoder encoder_right_2;
+	public RelativeEncoder encoderLeft1;
+	public RelativeEncoder encoderLeft2;
+	public RelativeEncoder encoderRight1;
+	public RelativeEncoder encoderRight2;
 
 	// Speed Controls
 	MotorControllerGroup leftMotors;
@@ -39,22 +39,22 @@ public class Drivetrain extends SubsystemBase {
 	/** Creates a new Drivetrain. */
 	public Drivetrain() {
 		// CANSparkMax Controllers
-		motor_left_front =
+		motorLeftFront =
 				new CANSparkMax(Constants.DRIVETRAIN_LEFT_FRONT_CANSPARKMAX, MotorType.kBrushless);
-		motor_left_back =
+		motorLeftBack =
 				new CANSparkMax(Constants.DRIVETRAIN_LEFT_BACK_CANSPARKMAX, MotorType.kBrushless);
-		motor_right_front =
+		motorRightFront =
 				new CANSparkMax(Constants.DRIVETRAIN_RIGHT_FRONT_CANSPARKMAX, MotorType.kBrushless);
-		motor_right_back =
+		motorRightBack =
 				new CANSparkMax(Constants.DRIVETRAIN_RIGHT_BACK_CANSPARKMAX, MotorType.kBrushless);
 
-		leftMotors = new MotorControllerGroup(motor_left_front, motor_left_back);
-		rightMotors = new MotorControllerGroup(motor_right_front, motor_right_back);
+		leftMotors = new MotorControllerGroup(motorLeftFront, motorLeftBack);
+		rightMotors = new MotorControllerGroup(motorRightFront, motorRightBack);
 
-		encoder_left_1 = motor_left_back.getEncoder();
-		encoder_left_2 = motor_left_front.getEncoder();
-		encoder_right_1 = motor_right_back.getEncoder();
-		encoder_right_2 = motor_right_front.getEncoder();
+		encoderLeft1 = motorLeftBack.getEncoder();
+		encoderLeft2 = motorLeftFront.getEncoder();
+		encoderRight1 = motorRightBack.getEncoder();
+		encoderRight2 = motorRightFront.getEncoder();
 
 		// Need to invert one side
 		rightMotors.setInverted(true);
@@ -63,16 +63,16 @@ public class Drivetrain extends SubsystemBase {
 	}
 
 	public double getAverageEncoder() {
-		return (Math.abs(encoder_left_1.getPosition()) + Math.abs(encoder_left_2.getPosition())
-				+ Math.abs(encoder_right_1.getPosition()) + Math.abs(encoder_right_2.getPosition()))
+		return (Math.abs(encoderLeft1.getPosition()) + Math.abs(encoderLeft2.getPosition())
+				+ Math.abs(encoderRight1.getPosition()) + Math.abs(encoderRight2.getPosition()))
 				/ 4;
 	}
 
 	public void setZeroEncoders() {
-		encoder_left_1.setPosition(0.0);
-		encoder_left_2.setPosition(0.0);
-		encoder_right_1.setPosition(0.0);
-		encoder_right_2.setPosition(0.0);
+		encoderLeft1.setPosition(0.0);
+		encoderLeft2.setPosition(0.0);
+		encoderRight1.setPosition(0.0);
+		encoderRight2.setPosition(0.0);
 	}
 
 	public void arcadeDrive(double moveSpeed, double rotateSpeed) {

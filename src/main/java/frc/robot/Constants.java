@@ -59,6 +59,8 @@ public final class Constants {
 	public static final int DRIVETRAIN_LEFT_BACK_CANSPARKMAX = 4;
 	public static final int DRIVETRAIN_RIGHT_FRONT_CANSPARKMAX = 1;
 	public static final int DRIVETRAIN_RIGHT_BACK_CANSPARKMAX = 2;
+	public static final int END_EFFECTOR_ARM_ROTATION_CANSPARKMAX = 5;
+	public static final int END_EFFECTOR_CLAW_MOVE_CANSPARKMAX = 6;
 
 	// Joysticks
 	public static final int DRIVER_CONTROLLER = 0;

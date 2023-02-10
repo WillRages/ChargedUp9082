@@ -24,12 +24,12 @@ public class Sensors extends SubsystemBase {
 	public final DigitalInput[] buttons = new DigitalInput[10];
 	public final AnalogInput[] analogs = new AnalogInput[4];
 
-	public final AprilTagDetector april_camera = new AprilTagDetector();
-	public final CvSink april_sink;
-	public final Mat image_Mat;
+	public final AprilTagDetector aprilCamera = new AprilTagDetector();
+	public final CvSink aprilSink;
+	public final Mat imageMat;
 
-	private final Mat img_x;
-	private final Mat img_z;
+	private final Mat imgX;
+	private final Mat imgZ;
 
 	public Sensors() {
 		for (int i = 0; i < buttons.length; i++) {
@@ -41,19 +41,19 @@ public class Sensors extends SubsystemBase {
 		}
 
 		CameraServer.startAutomaticCapture();
-		april_sink = CameraServer.getVideo();
-		image_Mat = new Mat();
-		img_x = new Mat();
-		img_z = new Mat();
-		april_camera.addFamily("tag16h5");
+		aprilSink = CameraServer.getVideo();
+		imageMat = new Mat();
+		imgX = new Mat();
+		imgZ = new Mat();
+		aprilCamera.addFamily("tag16h5");
 	}
 
 	public AprilTagDetection detect(Mat imgMat) {
-		Imgproc.cvtColor(imgMat, img_x, Imgproc.COLOR_RGB2GRAY);
+		Imgproc.cvtColor(imgMat, imgX, Imgproc.COLOR_RGB2GRAY);
 
-		Imgproc.resize(img_x, img_z, new Size(320, 180));
+		Imgproc.resize(imgX, imgZ, new Size(320, 180));
 
-		var detections = april_camera.detect(img_z);
+		var detections = aprilCamera.detect(imgZ);
 		try {
 			return detections[0];
 		} catch (ArrayIndexOutOfBoundsException e) {
@@ -81,8 +81,8 @@ public class Sensors extends SubsystemBase {
 		// Multiplying is for rounding to hundreds place
 		SmartDashboard.putNumber("Distance", Math.round(getDistance() * 100) / 100d);
 
-		if (april_sink.grabFrame(image_Mat, 10) != 0) {
-			var detection = detect(image_Mat);
+		if (aprilSink.grabFrame(imageMat, 10) != 0) {
+			var detection = detect(imageMat);
 			if (detection == null)
 				return;
 			SmartDashboard.putNumber("Tag ID", detection.getId());

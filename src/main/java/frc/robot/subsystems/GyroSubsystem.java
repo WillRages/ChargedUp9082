@@ -9,12 +9,12 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class Gyro_sub extends SubsystemBase {
+public class GyroSubsystem extends SubsystemBase {
 	// Gyro Sensor
 	public final Gyro gyro = new ADXRS450_Gyro();
 
 	/** Creates a new Gyro. */
-	public Gyro_sub() {}
+	public GyroSubsystem() {}
 
 	public void zeroHeading() {
 		gyro.reset();
