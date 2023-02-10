@@ -6,9 +6,9 @@ slider = 3
 
 [Operator.drive]
 stick_index = 0
-move_axis = "forward"
-rotate_axis = "twist"
-damping_axis = "slider"
+move_axis = "Operator.stick.forward"
+rotate_axis = "Operator.stick.twist"
+damping_axis = "Operator.stick.slider"
 
 # Robot table contains all robot config
 [Robot.wheels]

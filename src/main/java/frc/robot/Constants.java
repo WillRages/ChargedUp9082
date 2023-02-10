@@ -36,6 +36,10 @@ public final class Constants {
 		return configReader.getLong(path).intValue();
 	}
 
+	public static int getNestedInt(String path) {
+		return getInt(configReader.getString(path));
+	}
+
 	public static double getDouble(String path) {
 		return configReader.getDouble(path);
 	}
