@@ -6,7 +6,7 @@ package frc.robot.commands.movements;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.GyroSubsystem;
 
@@ -51,6 +51,6 @@ public class TurnToAngleGyro extends CommandBase {
 	@Override
 	public boolean isFinished() {
 		// check if we are within <epsilon> degrees of the target
-		return Math.abs(gyro.getHeading() - targetHead) < AutoConstants.GYRO_TURN_EPSILON;
+		return Math.abs(gyro.getHeading() - targetHead) < Constants.getDouble("Robot.gyro.turn_epsilon");
 	}
 }

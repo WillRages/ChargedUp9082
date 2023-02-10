@@ -17,7 +17,7 @@ public class DriveBackwardsEncoders extends CommandBase {
 		this.drive = drive;
 		addRequirements(drive);
 		this.speed = speed;
-		this.distance = inches * Constants.AutoConstants.INCH_TO_ENCODER;
+		this.distance = inches * Constants.getDouble("Robot.wheels.inch_to_encoder");
 	}
 
 	// Called when the command is initially scheduled.

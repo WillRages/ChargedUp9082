@@ -11,8 +11,8 @@ public class EndEffector extends SubsystemBase {
     public final CANSparkMax clawMotor;
 
     public EndEffector() {
-        armRotor = new CANSparkMax(Constants.END_EFFECTOR_ARM_ROTATION_CANSPARKMAX, MotorType.kBrushless);
-        clawMotor = new CANSparkMax(Constants.END_EFFECTOR_CLAW_MOVE_CANSPARKMAX, MotorType.kBrushless);
+        armRotor = new CANSparkMax(Constants.getInt("Robot.motors.rotation_arm"), MotorType.kBrushless);
+        clawMotor = new CANSparkMax(Constants.getInt("Robot.motors.claw_move"), MotorType.kBrushless);
     }
 }
 

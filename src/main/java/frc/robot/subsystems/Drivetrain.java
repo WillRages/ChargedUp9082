@@ -40,13 +40,13 @@ public class Drivetrain extends SubsystemBase {
 	public Drivetrain() {
 		// CANSparkMax Controllers
 		motorLeftFront =
-				new CANSparkMax(Constants.DRIVETRAIN_LEFT_FRONT_CANSPARKMAX, MotorType.kBrushless);
+				new CANSparkMax(Constants.getInt("Robot.motors.left_front"), MotorType.kBrushless);
 		motorLeftBack =
-				new CANSparkMax(Constants.DRIVETRAIN_LEFT_BACK_CANSPARKMAX, MotorType.kBrushless);
+				new CANSparkMax(Constants.getInt("Robot.motors.left_back"), MotorType.kBrushless);
 		motorRightFront =
-				new CANSparkMax(Constants.DRIVETRAIN_RIGHT_FRONT_CANSPARKMAX, MotorType.kBrushless);
+				new CANSparkMax(Constants.getInt("Robot.motors.right_front"), MotorType.kBrushless);
 		motorRightBack =
-				new CANSparkMax(Constants.DRIVETRAIN_RIGHT_BACK_CANSPARKMAX, MotorType.kBrushless);
+				new CANSparkMax(Constants.getInt("Robot.motors.right_back"), MotorType.kBrushless);
 
 		leftMotors = new MotorControllerGroup(motorLeftFront, motorLeftBack);
 		rightMotors = new MotorControllerGroup(motorRightFront, motorRightBack);
