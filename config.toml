@@ -25,16 +25,16 @@ voltage_to_inch = 40.29691
 port = 0
 
 [Robot.gyro]
-multiplier = 1
-turn_epsilon = 10
+multiplier = 1.0
+turn_epsilon = 10.0
 
 [Robot.pid]
-drive_pid = { p = 1, i = 0.5, d = 0 }
-turn_pid = { p = 1, i = 0, d = 0 }
+drive_pid = { p = 1.0, i = 0.5, d = 0.0 }
+turn_pid = { p = 1.0, i = 0.0, d = 0.0 }
 
 [Robot.limits]
-max_turn_rate = 10
-max_turn_accel = 30
+max_turn_rate = 10.0
+max_turn_accel = 30.0
 
 [Robot.motors]
 left_front = 3
@@ -45,5 +45,5 @@ rotation_arm = 5
 claw_move = 6
 
 [Auto]
-distance_inch = 200
+distance_inch = 200.0
 drive_speed = 0.3
