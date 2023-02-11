@@ -17,7 +17,7 @@ public class DriveForwardEncoders extends CommandBase {
 	public DriveForwardEncoders(double inches, double speed, Drivetrain drive) {
 		this.drive = drive;
 		addRequirements(drive);
-		this.distance = inches * Constants.AutoConstants.INCH_TO_ENCODER;
+		this.distance = inches * Constants.getDouble("Robot.wheels.inch_to_encoder");
 		this.speed = -speed;
 	}
 

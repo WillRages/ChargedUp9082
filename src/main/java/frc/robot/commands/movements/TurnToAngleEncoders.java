@@ -5,8 +5,8 @@
 package frc.robot.commands.movements;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.Constants.AutoConstants;
 
 public class TurnToAngleEncoders extends CommandBase {
 
@@ -42,6 +42,6 @@ public class TurnToAngleEncoders extends CommandBase {
 	// Returns true when the command should end.
 	@Override
 	public boolean isFinished() {
-		return drivetrain.getAverageEncoder() >= degrees * AutoConstants.TICKS_PER_DEGREE;
+		return drivetrain.getAverageEncoder() >= degrees * Constants.getDouble("Robot.wheels.ticks_per_degree");
 	}
 }

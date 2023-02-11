@@ -62,7 +62,7 @@ public class Sensors extends SubsystemBase {
 	}
 
 	public double getDistance() {
-		return analogs[Constants.DISTANCE_PORT].getVoltage() * Constants.VOLTAGE_TO_INCH;
+		return analogs[Constants.getInt("Robot.distance.port")].getVoltage() * Constants.getDouble("Robot.distance.voltage_to_inch");
 	}
 
 	// This method will be called once per scheduler run
@@ -81,13 +81,13 @@ public class Sensors extends SubsystemBase {
 		// Multiplying is for rounding to hundreds place
 		SmartDashboard.putNumber("Distance", Math.round(getDistance() * 100) / 100d);
 
-		if (aprilSink.grabFrame(imageMat, 10) != 0) {
-			var detection = detect(imageMat);
-			if (detection == null)
-				return;
-			SmartDashboard.putNumber("Tag ID", detection.getId());
-			SmartDashboard.putNumber("Tag X", detection.getCenterX() * 4);
-			SmartDashboard.putNumber("Tag Y", detection.getCenterY() * 4);
-		}
+//		if (aprilSink.grabFrame(imageMat, 10) != 0) {
+//			var detection = detect(imageMat);
+//			if (detection == null)
+//				return;
+//			SmartDashboard.putNumber("Tag ID", detection.getId());
+//			SmartDashboard.putNumber("Tag X", detection.getCenterX() * 4);
+//			SmartDashboard.putNumber("Tag Y", detection.getCenterY() * 4);
+//		}
 	}
 }

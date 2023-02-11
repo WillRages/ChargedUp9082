@@ -27,7 +27,7 @@ public class GyroSubsystem extends SubsystemBase {
 	 */
 	public double getHeading() {
 		return Math.IEEEremainder(gyro.getAngle(), 360)
-				* (Constants.DriveConstants.GYRO_MULT);
+				* (Constants.getDouble("Robot.gyro.multiplier"));
 	}
 
 	/**
@@ -36,7 +36,7 @@ public class GyroSubsystem extends SubsystemBase {
 	 * @return The turn rate of the robot, in degrees per second
 	 */
 	public double getTurnRate() {
-		return gyro.getRate() * (Constants.DriveConstants.GYRO_MULT);
+		return gyro.getRate() * (Constants.getDouble("Robot.gyro.multiplier"));
 	}
 
 	@Override

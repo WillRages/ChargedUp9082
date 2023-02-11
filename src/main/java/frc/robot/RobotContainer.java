@@ -32,17 +32,17 @@ public class RobotContainer {
 	public static final Drivetrain drivetrain = new Drivetrain();
 	public static final GyroSubsystem gyroSub = new GyroSubsystem();
 	public static final Sensors sensors = new Sensors();
-	public static Joystick driverController = new Joystick(Constants.DRIVER_CONTROLLER);
+	public static Joystick driverController = new Joystick(Constants.getInt("Operator.drive.stick_index"));
 
 	// Replace with CommandPS4Controller or CommandJoystick if needed
 	// private final CommandXboxController m_driverController
 	// = new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
 	final Command DriveForwardEncodersAuto =
-			new DriveForwardEncoders(72, Constants.AutoConstants.AUTO_DRIVE_SPEED, drivetrain);
+			new DriveForwardEncoders(72, Constants.getDouble("Auto.drive_speed"), drivetrain);
 
 	final Command DriveBackwardsEncodersAuto =
-			new DriveBackwardsEncoders(60, Constants.AutoConstants.AUTO_DRIVE_SPEED, drivetrain);
+			new DriveBackwardsEncoders(60, Constants.getDouble("Auto.drive_speed"), drivetrain);
 
 	final Command DriveTimeAuto = new DriveTime(10, -.2, drivetrain);
 

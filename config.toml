@@ -1,0 +1,49 @@
+[Operator.stick]
+sideways = 0
+forward = 1
+twist = 2
+slider = 3
+
+[Operator.drive]
+stick_index = 0
+move_axis = "Operator.stick.forward"
+rotate_axis = "Operator.stick.twist"
+damping_axis = "Operator.stick.slider"
+
+# Robot table contains all robot config
+[Robot.wheels]
+inch_to_encoder = 0.5972222222222222222 #43 ticks per 72 inch
+ticks_per_degree = 0.15555555555555555
+#ticks_per_rotation = 1024
+#wheel_diameter_inch = 6
+#ticks_per_inch = 54.3248872420336079 #ticks per rotation over perimeter (diameter pi)
+
+[Robot.distance]
+# divide voltage by 9.77mV to get cm
+# https://www.maxbotix.com/firstrobotics
+voltage_to_inch = 40.29691
+port = 0
+
+[Robot.gyro]
+multiplier = 1.0
+turn_epsilon = 10.0
+
+[Robot.pid]
+drive_pid = { p = 1.0, i = 0.5, d = 0.0 }
+turn_pid = { p = 1.0, i = 0.0, d = 0.0 }
+
+[Robot.limits]
+max_turn_rate = 10.0
+max_turn_accel = 30.0
+
+[Robot.motors]
+left_front = 3
+left_back = 4
+right_front = 1
+right_back = 2
+rotation_arm = 5
+claw_move = 6
+
+[Auto]
+distance_inch = 200.0
+drive_speed = 0.3
