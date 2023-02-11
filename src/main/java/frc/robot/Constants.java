@@ -21,7 +21,7 @@ import java.io.FileNotFoundException;
  */
 public final class Constants {
 
-	private static final File configFile = new File("config.toml");
+	private static final File configFile = new File("/home/lvuser/config.toml");
 	public static final Toml configReader;
 
 	static {
