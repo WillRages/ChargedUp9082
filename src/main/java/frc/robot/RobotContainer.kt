@@ -1,25 +1,17 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
+package frc.robot
 
-package frc.robot;
-
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.DriveArcade;
-import frc.robot.commands.movements.DriveBackwardsEncoders;
-import frc.robot.commands.movements.DriveForwardEncoders;
-import frc.robot.commands.movements.DriveTime;
-import frc.robot.commands.movements.TurnToAngleEncoders;
-import frc.robot.commands.movements.TurnToAngleGyro;
-import frc.robot.commands.movements.TurnToAngleTime;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.GyroSubsystem;
-import frc.robot.subsystems.Sensors;
+import edu.wpi.first.wpilibj.Joystick
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
+import edu.wpi.first.wpilibj2.command.Command
+import frc.robot.commands.DriveArcade
+import frc.robot.commands.movements.*
+import frc.robot.subsystems.Drivetrain
+import frc.robot.subsystems.GyroSubsystem
+import frc.robot.subsystems.Sensors
 
 /*
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -27,73 +19,70 @@ import frc.robot.subsystems.Sensors;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
-public class RobotContainer {
-	// The robot's subsystems and commands are defined here...
-	public static final Drivetrain drivetrain = new Drivetrain();
-	public static final GyroSubsystem gyroSub = new GyroSubsystem();
-	public static final Sensors sensors = new Sensors();
-	public static Joystick driverController = new Joystick(Constants.getInt("Operator.drive.stick_index"));
+class RobotContainer {
+    // Replace with CommandPS4Controller or CommandJoystick if needed
+    // private final CommandXboxController m_driverController
+    // = new CommandXboxController(OperatorConstants.kDriverControllerPort);
+    val DriveForwardEncodersAuto: Command =
+        DriveForwardEncoders(72.0, Constants.getDouble("Auto.drive_speed"), drivetrain)
+    val DriveBackwardsEncodersAuto: Command =
+        DriveBackwardsEncoders(60.0, Constants.getDouble("Auto.drive_speed"), drivetrain)
+    val DriveTimeAuto: Command = DriveTime(10.0, -.2, drivetrain)
+    val TurnToAngleTimeAuto: Command = TurnToAngleTime(drivetrain, .8, .5)
+    val TurnToAngleEncodersAuto: Command = TurnToAngleEncoders(drivetrain, 90.0, .35)
+    val TurnToAngleGyroAuto: Command = TurnToAngleGyro(drivetrain, gyroSub, 90.0, .35)
 
-	// Replace with CommandPS4Controller or CommandJoystick if needed
-	// private final CommandXboxController m_driverController
-	// = new CommandXboxController(OperatorConstants.kDriverControllerPort);
+    // Create the chooser for autonomous commands
+    var autoChooser = SendableChooser<Command>()
 
-	final Command DriveForwardEncodersAuto =
-			new DriveForwardEncoders(72, Constants.getDouble("Auto.drive_speed"), drivetrain);
+    /**
+     * The container for the robot. Contains subsystems, OI devices, and commands.
+     */
+    init {
+        // Configure the trigger bindings
+        configureBindings()
 
-	final Command DriveBackwardsEncodersAuto =
-			new DriveBackwardsEncoders(60, Constants.getDouble("Auto.drive_speed"), drivetrain);
+        // Set default commands of subsystems
+        drivetrain.defaultCommand = DriveArcade()
 
-	final Command DriveTimeAuto = new DriveTime(10, -.2, drivetrain);
+        // Autonomous Chooser
+        autoChooser.setDefaultOption("Drive Forward Encoders", DriveForwardEncodersAuto)
+        autoChooser.addOption("Drive Backwards Encoders", DriveBackwardsEncodersAuto)
+        autoChooser.addOption("Drive for Time", DriveTimeAuto)
+        autoChooser.addOption("Turn for time", TurnToAngleTimeAuto)
+        autoChooser.addOption("Turn with encoders", TurnToAngleEncodersAuto)
+        autoChooser.addOption("Turn with gyro", TurnToAngleGyroAuto)
+        SmartDashboard.putData("Auto Chooser", autoChooser)
+    }
 
-	final Command TurnToAngleTimeAuto = new TurnToAngleTime(drivetrain, .8, .5);
+    /**
+     * Use this method to define your trigger->command mappings. Triggers can be created via the
+     * [Trigger.Trigger] constructor with an arbitrary
+     * predicate, or via the named factories in
+     * [edu.wpi.first.wpilibj2.command.button.CommandGenericHID]'s subclasses for
+     * [ Xbox][CommandXboxController]/[PS4][edu.wpi.first.wpilibj2.command.button.CommandPS4Controller] controllers or
+     * [Flight joysticks][edu.wpi.first.wpilibj2.command.button.CommandJoystick].
+     */
+    private fun configureBindings() {}
+    val autonomousCommand: Command
+        /**
+         * Use this to pass the autonomous command to the main [Robot] class.
+         *
+         * @return the command to run in autonomous
+         */
+        get() =// An example command will be run in autonomous
+            autoChooser.selected
 
-	final Command TurnToAngleEncodersAuto = new TurnToAngleEncoders(drivetrain, 90, .35);
+    companion object {
+        // The robot's subsystems and commands are defined here...
+        @JvmField
+        val drivetrain = Drivetrain()
 
-	final Command TurnToAngleGyroAuto = new TurnToAngleGyro(drivetrain, gyroSub, 90, .35);
-	// Create the chooser for autonomous commands
-	SendableChooser<Command> autoChooser = new SendableChooser<>();
+        @JvmField
+        val gyroSub = GyroSubsystem()
+        val sensors = Sensors()
 
-	/**
-	 * The container for the robot. Contains subsystems, OI devices, and commands.
-	 */
-	public RobotContainer() {
-		// Configure the trigger bindings
-		configureBindings();
-
-		// Set default commands of subsystems
-		drivetrain.setDefaultCommand(new DriveArcade());
-
-		// Autonomous Chooser
-		autoChooser.setDefaultOption("Drive Forward Encoders", DriveForwardEncodersAuto);
-		autoChooser.addOption("Drive Backwards Encoders", DriveBackwardsEncodersAuto);
-		autoChooser.addOption("Drive for Time", DriveTimeAuto);
-		autoChooser.addOption("Turn for time", TurnToAngleTimeAuto);
-		autoChooser.addOption("Turn with encoders", TurnToAngleEncodersAuto);
-		autoChooser.addOption("Turn with gyro", TurnToAngleGyroAuto);
-
-		SmartDashboard.putData("Auto Chooser", autoChooser);
-	}
-
-	/**
-	 * Use this method to define your trigger->command mappings. Triggers can be created via the
-	 * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
-	 * predicate, or via the named factories in
-	 * {@link edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-	 * {@link CommandXboxController
-	 * Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller PS4} controllers or
-	 * {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
-	 */
-
-	private void configureBindings() {}
-
-	/**
-	 * Use this to pass the autonomous command to the main {@link Robot} class.
-	 *
-	 * @return the command to run in autonomous
-	 */
-	public Command getAutonomousCommand() {
-		// An example command will be run in autonomous
-		return autoChooser.getSelected();
-	}
+        @JvmField
+        var driverController = Joystick(Constants.getInt("Operator.drive.stick_index"))
+    }
 }

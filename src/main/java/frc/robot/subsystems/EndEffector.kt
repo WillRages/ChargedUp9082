@@ -1,22 +1,20 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkMax
+import com.revrobotics.CANSparkMaxLowLevel
+import edu.wpi.first.wpilibj2.command.SubsystemBase
+import frc.robot.Constants.getInt
 
-import edu.wpi.first.wpilibj.PS4Controller.Axis;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+class EndEffector : SubsystemBase() {
+    private val armRotor: CANSparkMax
+    private val clawMotor: CANSparkMax
 
-public class EndEffector extends SubsystemBase {
-    private final CANSparkMax armRotor;
-    private final CANSparkMax clawMotor;
-
-    public EndEffector() {
-        armRotor = new CANSparkMax(Constants.getInt("Robot.motors.rotation_arm"), MotorType.kBrushless);
-        clawMotor = new CANSparkMax(Constants.getInt("Robot.motors.claw_move"), MotorType.kBrushless);
+    init {
+        armRotor = CANSparkMax(getInt("Robot.motors.rotation_arm"), CANSparkMaxLowLevel.MotorType.kBrushless)
+        clawMotor = CANSparkMax(getInt("Robot.motors.claw_move"), CANSparkMaxLowLevel.MotorType.kBrushless)
     }
 
-    public void LiftyBoi(float Axis_Input, boolean Consumption, boolean Barfing) {
+    fun LiftyBoi(Axis_Input: Float, Consumption: Boolean, Barfing: Boolean) {
         /*
          * Replace the variable Axis_Input with Controller x Axis
          * Consumption is the Controller's trigger
@@ -24,18 +22,17 @@ public class EndEffector extends SubsystemBase {
          */
         // Arm motor Input Detection
         if (Axis_Input > 0.2) {
-            armRotor.set(Axis_Input);
+            armRotor.set(Axis_Input.toDouble())
         } else if (Axis_Input < 0.2) {
-            armRotor.set(Axis_Input);
+            armRotor.set(Axis_Input.toDouble())
         }
 
         // Boolean detection to control motor direction (Movement is same for Cone
         // consumption and Cube Spewing)
         if (Consumption && !Barfing) {
-            clawMotor.set(1);
+            clawMotor.set(1.0)
         } else if (Barfing && Consumption) {
-            clawMotor.set(-1);
+            clawMotor.set(-1.0)
         }
-
     }
 }

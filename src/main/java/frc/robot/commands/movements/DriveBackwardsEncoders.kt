@@ -1,47 +1,39 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
+package frc.robot.commands.movements
 
-package frc.robot.commands.movements;
+import edu.wpi.first.wpilibj2.command.CommandBase
+import frc.robot.Constants.getDouble
+import frc.robot.subsystems.Drivetrain
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.*;
-import frc.robot.Constants;
+class DriveBackwardsEncoders(inches: Double, speed: Double, private val drive: Drivetrain) : CommandBase() {
+    private val distance: Double
+    private val speed: Double
 
-public class DriveBackwardsEncoders extends CommandBase {
-	private final Drivetrain drive;
-	private final double distance;
-	private final double speed;
+    init {
+        addRequirements(drive)
+        this.speed = speed
+        distance = inches * getDouble("Robot.wheels.inch_to_encoder")
+    }
 
-	public DriveBackwardsEncoders(double inches, double speed, Drivetrain drive) {
-		this.drive = drive;
-		addRequirements(drive);
-		this.speed = speed;
-		this.distance = inches * Constants.getDouble("Robot.wheels.inch_to_encoder");
-	}
+    // Called when the command is initially scheduled.
+    override fun initialize() {
+        drive.setZeroEncoders()
+    }
 
-	// Called when the command is initially scheduled.
-	@Override
-	public void initialize() {
-		drive.setZeroEncoders();
-	}
+    // Called every time the scheduler runs while the command is scheduled.
+    override fun execute() {
+        drive.arcadeDrive(-speed, 0.0)
+    }
 
-	// Called every time the scheduler runs while the command is scheduled.
-	@Override
-	public void execute() {
-		drive.arcadeDrive(-speed, 0);
-	}
+    // Called once the command ends or is interrupted.
+    override fun end(interrupted: Boolean) {
+        drive.arcadeDrive(0.0, 0.0)
+    }
 
-	// Called once the command ends or is interrupted.
-	@Override
-	public void end(boolean interrupted) {
-		drive.arcadeDrive(0, 0);
-	}
-
-	// Returns true when the command should end.
-	@Override
-	public boolean isFinished() {
-		return drive.getAverageEncoder() >= distance;
-	}
-
+    // Returns true when the command should end.
+    override fun isFinished(): Boolean {
+        return drive.averageEncoder >= distance
+    }
 }

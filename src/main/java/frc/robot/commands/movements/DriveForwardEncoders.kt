@@ -1,58 +1,50 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
+package frc.robot.commands.movements
 
-package frc.robot.commands.movements;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
+import edu.wpi.first.wpilibj2.command.CommandBase
+import frc.robot.Constants.getDouble
+import frc.robot.subsystems.Drivetrain
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.*;
+class DriveForwardEncoders(inches: Double, speed: Double, private val drive: Drivetrain) : CommandBase() {
+    private val distance: Double
+    private val speed: Double
 
-public class DriveForwardEncoders extends CommandBase {
-	private final Drivetrain drive;
-	private final double distance;
-	private final double speed;
+    init {
+        addRequirements(drive)
+        distance = inches * getDouble("Robot.wheels.inch_to_encoder")
+        this.speed = -speed
+    }
 
-	public DriveForwardEncoders(double inches, double speed, Drivetrain drive) {
-		this.drive = drive;
-		addRequirements(drive);
-		this.distance = inches * Constants.getDouble("Robot.wheels.inch_to_encoder");
-		this.speed = -speed;
-	}
+    // Called when the command is initially scheduled.
+    override fun initialize() {
+        drive.setZeroEncoders()
+        drive.arcadeDrive(speed, 0.0)
+    }
 
-	// Called when the command is initially scheduled.
-	@Override
-	public void initialize() {
-		drive.setZeroEncoders();
-		drive.arcadeDrive(speed, 0);
-	}
+    // Called every time the scheduler runs while the command is scheduled.
+    override fun execute() {
+        drive.arcadeDrive(speed, 0.0)
+        SmartDashboard.putNumber("Encoder Value Left 1", drive.encoderLeft1.position)
+        SmartDashboard.putNumber("Encoder Value Left 2", drive.encoderLeft2.position)
+        SmartDashboard.putNumber("Encoder Value Right 1", drive.encoderRight1.position)
+        SmartDashboard.putNumber("Encoder Value Right 2", drive.encoderRight2.position)
+    }
 
-	// Called every time the scheduler runs while the command is scheduled.
-	@Override
-	public void execute() {
-		drive.arcadeDrive(speed, 0);
+    // Called once the command ends or is interrupted.
+    override fun end(interrupted: Boolean) {
+        drive.arcadeDrive(0.0, 0.0)
+    }
 
-		SmartDashboard.putNumber("Encoder Value Left 1", drive.encoderLeft1.getPosition());
-		SmartDashboard.putNumber("Encoder Value Left 2", drive.encoderLeft2.getPosition());
-		SmartDashboard.putNumber("Encoder Value Right 1", drive.encoderRight1.getPosition());
-		SmartDashboard.putNumber("Encoder Value Right 2", drive.encoderRight2.getPosition());
-	}
-
-	// Called once the command ends or is interrupted.
-	@Override
-	public void end(boolean interrupted) {
-		drive.arcadeDrive(0, 0);
-	}
-
-	// Returns true when the command should end.
-	@Override
-	public boolean isFinished() {
-		SmartDashboard.putNumber("Average Encoder", drive.getAverageEncoder());
-		SmartDashboard.putNumber("Distance To Move", distance);
-		return (Math.abs(drive.encoderLeft1.getPosition())
-				+ Math.abs(drive.encoderLeft2.getPosition())
-				+ Math.abs(drive.encoderRight1.getPosition())
-				+ Math.abs(drive.encoderRight2.getPosition())) / 4 >= distance;
-	}
+    // Returns true when the command should end.
+    override fun isFinished(): Boolean {
+        SmartDashboard.putNumber("Average Encoder", drive.averageEncoder)
+        SmartDashboard.putNumber("Distance To Move", distance)
+        return (Math.abs(drive.encoderLeft1.position)
+                + Math.abs(drive.encoderLeft2.position)
+                + Math.abs(drive.encoderRight1.position)
+                + Math.abs(drive.encoderRight2.position)) / 4 >= distance
+    }
 }
