@@ -7,12 +7,13 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro
 import edu.wpi.first.wpilibj.interfaces.Gyro
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants.getDouble
+import kotlin.math.IEEErem
 
 class GyroSubsystem
 /** Creates a new Gyro.  */
     : SubsystemBase() {
     // Gyro Sensor
-    val gyro: Gyro = ADXRS450_Gyro()
+    private val gyro: Gyro = ADXRS450_Gyro()
     fun zeroHeading() {
         gyro.reset()
     }
@@ -23,7 +24,7 @@ class GyroSubsystem
          *
          * @return the robot's heading in degrees, from -180 to 180
          */
-        get() = (Math.IEEEremainder(gyro.angle, 360.0)
+        get() = (gyro.angle.IEEErem(360.0)
                 * getDouble("Robot.gyro.multiplier"))
     val turnRate: Double
         /**

@@ -19,11 +19,11 @@ import org.opencv.imgproc.Imgproc
 
 class Sensors : SubsystemBase() {
     /** Creates a new Sensors.  */
-    val buttons = arrayOfNulls<DigitalInput>(10)
-    val analogs = arrayOfNulls<AnalogInput>(4)
-    val aprilCamera = AprilTagDetector()
-    val aprilSink: CvSink
-    val imageMat: Mat
+    private val buttons = arrayOfNulls<DigitalInput>(10)
+    private val analogs = arrayOfNulls<AnalogInput>(4)
+    private val aprilCamera = AprilTagDetector()
+    private val aprilSink: CvSink
+    private val imageMat: Mat
     private val imgX: Mat
     private val imgZ: Mat
 
@@ -53,7 +53,7 @@ class Sensors : SubsystemBase() {
         }
     }
 
-    val distance: Double
+    private val distance: Double
         get() = analogs[getInt("Robot.distance.port")]!!.voltage * getDouble("Robot.distance.voltage_to_inch")
 
     // This method will be called once per scheduler run

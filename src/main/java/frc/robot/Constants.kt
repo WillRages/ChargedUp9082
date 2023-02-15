@@ -20,7 +20,7 @@ import java.io.FileNotFoundException
  */
 object Constants {
     private val configFile = File("/home/lvuser/config.toml")
-    val configReader: Toml?
+    private val configReader: Toml
 
     init {
         try {
@@ -32,16 +32,16 @@ object Constants {
 
     @JvmStatic
     fun getInt(path: String?): Int {
-        return configReader!!.getLong(path).toInt()
+        return configReader.getLong(path).toInt()
     }
 
     @JvmStatic
     fun getNestedInt(path: String?): Int {
-        return getInt(configReader!!.getString(path))
+        return getInt(configReader.getString(path))
     }
 
     @JvmStatic
     fun getDouble(path: String?): Double {
-        return configReader!!.getDouble(path)
+        return configReader.getDouble(path)
     }
 }

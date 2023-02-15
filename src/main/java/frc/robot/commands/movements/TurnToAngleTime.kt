@@ -12,10 +12,9 @@ class TurnToAngleTime(
     /** Creates a new TurnToAngleTime.  */
     private val drivetrain: Drivetrain, private val time: Double, private val speed: Double
 ) : CommandBase() {
-    private val autoTimer: Timer
+    private val autoTimer: Timer = Timer()
 
     init {
-        autoTimer = Timer()
         addRequirements(drivetrain)
     }
 

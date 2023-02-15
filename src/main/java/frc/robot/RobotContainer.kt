@@ -23,17 +23,17 @@ class RobotContainer {
     // Replace with CommandPS4Controller or CommandJoystick if needed
     // private final CommandXboxController m_driverController
     // = new CommandXboxController(OperatorConstants.kDriverControllerPort);
-    val DriveForwardEncodersAuto: Command =
+    private val driveForwardEncodersAuto: Command =
         DriveForwardEncoders(72.0, Constants.getDouble("Auto.drive_speed"), drivetrain)
-    val DriveBackwardsEncodersAuto: Command =
+    private val driveBackwardsEncodersAuto: Command =
         DriveBackwardsEncoders(60.0, Constants.getDouble("Auto.drive_speed"), drivetrain)
-    val DriveTimeAuto: Command = DriveTime(10.0, -.2, drivetrain)
-    val TurnToAngleTimeAuto: Command = TurnToAngleTime(drivetrain, .8, .5)
-    val TurnToAngleEncodersAuto: Command = TurnToAngleEncoders(drivetrain, 90.0, .35)
-    val TurnToAngleGyroAuto: Command = TurnToAngleGyro(drivetrain, gyroSub, 90.0, .35)
+    private val driveTimeAuto: Command = DriveTime(10.0, -.2, drivetrain)
+    private val turnToAngleTimeAuto: Command = TurnToAngleTime(drivetrain, .8, .5)
+    private val turnToAngleEncodersAuto: Command = TurnToAngleEncoders(drivetrain, 90.0, .35)
+    private val turnToAngleGyroAuto: Command = TurnToAngleGyro(drivetrain, gyroSub, 90.0, .35)
 
     // Create the chooser for autonomous commands
-    var autoChooser = SendableChooser<Command>()
+    private val autoChooser = SendableChooser<Command>()
 
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -46,43 +46,32 @@ class RobotContainer {
         drivetrain.defaultCommand = DriveArcade()
 
         // Autonomous Chooser
-        autoChooser.setDefaultOption("Drive Forward Encoders", DriveForwardEncodersAuto)
-        autoChooser.addOption("Drive Backwards Encoders", DriveBackwardsEncodersAuto)
-        autoChooser.addOption("Drive for Time", DriveTimeAuto)
-        autoChooser.addOption("Turn for time", TurnToAngleTimeAuto)
-        autoChooser.addOption("Turn with encoders", TurnToAngleEncodersAuto)
-        autoChooser.addOption("Turn with gyro", TurnToAngleGyroAuto)
+        autoChooser.setDefaultOption("Drive Forward Encoders", driveForwardEncodersAuto)
+        autoChooser.addOption("Drive Backwards Encoders", driveBackwardsEncodersAuto)
+        autoChooser.addOption("Drive for Time", driveTimeAuto)
+        autoChooser.addOption("Turn for time", turnToAngleTimeAuto)
+        autoChooser.addOption("Turn with encoders", turnToAngleEncodersAuto)
+        autoChooser.addOption("Turn with gyro", turnToAngleGyroAuto)
         SmartDashboard.putData("Auto Chooser", autoChooser)
     }
 
     /**
      * Use this method to define your trigger->command mappings. Triggers can be created via the
-     * [Trigger.Trigger] constructor with an arbitrary
+     *  constructor with an arbitrary
      * predicate, or via the named factories in
      * [edu.wpi.first.wpilibj2.command.button.CommandGenericHID]'s subclasses for
-     * [ Xbox][CommandXboxController]/[PS4][edu.wpi.first.wpilibj2.command.button.CommandPS4Controller] controllers or
+     * [ Xbox]/[PS4][edu.wpi.first.wpilibj2.command.button.CommandPS4Controller] controllers or
      * [Flight joysticks][edu.wpi.first.wpilibj2.command.button.CommandJoystick].
      */
     private fun configureBindings() {}
     val autonomousCommand: Command
-        /**
-         * Use this to pass the autonomous command to the main [Robot] class.
-         *
-         * @return the command to run in autonomous
-         */
-        get() =// An example command will be run in autonomous
-            autoChooser.selected
+        get() = autoChooser.selected
 
     companion object {
         // The robot's subsystems and commands are defined here...
-        @JvmField
         val drivetrain = Drivetrain()
-
-        @JvmField
         val gyroSub = GyroSubsystem()
         val sensors = Sensors()
-
-        @JvmField
-        var driverController = Joystick(Constants.getInt("Operator.drive.stick_index"))
+        val driverController = Joystick(Constants.getInt("Operator.drive.stick_index"))
     }
 }

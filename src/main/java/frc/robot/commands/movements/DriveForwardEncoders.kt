@@ -42,9 +42,6 @@ class DriveForwardEncoders(inches: Double, speed: Double, private val drive: Dri
     override fun isFinished(): Boolean {
         SmartDashboard.putNumber("Average Encoder", drive.averageEncoder)
         SmartDashboard.putNumber("Distance To Move", distance)
-        return (Math.abs(drive.encoderLeft1.position)
-                + Math.abs(drive.encoderLeft2.position)
-                + Math.abs(drive.encoderRight1.position)
-                + Math.abs(drive.encoderRight2.position)) / 4 >= distance
+        return drive.averageEncoder >= distance
     }
 }

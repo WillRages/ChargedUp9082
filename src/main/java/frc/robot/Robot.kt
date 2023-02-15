@@ -14,8 +14,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler
  * project.
  */
 class Robot : TimedRobot() {
-    private var autonomousCommand: Command? = null
-    private var robotContainer: RobotContainer? = null
+    private lateinit var autonomousCommand: Command
+    private lateinit var robotContainer: RobotContainer
     // private static final SPI.Port port = SPI.Port.kOnboardCS0;
     /**
      * This function is run when the robot is first started up and should be used for any
@@ -64,12 +64,10 @@ class Robot : TimedRobot() {
      * This autonomous runs the autonomous command selected by your [RobotContainer] class.
      */
     override fun autonomousInit() {
-        autonomousCommand = robotContainer!!.autonomousCommand
+        autonomousCommand = robotContainer.autonomousCommand
 
         // schedule the autonomous command (example)
-        if (autonomousCommand != null) {
-            autonomousCommand!!.schedule()
-        }
+        autonomousCommand.schedule()
     }
 
     /** This function is called periodically during autonomous.  */
@@ -79,9 +77,7 @@ class Robot : TimedRobot() {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        if (autonomousCommand != null) {
-            autonomousCommand!!.cancel()
-        }
+        autonomousCommand.cancel()
     }
 
     /** This function is called periodically during operator control.  */
