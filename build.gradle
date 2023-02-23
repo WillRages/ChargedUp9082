@@ -4,9 +4,10 @@
 //file:noinspection UnnecessaryQualifiedReference
 //file:noinspection ConfigurationAvoidance
 //file:noinspection GroovyUnusedAssignment
+//file:noinspection GrDeprecatedAPIUsage
 plugins {
     id "java"
-    id "edu.wpi.first.GradleRIO" version "2023.3.2"
+    id "edu.wpi.first.GradleRIO" version "2023.4.1"
     id 'org.jetbrains.kotlin.jvm' version '1.8.20-Beta'
 }
 
