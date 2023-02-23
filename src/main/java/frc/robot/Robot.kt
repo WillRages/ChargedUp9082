@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler
  * project.
  */
 class Robot : TimedRobot() {
-    private lateinit var autonomousCommand: Command
+    private var autonomousCommand: Command? = null
     private lateinit var robotContainer: RobotContainer
     // private static final SPI.Port port = SPI.Port.kOnboardCS0;
     /**
@@ -56,8 +56,16 @@ class Robot : TimedRobot() {
         CommandScheduler.getInstance().run()
     }
 
+    var teleRan = false
+
     /** This function is called once each time the robot enters Disabled mode.  */
-    override fun disabledInit() {}
+    override fun disabledInit() {
+        if (teleRan) {
+            teleRan = false
+            RobotContainer.gyroSub.zeroNavZ()
+        }
+    }
+
     override fun disabledPeriodic() {}
 
     /**
@@ -67,7 +75,7 @@ class Robot : TimedRobot() {
         autonomousCommand = robotContainer.autonomousCommand
 
         // schedule the autonomous command (example)
-        autonomousCommand.schedule()
+        autonomousCommand!!.schedule()
     }
 
     /** This function is called periodically during autonomous.  */
@@ -77,7 +85,8 @@ class Robot : TimedRobot() {
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
         // this line or comment it out.
-        autonomousCommand.cancel()
+        autonomousCommand?.cancel()
+        teleRan = true
     }
 
     /** This function is called periodically during operator control.  */

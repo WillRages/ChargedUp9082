@@ -16,6 +16,7 @@ import frc.robot.Constants.getInt
 import org.opencv.core.Mat
 import org.opencv.core.Size
 import org.opencv.imgproc.Imgproc
+import kotlin.math.roundToInt
 
 class Sensors : SubsystemBase() {
     /** Creates a new Sensors.  */
@@ -67,7 +68,7 @@ class Sensors : SubsystemBase() {
         }
 
         // Multiplying is for rounding to hundreds place
-        SmartDashboard.putNumber("Distance", Math.round(distance * 100) / 100.0)
+        SmartDashboard.putNumber("Distance", (distance * 100).roundToInt() / 100.0)
 
 //		if (aprilSink.grabFrame(imageMat, 10) != 0) {
 //			var detection = detect(imageMat);

@@ -4,7 +4,6 @@
 package frc.robot.commands.movements
 
 import edu.wpi.first.wpilibj.Timer
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.subsystems.Drivetrain
 
@@ -39,7 +38,6 @@ class DriveTime(seconds: Double, speed: Double, private val drive: Drivetrain) :
 
     // Returns true when the command should end.
     override fun isFinished(): Boolean {
-        SmartDashboard.putNumber("Auto Running", (timer.get() * 10).toInt().toDouble() / 10)
         return timer.get() >= time
     }
 }

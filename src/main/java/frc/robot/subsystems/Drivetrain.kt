@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkMaxLowLevel
 import com.revrobotics.RelativeEncoder
 import edu.wpi.first.wpilibj.drive.DifferentialDrive
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants.getInt
 import kotlin.math.abs
@@ -82,5 +83,9 @@ class Drivetrain : SubsystemBase() {
 
     override fun periodic() {
         // This method will be called once per scheduler run
+        SmartDashboard.putNumber("Left 1 Encoder", encoderLeft1.position)
+        SmartDashboard.putNumber("Left 2 Encoder", encoderLeft2.position)
+        SmartDashboard.putNumber("Right 1 Encoder", encoderRight1.position)
+        SmartDashboard.putNumber("Right 2 Encoder", encoderRight2.position)
     }
 }
