@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot.commands.autos
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.commands.movements.DriveForwardEncoders
 import frc.robot.commands.movements.TurnToAngleGyro
@@ -37,8 +36,6 @@ class RobotLoop(
 
     // Called every time the scheduler runs while the command is scheduled.
     override fun execute() {
-        SmartDashboard.putBoolean("Drive Fin", driveCommand.isFinished)
-        SmartDashboard.putBoolean("Turn Finished", turnCommand.isFinished)
         if (driveCommand.isFinished) {
             loops -= 1
             turnCommand.schedule()

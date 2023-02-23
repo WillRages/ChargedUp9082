@@ -3,11 +3,12 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot.commands.movements
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.Constants.getDouble
 import frc.robot.subsystems.Drivetrain
 import frc.robot.subsystems.GyroSubsystem
+import kotlin.math.IEEErem
+import kotlin.math.abs
 
 class TurnToAngleGyro(
     /** Creates a new AngleGyroTurn.  */
@@ -15,34 +16,36 @@ class TurnToAngleGyro(
 ) : CommandBase() {
     private val speed: Double
     private val targetHead: Double
+    private var calibrate = true
 
     // TurnToAngleGyro x = new TurnToAngleGyro();
     // x.initialize();
     init {
         addRequirements(drivetrain, gyro)
-        this.speed = if (angle < 0) speed else -speed
+        this.speed = speed
         targetHead = angle
     }
 
     // Called when the command is initially scheduled.
     override fun initialize() {
-        gyro.zeroHeading()
+        gyro.targetAngle += targetHead
     }
 
     // Called every time the scheduler runs while the command is scheduled.
     override fun execute() {
-        drivetrain.arcadeDrive(0.0, speed)
-        SmartDashboard.putNumber("Heading", gyro.heading)
+        drivetrain.arcadeDrive(0.0, if (gyro.targetAngle < 0) speed else -speed)
     }
 
     // Called once the command ends or is interrupted.
     override fun end(interrupted: Boolean) {
+        calibrate = true
         drivetrain.arcadeDrive(0.0, 0.0)
     }
 
     // Returns true when the command should end.
     override fun isFinished(): Boolean {
+//        if (calibrate) return false
         // check if we are within <epsilon> degrees of the target
-        return Math.abs(gyro.heading - targetHead) < getDouble("Robot.gyro.turn_epsilon")
+        return abs(gyro.headingZ - gyro.targetAngle).IEEErem(360.0) < getDouble("Robot.gyro.turn_epsilon")
     }
 }
