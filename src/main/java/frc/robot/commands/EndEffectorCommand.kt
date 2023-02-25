@@ -1,7 +1,8 @@
 package frc.robot.commands
 
 import edu.wpi.first.wpilibj2.command.CommandBase
-import frc.robot.Constants
+import frc.robot.Constants.getInt
+import frc.robot.Constants.getNestedInt
 import frc.robot.RobotContainer
 
 class EndEffectorCommand : CommandBase() {
@@ -16,9 +17,9 @@ class EndEffectorCommand : CommandBase() {
 
     override fun execute() {
         RobotContainer.endEffector.liftyBoi(
-            RobotContainer.armController.getRawAxis(Constants.getNestedInt("Operator.lift.claw_axis")),
-            RobotContainer.armController.getRawButton(Constants.getInt("Operator.lift.cone_button")),
-            RobotContainer.armController.getRawButton(Constants.getInt("Operator.lift.cube_button"))
+            RobotContainer.armController.getRawAxis(getNestedInt("Operator.lift.claw_axis")),
+            RobotContainer.armController.getRawButton(getInt("Operator.lift.cone_button")),
+            RobotContainer.armController.getRawButton(getInt("Operator.lift.cube_button"))
         )
     }
 

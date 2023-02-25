@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.Joystick
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.Command
+import frc.robot.Constants.getDouble
+import frc.robot.Constants.getInt
 import frc.robot.commands.DriveArcade
 import frc.robot.commands.EndEffectorCommand
 import frc.robot.commands.movements.*
@@ -26,9 +28,9 @@ class RobotContainer {
     // private final CommandXboxController m_driverController
     // = new CommandXboxController(OperatorConstants.kDriverControllerPort);
     private val driveForwardEncodersAuto: Command =
-        DriveForwardEncoders(72.0, Constants.getDouble("Auto.drive_speed"), drivetrain)
+        DriveForwardEncoders(72.0, getDouble("Auto.drive_speed"), drivetrain)
     private val driveBackwardsEncodersAuto: Command =
-        DriveBackwardsEncoders(60.0, Constants.getDouble("Auto.drive_speed"), drivetrain)
+        DriveBackwardsEncoders(60.0, getDouble("Auto.drive_speed"), drivetrain)
     private val driveTimeAuto: Command = DriveTime(10.0, -.2, drivetrain)
     private val turnToAngleTimeAuto: Command = TurnToAngleTime(drivetrain, .8, .5)
     private val turnToAngleEncodersAuto: Command = TurnToAngleEncoders(drivetrain, 90.0, .35)
@@ -75,7 +77,7 @@ class RobotContainer {
         val gyroSub = GyroSubsystem()
         val sensors = Sensors()
         val endEffector = EndEffector()
-        val driverController = Joystick(Constants.getInt("Operator.drive.stick_index"))
-        val armController = Joystick(Constants.getInt("Operator.lift.stick_index"))
+        val driverController = Joystick(getInt("Operator.drive.stick_index"))
+        val armController = Joystick(getInt("Operator.lift.stick_index"))
     }
 }
