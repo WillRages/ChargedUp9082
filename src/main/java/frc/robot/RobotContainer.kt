@@ -8,8 +8,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.Command
 import frc.robot.commands.DriveArcade
+import frc.robot.commands.EndEffectorCommand
 import frc.robot.commands.movements.*
 import frc.robot.subsystems.Drivetrain
+import frc.robot.subsystems.EndEffector
 import frc.robot.subsystems.GyroSubsystem
 import frc.robot.subsystems.Sensors
 
@@ -43,7 +45,7 @@ class RobotContainer {
         configureBindings()
 
         // Set default commands of subsystems
-        drivetrain.defaultCommand = DriveArcade()
+        drivetrain.defaultCommand = DriveArcade().alongWith(EndEffectorCommand())
 
         // Autonomous Chooser
         autoChooser.setDefaultOption("Drive Forward Encoders", driveForwardEncodersAuto)
@@ -72,6 +74,8 @@ class RobotContainer {
         val drivetrain = Drivetrain()
         val gyroSub = GyroSubsystem()
         val sensors = Sensors()
+        val endEffector = EndEffector()
         val driverController = Joystick(Constants.getInt("Operator.drive.stick_index"))
+        val armController = Joystick(Constants.getInt("Operator.lift.stick_index"))
     }
 }

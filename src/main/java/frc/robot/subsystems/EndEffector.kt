@@ -12,7 +12,7 @@ class EndEffector : SubsystemBase() {
         CANSparkMax(getInt("Robot.motors.claw_move"), CANSparkMaxLowLevel.MotorType.kBrushless)
 
     @Suppress("SpellCheckingInspection")
-    fun liftyBoi(axisInput: Float, consumption: Boolean, barfing: Boolean) {
+    fun liftyBoi(axisInput: Double, consumption: Boolean, barfing: Boolean) {
         /*
          * Replace the variable Axis_Input with Controller x Axis
          * Consumption is the Controller's trigger
@@ -20,9 +20,9 @@ class EndEffector : SubsystemBase() {
          */
         // Arm motor Input Detection
         if (axisInput > 0.2) {
-            armRotor.set(axisInput.toDouble())
+            armRotor.set(axisInput)
         } else if (axisInput < 0.2) {
-            armRotor.set(axisInput.toDouble())
+            armRotor.set(axisInput)
         }
 
         // Boolean detection to control motor direction (Movement is same for Cone

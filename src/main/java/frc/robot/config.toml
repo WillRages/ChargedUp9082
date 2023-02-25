@@ -10,6 +10,12 @@ move_axis = "Operator.stick.forward"
 rotate_axis = "Operator.stick.twist"
 damping_axis = "Operator.stick.slider"
 
+[Operator.lift]
+stick_index = 1
+claw_axis = "Operator.stick.forward"
+cone_button = 3
+cube_button = 4
+
 # Robot table contains all robot config
 [Robot.wheels]
 inch_to_encoder = 0.5972222222222222222 #43 ticks per 72 inch
