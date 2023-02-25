@@ -5,13 +5,26 @@ import com.revrobotics.CANSparkMaxLowLevel
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.Constants.getDouble
 import frc.robot.Constants.getInt
-import kotlin.math.absoluteValue
+import kotlin.math.*
 
 class EndEffector : SubsystemBase() {
     private val armRotor: CANSparkMax =
         CANSparkMax(getInt("Robot.motors.rotation_arm"), CANSparkMaxLowLevel.MotorType.kBrushless)
     private val clawMotor: CANSparkMax =
         CANSparkMax(getInt("Robot.motors.claw_move"), CANSparkMaxLowLevel.MotorType.kBrushless)
+
+    /** all units in inches, return value in radians */
+    fun grab(target_x: Double, target_y: Double, arm_a: Double, arm_b: Double): Pair<Double, Double> {
+        val a = acos(
+            (target_x.pow(2) + target_y.pow(2) - arm_a.pow(2) - arm_b.pow(2))
+                    / (2.0 * arm_a * arm_b)
+        )
+        val q1 = PI - a
+        val b = atan2(arm_b * sin(a), arm_b * -cos(a) + arm_a)
+        val q2 = atan2(target_y, target_x) - b
+        return Pair(q2, q1)
+    }
+
 
     @Suppress("SpellCheckingInspection")
     fun liftyBoi(axisInput: Double, consumption: Boolean, barfing: Boolean) {

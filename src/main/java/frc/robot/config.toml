@@ -52,6 +52,11 @@ rotation_arm = 5
 claw_move = 6
 second_Stage_arm = 7
 
+[Robot.arm]
+# 20 7/8 inches axle to axle
+a_length = 20.875
+b_length = 24.5
+
 [Auto]
 distance_inch = 200.0
 drive_speed = 0.3
