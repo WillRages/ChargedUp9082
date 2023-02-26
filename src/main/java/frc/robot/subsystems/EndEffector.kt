@@ -8,45 +8,37 @@ import frc.robot.Constants.getInt
 import kotlin.math.*
 
 class EndEffector : SubsystemBase() {
-    private val armRotor: CANSparkMax =
+    private val TAU = 2.0 * PI
+    private val armRotorA: CANSparkMax =
+        CANSparkMax(getInt("Robot.motors.rotation_arm"), CANSparkMaxLowLevel.MotorType.kBrushless)
+    private val armRotorB: CANSparkMax =
         CANSparkMax(getInt("Robot.motors.rotation_arm"), CANSparkMaxLowLevel.MotorType.kBrushless)
     private val clawMotor: CANSparkMax =
         CANSparkMax(getInt("Robot.motors.claw_move"), CANSparkMaxLowLevel.MotorType.kBrushless)
 
     /** all units in inches, return value in radians */
-    fun grab(target_x: Double, target_y: Double, arm_a: Double, arm_b: Double): Pair<Double, Double> {
+    fun pointToJoint(targetX: Double, targetY: Double, armA: Double, armB: Double): Pair<Double, Double> {
         val a = acos(
-            (target_x.pow(2) + target_y.pow(2) - arm_a.pow(2) - arm_b.pow(2))
-                    / (2.0 * arm_a * arm_b)
+            (targetX.pow(2) + targetY.pow(2) - armA.pow(2) - armB.pow(2))
+                    / (2.0 * armA * armB)
         )
         val q1 = PI - a
-        val b = atan2(arm_b * sin(a), arm_b * -cos(a) + arm_a)
-        val q2 = atan2(target_y, target_x) - b
+        val b = atan2(armB * sin(a), armB * -cos(a) + armA)
+        val q2 = atan2(targetY, targetX) - b
         return Pair(q2, q1)
     }
 
+    fun targetArm(targetX: Double, targetY: Double) {
+        val (angleA, angleB) = pointToJoint(
+            targetX,
+            targetY,
+            getDouble("Robot.arm.a_length"),
+            getDouble("Robot.arm.b_length")
+        )
+        val robotDiffA = angleA - armRotorA.encoder.position / getInt("Robot.arm.ticks_per_rev") * TAU
+        val robotDiffB = angleB - armRotorB.encoder.position / getInt("Robot.arm.ticks_per_rev") * TAU
 
-    @Suppress("SpellCheckingInspection")
-    fun liftyBoi(axisInput: Double, consumption: Boolean, barfing: Boolean) {
-        /* TODO:
-         * Replace the variable Axis_Input with Controller x Axis
-         * Consumption is the Controller's trigger
-         * Barfing is the Controller's Side panel button
-         */
-        // Arm motor Input Detection
-
-        if (axisInput.absoluteValue > getDouble("Operator.lift.stick_deadzone")) {
-            armRotor.set(axisInput)
-        }
-
-        // Boolean detection to control motor direction (Movement is same for Cone
-        // consumption and Cube Spewing)
-        if (consumption && !barfing) {
-            clawMotor.set(1.0)
-        } else if (barfing && !consumption) {
-            clawMotor.set(-1.0)
-        } else {
-            clawMotor.set(0.0)
-        }
+        armRotorA.set(robotDiffA / 50.0)
+        armRotorB.set(robotDiffB / 50.0)
     }
 }

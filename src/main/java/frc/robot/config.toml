@@ -56,6 +56,8 @@ second_Stage_arm = 7
 # 20 7/8 inches axle to axle
 a_length = 20.875
 b_length = 24.5
+# 42 ticks per rotation times 80:1 gearbox
+ticks_per_rev = 3360
 
 [Auto]
 distance_inch = 200.0
