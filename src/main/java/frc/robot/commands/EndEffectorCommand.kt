@@ -1,10 +1,13 @@
 package frc.robot.commands
 
 import edu.wpi.first.wpilibj2.command.CommandBase
+import frc.robot.Constants.getInt
+import frc.robot.Constants.getNestedInt
 import frc.robot.RobotContainer
 
 class EndEffectorCommand : CommandBase() {
-
+    private var currentX = 0.0
+    private var currentY = 0.0
 
     init {
         // each subsystem used by the command must be passed into the addRequirements() method
@@ -14,11 +17,17 @@ class EndEffectorCommand : CommandBase() {
     override fun initialize() {}
 
     override fun execute() {
-//        RobotContainer.endEffector.targetArm(
-//            RobotContainer.armController.getRawAxis(getNestedInt("Operator.lift.claw_axis")),
-//            RobotContainer.armController.getRawButton(getInt("Operator.lift.cone_button")),
-//            RobotContainer.armController.getRawButton(getInt("Operator.lift.cube_button"))
-//        )
+        currentX += RobotContainer.armController.getRawAxis(
+            getNestedInt("Operator.lift.arm_x"),
+        )
+        currentY += RobotContainer.armController.getRawAxis(
+            getNestedInt("Operator.lift.arm_y"),
+        )
+        RobotContainer.endEffector.moveClaw(
+            RobotContainer.armController.getRawButton(getInt("Operator.lift.cone_button")),
+            RobotContainer.armController.getRawButton(getInt("Operator.lift.cube_button"))
+        )
+        RobotContainer.endEffector.targetArm(currentX, currentY)
     }
 
     override fun isFinished(): Boolean {

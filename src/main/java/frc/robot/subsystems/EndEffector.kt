@@ -8,7 +8,7 @@ import frc.robot.Constants.getInt
 import kotlin.math.*
 
 class EndEffector : SubsystemBase() {
-    private val TAU = 2.0 * PI
+
     private val armRotorA: CANSparkMax =
         CANSparkMax(getInt("Robot.motors.rotation_arm"), CANSparkMaxLowLevel.MotorType.kBrushless)
     private val armRotorB: CANSparkMax =
@@ -17,7 +17,7 @@ class EndEffector : SubsystemBase() {
         CANSparkMax(getInt("Robot.motors.claw_move"), CANSparkMaxLowLevel.MotorType.kBrushless)
 
     /** all units in inches, return value in radians */
-    fun pointToJoint(targetX: Double, targetY: Double, armA: Double, armB: Double): Pair<Double, Double> {
+    private fun pointToJoint(targetX: Double, targetY: Double, armA: Double, armB: Double): Pair<Double, Double> {
         val a = acos(
             (targetX.pow(2) + targetY.pow(2) - armA.pow(2) - armB.pow(2))
                     / (2.0 * armA * armB)
@@ -40,5 +40,19 @@ class EndEffector : SubsystemBase() {
 
         armRotorA.set(robotDiffA / 50.0)
         armRotorB.set(robotDiffB / 50.0)
+    }
+
+    fun moveClaw(cone: Boolean, cube: Boolean) {
+        if (cone && !cube) {
+            clawMotor.set(1.0)
+        } else if (cube && !cone) {
+            clawMotor.set(-1.0)
+        } else {
+            clawMotor.set(0.0)
+        }
+    }
+
+    companion object {
+        const val TAU = 2.0 * PI
     }
 }
