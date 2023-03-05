@@ -3,14 +3,10 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot
 
-import edu.wpi.first.wpilibj.Joystick
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.Command
-import frc.robot.Constants.getDouble
-import frc.robot.Constants.getInt
 import frc.robot.commands.DriveArcade
-import frc.robot.commands.EndEffectorCommand
 import frc.robot.commands.movements.*
 import frc.robot.subsystems.Drivetrain
 import frc.robot.subsystems.EndEffector
@@ -35,6 +31,7 @@ class RobotContainer {
     private val turnToAngleTimeAuto: Command = TurnToAngleTime(drivetrain, .8, .5)
     private val turnToAngleEncodersAuto: Command = TurnToAngleEncoders(drivetrain, 90.0, .35)
     private val turnToAngleGyroAuto: Command = TurnToAngleGyro(drivetrain, gyroSub, 90.0, .35)
+    private val autoBalanceCommand: AutoBalanceCommand = AutoBalanceCommand(drivetrain, gyroSub)
 
     // Create the chooser for autonomous commands
     private val autoChooser = SendableChooser<Command>()
@@ -56,6 +53,7 @@ class RobotContainer {
         autoChooser.addOption("Turn for time", turnToAngleTimeAuto)
         autoChooser.addOption("Turn with encoders", turnToAngleEncodersAuto)
         autoChooser.addOption("Turn with gyro", turnToAngleGyroAuto)
+        autoChooser.addOption("Auto balance", autoBalanceCommand)
         SmartDashboard.putData("Auto Chooser", autoChooser)
     }
 
@@ -67,7 +65,11 @@ class RobotContainer {
      * [ Xbox]/[PS4][edu.wpi.first.wpilibj2.command.button.CommandPS4Controller] controllers or
      * [Flight joysticks][edu.wpi.first.wpilibj2.command.button.CommandJoystick].
      */
-    private fun configureBindings() {}
+    private fun configureBindings() {
+        driverController.button(1).onTrue(TurnToAngleGyro(drivetrain, gyroSub, 90.0, 0.4))
+//        driverController.button(2).onTrue(zhCommand(gyroSub))
+    }
+
     val autonomousCommand: Command
         get() = autoChooser.selected
 
@@ -77,7 +79,7 @@ class RobotContainer {
         val gyroSub = GyroSubsystem()
         val sensors = Sensors()
         val endEffector = EndEffector()
-        val driverController = Joystick(getInt("Operator.drive.stick_index"))
+        val driverController = CommandJoystick(getInt("Operator.drive.stick_index"))
         val armController = Joystick(getInt("Operator.lift.stick_index"))
     }
 }

@@ -3,7 +3,6 @@
 // the WPILib BSD license file in the root directory of this project.
 package frc.robot.commands.movements
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.Constants.getDouble
 import frc.robot.subsystems.Drivetrain
@@ -27,10 +26,6 @@ class DriveForwardEncoders(inches: Double, speed: Double, private val drive: Dri
     // Called every time the scheduler runs while the command is scheduled.
     override fun execute() {
         drive.arcadeDrive(speed, 0.0)
-        SmartDashboard.putNumber("Encoder Value Left 1", drive.encoderLeft1.position)
-        SmartDashboard.putNumber("Encoder Value Left 2", drive.encoderLeft2.position)
-        SmartDashboard.putNumber("Encoder Value Right 1", drive.encoderRight1.position)
-        SmartDashboard.putNumber("Encoder Value Right 2", drive.encoderRight2.position)
     }
 
     // Called once the command ends or is interrupted.
@@ -40,8 +35,6 @@ class DriveForwardEncoders(inches: Double, speed: Double, private val drive: Dri
 
     // Returns true when the command should end.
     override fun isFinished(): Boolean {
-        SmartDashboard.putNumber("Average Encoder", drive.averageEncoder)
-        SmartDashboard.putNumber("Distance To Move", distance)
         return drive.averageEncoder >= distance
     }
 }
