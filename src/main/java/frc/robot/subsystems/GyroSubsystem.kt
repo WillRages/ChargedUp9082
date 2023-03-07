@@ -5,9 +5,7 @@
 
 package frc.robot.subsystems
 
-import com.kauailabs.navx.frc.AHRS
 import edu.wpi.first.wpilibj.ADXRS450_Gyro
-import edu.wpi.first.wpilibj.SerialPort
 import edu.wpi.first.wpilibj.interfaces.Gyro
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
@@ -18,13 +16,18 @@ class GyroSubsystem : SubsystemBase() {
     var targetAngle = 0.0
     var pitchOffset = 0.0
 
-    private val navx: AHRS = AHRS(SerialPort.Port.kMXP)
+    //    private val navx: AHRS = AHRS(SerialPort.Port.kMXP)
     val headingX: Double
-        get() = navx.pitch.toDouble().IEEErem(360.0) * getDouble("Robot.gyro.multiplier") - pitchOffset
+        get() = 0.0
+
+    //        get() = navx.pitch.toDouble().IEEErem(360.0) * getDouble("Robot.gyro.multiplier") - pitchOffset
     val headingY: Double
-        get() = navx.roll.toDouble().IEEErem(360.0) * getDouble("Robot.gyro.multiplier")
+        get() = 0.0
+
+    //        get() = navx.roll.toDouble().IEEErem(360.0) * getDouble("Robot.gyro.multiplier")
     val headingZ: Double
-        get() = navx.angle.IEEErem(360.0) * getDouble("Robot.gyro.multiplier")
+        get() = 0.0
+//        get() = navx.angle.IEEErem(360.0) * getDouble("Robot.gyro.multiplier")
 
     fun zeroNavX() {
         pitchOffset += headingX
@@ -32,7 +35,7 @@ class GyroSubsystem : SubsystemBase() {
 
 
     fun zeroNavZ() {
-        navx.reset()
+//        navx.reset()
         targetAngle = 0.0
     }
 
