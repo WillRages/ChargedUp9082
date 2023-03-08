@@ -24,6 +24,8 @@ class EndEffector : SubsystemBase() {
          * Replace the variable Axis_Input with Controller x Axis
          * Consumption is the Controller's trigger
          * Barfing is the Controller's Side panel button
+         * Yo mama
+         * Hi future Will :) - Jaren
          */
         // Arm motor Input Detection
 
