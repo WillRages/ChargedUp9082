@@ -26,6 +26,13 @@ class Drivetrain : SubsystemBase() {
     private val motorRightBack: CANSparkMax =
         CANSparkMax(config.getInt("right_back"), CANSparkMaxLowLevel.MotorType.kBrushless)
 
+    init {
+        motorLeftFront.idleMode = CANSparkMax.IdleMode.kBrake
+        motorLeftBack.idleMode = CANSparkMax.IdleMode.kBrake
+        motorRightFront.idleMode = CANSparkMax.IdleMode.kBrake
+        motorRightBack.idleMode = CANSparkMax.IdleMode.kBrake
+    }
+
     // Declare Encoders
     val encoderLeft1: RelativeEncoder = motorLeftBack.encoder
 
@@ -55,8 +62,8 @@ class Drivetrain : SubsystemBase() {
         get() = ((abs(encoderLeft1.position)
                 + abs(encoderLeft2.position)
                 + abs(encoderRight1.position)
-                + abs(encoderRight2.position))
-                / 4)
+                + abs(encoderRight2.position)
+                ) / 4)
 
     fun setZeroEncoders() {
         encoderLeft1.position = 0.0
