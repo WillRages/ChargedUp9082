@@ -83,9 +83,12 @@ class RobotContainer {
         // The robot's subsystems and commands are defined here...
         val drivetrain = Drivetrain()
         val gyroSub = GyroSubsystem()
-        val sensors = Sensors()
+
+        //        val sensors = Sensors()
         val endEffector = EndEffector()
-        val driverController = CommandJoystick(getInt("Operator.drive.stick_index"))
-        val armController = Joystick(getInt("Operator.lift.stick_index"))
+
+        //        val driverController = CommandJoystick(config.getInt("drive.stick_index"))
+        val driverController = CommandXboxController(config.getInt("drive.controller_index"))
+        val armController = Joystick(config.getInt("lift.stick_index"))
     }
 }
