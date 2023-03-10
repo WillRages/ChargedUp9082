@@ -35,7 +35,7 @@ class ConfigReader(var currentConfigPath: String) {
 
     private companion object Constants {
         private val configFile = try {
-            FileInputStream(File("/home/lvuser/config.toml"))
+            FileInputStream(File("/home/config.toml"))
         } catch (ignored: FileNotFoundException) {
             try {
                 FileInputStream(File("src/main/java/frc/robot/config.toml"))

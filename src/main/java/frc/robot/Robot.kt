@@ -16,20 +16,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler
 class Robot : TimedRobot() {
     private var autonomousCommand: Command? = null
     private lateinit var robotContainer: RobotContainer
-    // private static final SPI.Port port = SPI.Port.kOnboardCS0;
-    /**
-     * This function is run when the robot is first started up and should be used for any
-     * initialization code.
-     */
     override fun robotInit() {
-        // SmartDashboard.putString("Port", "" + port.value);
-        // Instantiate our RobotContainer. This will perform all our button bindings,
-        // and put our
-        // autonomous chooser on the dashboard.
-
-        // The CameraServer class keeps a registry of all objects created with
-        // CameraServer functions, so sources and sinks created in that way effectively
-        // never go out of scope (unless explicitly removed).
         // CameraServer.startAutomaticCapture();
         robotContainer = RobotContainer()
     }
