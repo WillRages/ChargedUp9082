@@ -7,59 +7,33 @@ import edu.wpi.first.wpilibj.Joystick
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.Command
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick
-import frc.robot.Constants.getDouble
-import frc.robot.Constants.getInt
-import frc.robot.commands.DriveArcade
-import frc.robot.commands.EndEffectorCommand
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController
+import frc.robot.commands.*
 import frc.robot.commands.autos.AutoBalanceCommand
-import frc.robot.commands.movements.*
+import frc.robot.commands.detection.ZeroHeadingCommand
 import frc.robot.subsystems.Drivetrain
 import frc.robot.subsystems.EndEffector
 import frc.robot.subsystems.GyroSubsystem
-import frc.robot.subsystems.Sensors
 
-/*
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and trigger mappings) should be declared here.
- */
 class RobotContainer {
     // Replace with CommandPS4Controller or CommandJoystick if needed
     // private final CommandXboxController m_driverController
     // = new CommandXboxController(OperatorConstants.kDriverControllerPort);
-    private val driveForwardEncodersAuto: Command =
-        DriveForwardEncoders(72.0, getDouble("Auto.drive_speed"), drivetrain)
-    private val driveBackwardsEncodersAuto: Command =
-        DriveBackwardsEncoders(60.0, getDouble("Auto.drive_speed"), drivetrain)
-    private val driveTimeAuto: Command = DriveTime(10.0, -.2, drivetrain)
-    private val turnToAngleTimeAuto: Command = TurnToAngleTime(drivetrain, .8, .5)
-    private val turnToAngleEncodersAuto: Command = TurnToAngleEncoders(drivetrain, 90.0, .35)
-    private val turnToAngleGyroAuto: Command = TurnToAngleGyro(drivetrain, gyroSub, 90.0, .35)
-    private val autoBalanceCommand: AutoBalanceCommand = AutoBalanceCommand(drivetrain, gyroSub)
 
     // Create the chooser for autonomous commands
     private val autoChooser = SendableChooser<Command>()
 
-    /**
-     * The container for the robot. Contains subsystems, OI devices, and commands.
-     */
     init {
         // Configure the trigger bindings
         configureBindings()
-
-        // Set default commands of subsystems
         drivetrain.defaultCommand = DriveArcade().alongWith(EndEffectorCommand())
 
+        // Set default commands of subsystems
+
         // Autonomous Chooser
-        autoChooser.setDefaultOption("Drive Forward Encoders", driveForwardEncodersAuto)
-        autoChooser.addOption("Drive Backwards Encoders", driveBackwardsEncodersAuto)
-        autoChooser.addOption("Drive for Time", driveTimeAuto)
-        autoChooser.addOption("Turn for time", turnToAngleTimeAuto)
-        autoChooser.addOption("Turn with encoders", turnToAngleEncodersAuto)
-        autoChooser.addOption("Turn with gyro", turnToAngleGyroAuto)
-        autoChooser.addOption("Auto balance", autoBalanceCommand)
+        autoChooser.setDefaultOption("Simple Drive Auto", driveForwardAuto)
+        autoChooser.addOption("Park on charge", driveBalanceAuto)
+        autoChooser.addOption("Drop Cube", dropCubeAuto)
         SmartDashboard.putData("Auto Chooser", autoChooser)
     }
 
@@ -72,14 +46,16 @@ class RobotContainer {
      * [Flight joysticks][edu.wpi.first.wpilibj2.command.button.CommandJoystick].
      */
     private fun configureBindings() {
-        driverController.button(1).onTrue(TurnToAngleGyro(drivetrain, gyroSub, 90.0, 0.4))
-//        driverController.button(2).onTrue(zhCommand(gyroSub))
+        driverController.button(1).onTrue(ZeroHeadingCommand(gyroSub))
+        driverController.button(2).onTrue(AutoBalanceCommand(drivetrain, gyroSub))
     }
 
     val autonomousCommand: Command
         get() = autoChooser.selected
 
     companion object {
+        private val config = ConfigReader("Operator.")
+
         // The robot's subsystems and commands are defined here...
         val drivetrain = Drivetrain()
         val gyroSub = GyroSubsystem()
