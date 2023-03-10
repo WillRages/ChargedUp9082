@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro
 import edu.wpi.first.wpilibj.interfaces.Gyro
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
-import frc.robot.Constants.getDouble
+import frc.robot.ConfigReader
 import kotlin.math.IEEErem
 
 class GyroSubsystem : SubsystemBase() {
@@ -17,34 +17,32 @@ class GyroSubsystem : SubsystemBase() {
     var pitchOffset = 0.0
 
     //    private val navx: AHRS = AHRS(SerialPort.Port.kMXP)
+
+    private val config = ConfigReader("Robot.gyro.")
     val headingX: Double
-        get() = 0.0
-
-    //        get() = navx.pitch.toDouble().IEEErem(360.0) * getDouble("Robot.gyro.multiplier") - pitchOffset
+        get() = navx.pitch.toDouble().IEEErem(360.0) * config.getDouble("multiplier")
     val headingY: Double
-        get() = 0.0
-
-    //        get() = navx.roll.toDouble().IEEErem(360.0) * getDouble("Robot.gyro.multiplier")
+        get() = navx.roll.toDouble().IEEErem(360.0) * config.getDouble("multiplier") - pitchOffset
     val headingZ: Double
-        get() = 0.0
-//        get() = navx.angle.IEEErem(360.0) * getDouble("Robot.gyro.multiplier")
+        get() = navx.angle.IEEErem(360.0) * config.getDouble("multiplier")
 
     fun zeroNavX() {
-        pitchOffset += headingX
+        pitchOffset += headingY
     }
 
 
     fun zeroNavZ() {
-//        navx.reset()
+        navx.reset()
         targetAngle = 0.0
     }
+
 
     // Gyro Sensor
     private val gyro: Gyro = ADXRS450_Gyro()
     val heading: Double
-        get() = (gyro.angle.IEEErem(360.0) * getDouble("Robot.gyro.multiplier"))
+        get() = gyro.angle.IEEErem(360.0) * config.getDouble("multiplier")
     val turnRate: Double
-        get() = gyro.rate * getDouble("Robot.gyro.multiplier")
+        get() = gyro.rate * config.getDouble("multiplier")
 
     fun zeroHeading() {
         gyro.reset()

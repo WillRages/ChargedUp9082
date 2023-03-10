@@ -22,7 +22,6 @@ class Robot : TimedRobot() {
      * initialization code.
      */
     override fun robotInit() {
-
         // SmartDashboard.putString("Port", "" + port.value);
         // Instantiate our RobotContainer. This will perform all our button bindings,
         // and put our

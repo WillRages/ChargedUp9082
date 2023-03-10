@@ -4,7 +4,7 @@
 package frc.robot.commands.autos
 
 import edu.wpi.first.wpilibj2.command.CommandBase
-import frc.robot.commands.movements.DriveForwardEncoders
+import frc.robot.commands.movements.DriveWithEncoders
 import frc.robot.commands.movements.TurnToAngleGyro
 import frc.robot.subsystems.Drivetrain
 import frc.robot.subsystems.GyroSubsystem
@@ -15,7 +15,7 @@ class RobotLoop(
 ) : CommandBase() {
     // private final Drivetrain drivetrain;
     private val turnCommand: TurnToAngleGyro
-    private val driveCommand: DriveForwardEncoders
+    private val driveCommand: DriveWithEncoders
     private var loops: Int
 
     // is_turn is false when we are driving, testing with off
@@ -26,7 +26,7 @@ class RobotLoop(
         //		this.turn_command = null;
 //		this.drive_command = null;
         turnCommand = TurnToAngleGyro(drivetrain!!, gyro!!, 90.0, speed)
-        driveCommand = DriveForwardEncoders(distance, speed, drivetrain)
+        driveCommand = DriveWithEncoders(distance, speed, drivetrain)
     }
 
     // Called when the command is initially scheduled.

@@ -4,16 +4,19 @@
 package frc.robot.commands.movements
 
 import edu.wpi.first.wpilibj2.command.CommandBase
-import frc.robot.Constants.getDouble
+import frc.robot.ConfigReader
 import frc.robot.subsystems.Drivetrain
+import kotlin.math.withSign
 
-class DriveForwardEncoders(inches: Double, speed: Double, private val drive: Drivetrain) : CommandBase() {
+class DriveWithEncoders(inches: Double, speed: Double, private val drive: Drivetrain) : CommandBase() {
     private val distance: Double
     private val speed: Double
 
+    private val config = ConfigReader("Robot.wheels.")
+
     init {
         addRequirements(drive)
-        distance = inches * getDouble("Robot.wheels.inch_to_encoder")
+        distance = (inches * config.getDouble("inch_to_encoder")).withSign(speed)
         this.speed = -speed
     }
 

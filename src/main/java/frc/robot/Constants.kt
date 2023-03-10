@@ -18,30 +18,32 @@ import java.io.FileNotFoundException
  * It is advised to statically import this class (or one of its inner classes) wherever the
  * constants are needed, to reduce verbosity.
  */
-object Constants {
-    private val configFile = File("/home/lvuser/config.toml")
-    private val configReader: Toml
 
-    init {
-        try {
-            configReader = Toml().read(FileInputStream(configFile))
-        } catch (e: FileNotFoundException) {
-            throw RuntimeException(e)
-        }
-    }
 
-    @JvmStatic
+class ConfigReader(var currentConfigPath: String) {
     fun getInt(path: String?): Int {
-        return configReader.getLong(path).toInt()
+        return configReader.getLong(currentConfigPath + path).toInt()
     }
 
-    @JvmStatic
     fun getNestedInt(path: String?): Int {
-        return getInt(configReader.getString(path))
+        return configReader.getLong(configReader.getString(currentConfigPath + path)).toInt()
     }
 
-    @JvmStatic
     fun getDouble(path: String?): Double {
-        return configReader.getDouble(path)
+        return configReader.getDouble(currentConfigPath + path)
+    }
+
+    private companion object Constants {
+        private val configFile = try {
+            FileInputStream(File("/home/lvuser/config.toml"))
+        } catch (ignored: FileNotFoundException) {
+            try {
+                FileInputStream(File("src/main/java/frc/robot/config.toml"))
+            } catch (e: FileNotFoundException) {
+                throw RuntimeException(e)
+            }
+        }
+
+        private val configReader = Toml().read(configFile)
     }
 }

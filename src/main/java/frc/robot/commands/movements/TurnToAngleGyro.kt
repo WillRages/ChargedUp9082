@@ -4,7 +4,7 @@
 package frc.robot.commands.movements
 
 import edu.wpi.first.wpilibj2.command.CommandBase
-import frc.robot.Constants.getDouble
+import frc.robot.ConfigReader
 import frc.robot.subsystems.Drivetrain
 import frc.robot.subsystems.GyroSubsystem
 import kotlin.math.IEEErem
@@ -42,10 +42,12 @@ class TurnToAngleGyro(
         drivetrain.arcadeDrive(0.0, 0.0)
     }
 
+    private val config = ConfigReader("Robot.gyro.")
+
     // Returns true when the command should end.
     override fun isFinished(): Boolean {
 //        if (calibrate) return false
         // check if we are within <epsilon> degrees of the target
-        return abs(gyro.headingZ - gyro.targetAngle).IEEErem(360.0) < getDouble("Robot.gyro.turn_epsilon")
+        return abs(gyro.headingZ - gyro.targetAngle).IEEErem(360.0) < config.getDouble("Robot.gyro.turn_epsilon")
     }
 }

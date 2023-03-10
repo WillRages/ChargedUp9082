@@ -5,7 +5,7 @@
 package frc.robot.commands
 
 import edu.wpi.first.wpilibj2.command.CommandBase
-import frc.robot.Constants.getNestedInt
+import frc.robot.ConfigReader
 import frc.robot.RobotContainer
 
 // Library imports
@@ -25,17 +25,19 @@ class DriveArcade : CommandBase() {
         RobotContainer.drivetrain.encoderRight2.position = 0.0
     }
 
+    private val config = ConfigReader("Operator.drive.")
+
     // Called every time the scheduler runs while the command is scheduled.
     override fun execute() {
         val moveSpeed = RobotContainer.driverController.getRawAxis(
-            getNestedInt("Operator.drive.move_axis")
+            config.getNestedInt("move_axis")
         )
         val rotateSpeed = -RobotContainer.driverController.getRawAxis(
-            getNestedInt("Operator.drive.rotate_axis")
+            config.getNestedInt("rotate_axis")
         )
-        val damping = 1 - ((RobotContainer.driverController.getRawAxis(
-            getNestedInt("Operator.drive.damping_axis")
-        ) + 1) / 2)
+        val damping = 1 - RobotContainer.driverController.getRawAxis(
+            config.getNestedInt("damping_axis")
+        )
         RobotContainer.drivetrain.arcadeDrive(moveSpeed * damping, rotateSpeed * damping)
     }
 

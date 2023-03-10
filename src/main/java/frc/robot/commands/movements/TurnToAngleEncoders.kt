@@ -4,7 +4,7 @@
 package frc.robot.commands.movements
 
 import edu.wpi.first.wpilibj2.command.CommandBase
-import frc.robot.Constants.getDouble
+import frc.robot.ConfigReader
 import frc.robot.subsystems.Drivetrain
 
 class TurnToAngleEncoders(private val drivetrain: Drivetrain, degrees: Double, private val speed: Double) :
@@ -31,8 +31,10 @@ class TurnToAngleEncoders(private val drivetrain: Drivetrain, degrees: Double, p
         drivetrain.arcadeDrive(0.0, 0.0)
     }
 
+    private val config = ConfigReader("Robot.wheels.")
+
     // Returns true when the command should end.
     override fun isFinished(): Boolean {
-        return drivetrain.averageEncoder >= degrees * getDouble("Robot.wheels.ticks_per_degree")
+        return drivetrain.averageEncoder >= degrees * config.getDouble("ticks_per_degree")
     }
 }

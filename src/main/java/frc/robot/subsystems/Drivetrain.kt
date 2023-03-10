@@ -10,20 +10,21 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
-import frc.robot.Constants.getInt
+import frc.robot.ConfigReader
 import kotlin.math.abs
 
 class Drivetrain : SubsystemBase() {
     // Declare Variables
     // Declare Motors
+    private val config = ConfigReader("Robot.motors.")
     private val motorLeftFront: CANSparkMax =
-        CANSparkMax(getInt("Robot.motors.left_front"), CANSparkMaxLowLevel.MotorType.kBrushless)
+        CANSparkMax(config.getInt("left_front"), CANSparkMaxLowLevel.MotorType.kBrushless)
     private val motorLeftBack: CANSparkMax =
-        CANSparkMax(getInt("Robot.motors.left_back"), CANSparkMaxLowLevel.MotorType.kBrushless)
+        CANSparkMax(config.getInt("left_back"), CANSparkMaxLowLevel.MotorType.kBrushless)
     private val motorRightFront: CANSparkMax =
-        CANSparkMax(getInt("Robot.motors.right_front"), CANSparkMaxLowLevel.MotorType.kBrushless)
+        CANSparkMax(config.getInt("right_front"), CANSparkMaxLowLevel.MotorType.kBrushless)
     private val motorRightBack: CANSparkMax =
-        CANSparkMax(getInt("Robot.motors.right_back"), CANSparkMaxLowLevel.MotorType.kBrushless)
+        CANSparkMax(config.getInt("right_back"), CANSparkMaxLowLevel.MotorType.kBrushless)
 
     // Declare Encoders
     val encoderLeft1: RelativeEncoder = motorLeftBack.encoder

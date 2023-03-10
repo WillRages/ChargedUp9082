@@ -11,8 +11,7 @@ import edu.wpi.first.wpilibj.AnalogInput
 import edu.wpi.first.wpilibj.DigitalInput
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
-import frc.robot.Constants.getDouble
-import frc.robot.Constants.getInt
+import frc.robot.ConfigReader
 import org.opencv.core.Mat
 import org.opencv.core.Size
 import org.opencv.imgproc.Imgproc
@@ -54,8 +53,10 @@ class Sensors : SubsystemBase() {
         }
     }
 
+    private val config = ConfigReader("Robot.distance.")
+
     private val distance: Double
-        get() = analogs[getInt("Robot.distance.port")]!!.voltage * getDouble("Robot.distance.voltage_to_inch")
+        get() = analogs[config.getInt("port")]!!.voltage * config.getDouble("voltage_to_inch")
 
     // This method will be called once per scheduler run
     override fun periodic() {
