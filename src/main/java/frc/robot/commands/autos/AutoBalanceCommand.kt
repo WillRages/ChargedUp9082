@@ -11,6 +11,9 @@ import kotlin.math.sqrt
 
 class AutoBalanceCommand(private val drivetrain: Drivetrain, private val gyroSubsystem: GyroSubsystem) : CommandBase() {
 
+    private var oldHeadingY = gyroSubsystem.headingY
+    private var stopOvershoot = 0
+
     init {
         // each subsystem used by the command must be passed into the addRequirements() method
         addRequirements(drivetrain, gyroSubsystem)
@@ -18,8 +21,6 @@ class AutoBalanceCommand(private val drivetrain: Drivetrain, private val gyroSub
     }
 
     override fun initialize() {
-        gyroSubsystem.zeroNavX()
-        gyroSubsystem.zeroNavZ()
     }
 
     private fun signSqrt(double: Double): Double {
@@ -28,14 +29,26 @@ class AutoBalanceCommand(private val drivetrain: Drivetrain, private val gyroSub
 
 
     override fun execute() {
-        drivetrain.arcadeDrive(
-            clamp(gyroSubsystem.headingX / 50.0, -0.3, 0.3),
-            clamp(signSqrt(gyroSubsystem.headingZ) / 7.0, -0.5, 0.5)
-        )
+        if (oldHeadingY.sign != gyroSubsystem.headingY) {
+            // 20 ms loop time, 500 ms target pause
+            stopOvershoot = 25
+        }
+
+        if (stopOvershoot > 0) {
+            stopOvershoot -= 1
+            drivetrain.arcadeDrive(0.0, 0.0)
+        } else {
+            drivetrain.arcadeDrive(
+                clamp(gyroSubsystem.headingY / -5.0, -0.5, 0.5),
+                clamp(signSqrt(gyroSubsystem.headingZ) / 7.0, -0.5, 0.5)
+            )
+        }
+
+        oldHeadingY = gyroSubsystem.headingY
     }
 
     override fun isFinished(): Boolean {
-        return driverController.button(2).asBoolean
+        return !driverController.button(4).asBoolean
     }
 
     override fun end(interrupted: Boolean) {

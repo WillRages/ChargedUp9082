@@ -5,7 +5,9 @@
 
 package frc.robot.subsystems
 
+import com.kauailabs.navx.frc.AHRS
 import edu.wpi.first.wpilibj.ADXRS450_Gyro
+import edu.wpi.first.wpilibj.SerialPort
 import edu.wpi.first.wpilibj.interfaces.Gyro
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
@@ -16,7 +18,7 @@ class GyroSubsystem : SubsystemBase() {
     var targetAngle = 0.0
     var pitchOffset = 0.0
 
-    //    private val navx: AHRS = AHRS(SerialPort.Port.kMXP)
+    private val navx: AHRS = AHRS(SerialPort.Port.kMXP)
 
     private val config = ConfigReader("Robot.gyro.")
     val headingX: Double

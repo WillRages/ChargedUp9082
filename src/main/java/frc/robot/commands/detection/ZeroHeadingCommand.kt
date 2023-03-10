@@ -13,6 +13,7 @@ class ZeroHeadingCommand(private val gyroSubsystem: GyroSubsystem) : CommandBase
 
     override fun initialize() {
         gyroSubsystem.zeroNavX()
+        gyroSubsystem.zeroNavZ()
     }
 
     override fun execute() {}

@@ -10,7 +10,7 @@ import frc.robot.commands.detection.ZeroHeadingCommand
 import frc.robot.commands.movements.DriveWithEncoders
 
 val driveBalanceAuto = SequentialCommandGroup(
-    DriveWithEncoders(91.0 /*4'10"*/, 0.5, RobotContainer.drivetrain),
+    DriveWithEncoders(64.0 /*4'10"*/, 0.5, RobotContainer.drivetrain),
     ZeroHeadingCommand(RobotContainer.gyroSub),
     AutoBalanceCommand(RobotContainer.drivetrain, RobotContainer.gyroSub)
 )
