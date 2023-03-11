@@ -16,7 +16,7 @@ import kotlin.math.IEEErem
 
 class GyroSubsystem : SubsystemBase() {
     var targetAngle = 0.0
-    var pitchOffset = 0.0
+    var rollOffset = 0.0
 
     private val navx: AHRS = AHRS(SerialPort.Port.kMXP)
 
@@ -24,12 +24,12 @@ class GyroSubsystem : SubsystemBase() {
     val headingX: Double
         get() = navx.pitch.toDouble().IEEErem(360.0) * config.getDouble("multiplier")
     val headingY: Double
-        get() = navx.roll.toDouble().IEEErem(360.0) * config.getDouble("multiplier") - pitchOffset
+        get() = navx.roll.toDouble().IEEErem(360.0) * config.getDouble("multiplier") - rollOffset
     val headingZ: Double
         get() = navx.angle.IEEErem(360.0) * config.getDouble("multiplier")
 
-    fun zeroNavX() {
-        pitchOffset += headingY
+    fun zeroNavY() {
+        rollOffset += headingY
     }
 
 

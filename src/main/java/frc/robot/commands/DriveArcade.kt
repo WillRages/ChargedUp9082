@@ -4,6 +4,7 @@
 // Packages
 package frc.robot.commands
 
+import edu.wpi.first.math.filter.SlewRateLimiter
 import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.ConfigReader
 import frc.robot.RobotContainer
@@ -27,6 +28,8 @@ class DriveArcade : CommandBase() {
 
     private val config = ConfigReader("Operator.drive.")
 
+    private val moveSpeedLimiter = SlewRateLimiter(0.2)
+
     // Called every time the scheduler runs while the command is scheduled.
     override fun execute() {
         val moveSpeed = RobotContainer.driverController.getRawAxis(
@@ -38,7 +41,7 @@ class DriveArcade : CommandBase() {
         val damping = 1 - RobotContainer.driverController.getRawAxis(
             config.getNestedInt("damping_axis")
         )
-        RobotContainer.drivetrain.arcadeDrive(moveSpeed * damping, rotateSpeed * damping)
+        RobotContainer.drivetrain.arcadeDrive(moveSpeedLimiter.calculate(moveSpeed) * damping, rotateSpeed * damping)
     }
 
     // Called once the command ends or is interrupted.
