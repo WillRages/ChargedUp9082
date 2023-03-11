@@ -26,7 +26,7 @@ val driveForwardAuto = SequentialCommandGroup(
 
 val dropCubeAuto = SequentialCommandGroup(
     ArmEncoderCommand(RobotContainer.endEffector, 493.0, 0.5),
-    ClawControlCommand(RobotContainer.endEffector, true, 1.0),
+    ClawControlCommand(RobotContainer.endEffector, direction = true, 1.0),
     ArmEncoderCommand(RobotContainer.endEffector, 0.0, 0.3),
     driveBalanceAuto,
 )

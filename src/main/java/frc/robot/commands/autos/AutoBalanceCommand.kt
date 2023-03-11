@@ -29,7 +29,7 @@ class AutoBalanceCommand(private val drivetrain: Drivetrain, private val gyroSub
 
 
     override fun execute() {
-        if (oldHeadingY.sign != gyroSubsystem.headingY) {
+        if (oldHeadingY.sign != gyroSubsystem.headingY.sign) {
             // 20 ms loop time, 500 ms target pause
             stopOvershoot = 25
         }
