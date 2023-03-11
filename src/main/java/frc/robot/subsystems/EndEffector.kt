@@ -2,8 +2,10 @@ package frc.robot.subsystems
 
 import com.revrobotics.CANSparkMax
 import com.revrobotics.CANSparkMaxLowLevel
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.ConfigReader
+import kotlin.math.abs
 import kotlin.math.absoluteValue
 
 class EndEffector : SubsystemBase() {
@@ -43,5 +45,28 @@ class EndEffector : SubsystemBase() {
         } else {
             clawMotor.set(0.0)
         }
+    }
+
+    fun targetArmEncoder(target: Double, speed: Double): Boolean {
+        val encoder = armRotor.encoder.position
+
+        if (abs(encoder - target) < 10) return true
+
+        if (encoder < target) {
+            armRotor.set(speed.absoluteValue)
+        } else {
+            armRotor.set(-speed.absoluteValue)
+        }
+
+        return false
+    }
+
+    fun setArmRotor(power: Double) {
+        armRotor.set(power)
+    }
+
+    override fun periodic() {
+        SmartDashboard.putNumber("Arm Encoder", armRotor.encoder.position)
+        SmartDashboard.putNumber("Claw Speed", clawMotor.get())
     }
 }

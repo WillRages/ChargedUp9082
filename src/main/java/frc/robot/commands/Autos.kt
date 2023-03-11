@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup
 import frc.robot.RobotContainer
 import frc.robot.commands.autos.AutoBalanceCommand
 import frc.robot.commands.detection.ZeroHeadingCommand
+import frc.robot.commands.movements.ArmEncoderCommand
+import frc.robot.commands.movements.ClawControlCommand
 import frc.robot.commands.movements.DriveWithEncoders
 
 val driveBalanceAuto = SequentialCommandGroup(
@@ -23,5 +25,8 @@ val driveForwardAuto = SequentialCommandGroup(
 )
 
 val dropCubeAuto = SequentialCommandGroup(
-
+    ArmEncoderCommand(RobotContainer.endEffector, 493.0, 0.5),
+    ClawControlCommand(RobotContainer.endEffector, true, 1.0),
+    ArmEncoderCommand(RobotContainer.endEffector, 0.0, 0.3),
+    driveBalanceAuto,
 )
