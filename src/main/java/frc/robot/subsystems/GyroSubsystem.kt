@@ -43,15 +43,14 @@ class GyroSubsystem : SubsystemBase() {
     private val gyro: Gyro = ADXRS450_Gyro()
     val heading: Double
         get() = gyro.angle.IEEErem(360.0) * config.getDouble("multiplier")
-    val turnRate: Double
-        get() = gyro.rate * config.getDouble("multiplier")
+//    val turnRate: Double
+//        get() = gyro.rate * config.getDouble("multiplier")
 
     fun zeroHeading() {
         gyro.reset()
     }
 
     override fun periodic() {
-        // This method will be called once per scheduler run
         SmartDashboard.putNumber("Heading", heading)
         SmartDashboard.putNumber("Heading X", headingX)
         SmartDashboard.putNumber("Heading Y", headingY)

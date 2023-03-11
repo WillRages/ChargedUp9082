@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkMaxLowLevel
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.robot.ConfigReader
+import frc.robot.RobotContainer
 import kotlin.math.abs
 import kotlin.math.absoluteValue
 
@@ -27,12 +28,28 @@ class EndEffector : SubsystemBase() {
          * Consumption is the Controller's trigger
          * Barfing is the Controller's Side panel button
          */
+
+        // -7 minimum, 116 max
+
+
+        // CASES
+
+
         // Arm motor Input Detection
+        // negative axisInput retracts arm, positive extends it
         config.currentConfigPath = ""
-        if (axisInput.absoluteValue > config.getDouble("Operator.lift.stick_deadzone")) {
+        if (((axisInput.absoluteValue > config.getDouble("Operator.lift.stick_deadzone"))
+                    and (((armRotor.encoder.position > -7) or (axisInput < 0.0))
+                    and ((armRotor.encoder.position < 116) or (axisInput > 0.0)))
+                    or RobotContainer.armController.getRawButton(1))
+        ) {
             armRotor.set(axisInput)
         } else {
             armRotor.set(0.0)
+        }
+
+        if (RobotContainer.armController.getRawButton(1)) {
+            armRotor.encoder.position = 0.0
         }
 
         // Boolean detection to control motor direction (Movement is same for Cone
