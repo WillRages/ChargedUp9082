@@ -13,7 +13,6 @@ import frc.robot.commands.autos.AutoBalanceCommand
 import frc.robot.commands.detection.ZeroHeadingCommand
 import frc.robot.subsystems.Drivetrain
 import frc.robot.subsystems.EndEffector
-import frc.robot.subsystems.GyroSubsystem
 
 class RobotContainer {
     // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -50,7 +49,7 @@ class RobotContainer {
         driverController.button(2).onTrue(AutoBalanceCommand(drivetrain, gyroSub))
     }
 
-    val autonomousCommand: Command
+    val autonomousCommand: Command?
         get() = autoChooser.selected
 
     companion object {
@@ -58,7 +57,7 @@ class RobotContainer {
 
         // The robot's subsystems and commands are defined here...
         val drivetrain = Drivetrain()
-        val gyroSub = GyroSubsystem()
+        val gyroSub = frc.robot.subsystems.NavigationSubsystem
 
         //        val sensors = Sensors()
         val endEffector = EndEffector()

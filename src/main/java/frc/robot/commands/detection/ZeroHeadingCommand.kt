@@ -1,9 +1,9 @@
 package frc.robot.commands.detection
 
 import edu.wpi.first.wpilibj2.command.CommandBase
-import frc.robot.subsystems.GyroSubsystem
+import frc.robot.subsystems.NavigationSubsystem
 
-class ZeroHeadingCommand(private val gyroSubsystem: GyroSubsystem) : CommandBase() {
+class ZeroHeadingCommand(private val gyroSubsystem: NavigationSubsystem) : CommandBase() {
 
 
     init {
@@ -12,15 +12,14 @@ class ZeroHeadingCommand(private val gyroSubsystem: GyroSubsystem) : CommandBase
     }
 
     override fun initialize() {
-        gyroSubsystem.zeroNavY()
-        gyroSubsystem.zeroNavZ()
+        gyroSubsystem.zeroYaw()
+        gyroSubsystem.zeroPitch()
+        gyroSubsystem.zeroRoll()
     }
 
     override fun execute() {}
 
-    override fun isFinished(): Boolean {
-        return true
-    }
+    override fun isFinished() = true
 
     override fun end(interrupted: Boolean) {}
 }
