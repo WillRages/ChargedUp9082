@@ -6,6 +6,7 @@ package frc.robot
 import edu.wpi.first.wpilibj.TimedRobot
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.CommandScheduler
+import frc.robot.commands.detection.ZeroHeadingCommand
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -48,7 +49,7 @@ class Robot : TimedRobot() {
     override fun disabledInit() {
         if (teleRan) {
             teleRan = false
-            RobotContainer.gyroSub.zeroNavZ()
+            ZeroHeadingCommand(RobotContainer.gyroSub).schedule()
         }
     }
 
@@ -58,11 +59,9 @@ class Robot : TimedRobot() {
      * This autonomous runs the autonomous command selected by your [RobotContainer] class.
      */
     override fun autonomousInit() {
-        autonomousCommand = robotContainer.autonomousCommand
-
-        // schedule the autonomous command (example)
-        autonomousCommand!!.schedule()
+        autonomousCommand = robotContainer.autonomousCommand.apply { this?.schedule() }
     }
+
 
     /** This function is called periodically during autonomous.  */
     override fun autonomousPeriodic() {}

@@ -5,7 +5,6 @@ package frc.robot.subsystems
 
 import com.revrobotics.CANSparkMax
 import com.revrobotics.CANSparkMaxLowLevel
-import com.revrobotics.RelativeEncoder
 import edu.wpi.first.wpilibj.drive.DifferentialDrive
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
@@ -18,52 +17,43 @@ class Drivetrain : SubsystemBase() {
     // Declare Motors
     private val config = ConfigReader("Robot.motors.")
     private val motorLeftFront: CANSparkMax =
-        CANSparkMax(config.getInt("left_front"), CANSparkMaxLowLevel.MotorType.kBrushless)
+        CANSparkMax(config.getInt("left_front"), CANSparkMaxLowLevel.MotorType.kBrushless).apply {
+            this.idleMode = CANSparkMax.IdleMode.kBrake
+        }
     private val motorLeftBack: CANSparkMax =
-        CANSparkMax(config.getInt("left_back"), CANSparkMaxLowLevel.MotorType.kBrushless)
+        CANSparkMax(config.getInt("left_back"), CANSparkMaxLowLevel.MotorType.kBrushless).apply {
+            this.idleMode = CANSparkMax.IdleMode.kBrake
+        }
     private val motorRightFront: CANSparkMax =
-        CANSparkMax(config.getInt("right_front"), CANSparkMaxLowLevel.MotorType.kBrushless)
+        CANSparkMax(config.getInt("right_front"), CANSparkMaxLowLevel.MotorType.kBrushless).apply {
+            this.idleMode = CANSparkMax.IdleMode.kBrake
+        }
     private val motorRightBack: CANSparkMax =
-        CANSparkMax(config.getInt("right_back"), CANSparkMaxLowLevel.MotorType.kBrushless)
+        CANSparkMax(config.getInt("right_back"), CANSparkMaxLowLevel.MotorType.kBrushless).apply {
+            this.idleMode = CANSparkMax.IdleMode.kBrake
+        }
 
-    init {
-        motorLeftFront.idleMode = CANSparkMax.IdleMode.kBrake
-        motorLeftBack.idleMode = CANSparkMax.IdleMode.kBrake
-        motorRightFront.idleMode = CANSparkMax.IdleMode.kBrake
-        motorRightBack.idleMode = CANSparkMax.IdleMode.kBrake
-    }
 
     // Declare Encoders
-    val encoderLeft1: RelativeEncoder = motorLeftBack.encoder
+    val encoderLeft1 = motorLeftBack.encoder!!
 
-    val encoderLeft2: RelativeEncoder = motorLeftFront.encoder
+    val encoderLeft2 = motorLeftFront.encoder!!
 
-    val encoderRight1: RelativeEncoder = motorRightBack.encoder
+    val encoderRight1 = motorRightBack.encoder!!
 
-    val encoderRight2: RelativeEncoder = motorRightFront.encoder
+    val encoderRight2 = motorRightFront.encoder!!
 
     // Speed Controls
-    private val leftMotors: MotorControllerGroup = MotorControllerGroup(motorLeftFront, motorLeftBack)
-    private val rightMotors: MotorControllerGroup = MotorControllerGroup(motorRightFront, motorRightBack)
+    private val leftMotors = MotorControllerGroup(motorLeftFront, motorLeftBack)
+    private val rightMotors = MotorControllerGroup(motorRightFront, motorRightBack).apply { this.inverted = true }
 
     // Differential Drive
-    private val differentialDrive: DifferentialDrive
-
-    /** Creates a new Drivetrain.  */
-    init {
-        // CANSparkMax Controllers
-
-        // Need to invert one side
-        rightMotors.inverted = true
-        differentialDrive = DifferentialDrive(leftMotors, rightMotors)
-    }
+    private val differentialDrive = DifferentialDrive(leftMotors, rightMotors)
 
     val averageEncoder: Double
-        get() = ((abs(encoderLeft1.position)
-                + abs(encoderLeft2.position)
-                + abs(encoderRight1.position)
-                + abs(encoderRight2.position)
-                ) / 4)
+        get() = ((abs(encoderLeft1.position) + abs(encoderLeft2.position) + abs(encoderRight1.position) + abs(
+            encoderRight2.position
+        )) / 4)
 
     fun setZeroEncoders() {
         encoderLeft1.position = 0.0

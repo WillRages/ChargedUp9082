@@ -11,10 +11,9 @@ import kotlin.math.absoluteValue
 
 class EndEffector : SubsystemBase() {
     private val config = ConfigReader("Robot.motors.")
-    private val armRotor: CANSparkMax =
-        CANSparkMax(config.getInt("rotation_arm"), CANSparkMaxLowLevel.MotorType.kBrushless)
-    private val clawMotor: CANSparkMax =
-        CANSparkMax(config.getInt("claw_motor"), CANSparkMaxLowLevel.MotorType.kBrushed)
+
+    private val armRotor = CANSparkMax(config.getInt("rotation_arm"), CANSparkMaxLowLevel.MotorType.kBrushless)
+    private val clawMotor = CANSparkMax(config.getInt("claw_motor"), CANSparkMaxLowLevel.MotorType.kBrushed)
 
     init {
         armRotor.idleMode = CANSparkMax.IdleMode.kBrake
@@ -22,38 +21,29 @@ class EndEffector : SubsystemBase() {
     }
 
     @Suppress("SpellCheckingInspection")
-    fun liftyBoi(axisInput: Double, consumption: Boolean, barfing: Boolean) {
-        /* TODO:
+    fun liftyBoi(axisInput: Double, consumption: Boolean, barfing: Boolean) {/* TODO:
          * Replace the variable Axis_Input with Controller x Axis
          * Consumption is the Controller's trigger
          * Barfing is the Controller's Side panel button
          */
 
-        // -7 minimum, 116 max
-
-
-        // CASES
-
-
-        // Arm motor Input Detection
-        // negative axisInput retracts arm, positive extends it
+        val trigger = RobotContainer.armController.getRawButton(1)
         config.currentConfigPath = ""
-        if (((axisInput.absoluteValue > config.getDouble("Operator.lift.stick_deadzone"))
-                    and (((armRotor.encoder.position > -7) or (axisInput < 0.0))
-                    and ((armRotor.encoder.position < 116) or (axisInput > 0.0)))
-                    or RobotContainer.armController.getRawButton(1))
-        ) {
+
+        // negative axisInput retracts arm, positive extends it
+        if (axisInput.absoluteValue > config.getDouble("Operator.lift.stick_deadzone") && (//@formatter:off
+                    ((armRotor.encoder.position > -7)  || (axisInput < 0.0)) &&
+                    ((armRotor.encoder.position < 116) || (axisInput > 0.0))
+                    || trigger)
+        ) {//@formatter:on
             armRotor.set(axisInput)
         } else {
             armRotor.set(0.0)
         }
 
-        if (RobotContainer.armController.getRawButton(1)) {
+        if (trigger) {
             armRotor.encoder.position = 0.0
         }
-
-        // Boolean detection to control motor direction (Movement is same for Cone
-        // consumption and Cube Spewing)
 
         if (consumption && !barfing) {
             clawMotor.set(-0.7)
@@ -69,11 +59,7 @@ class EndEffector : SubsystemBase() {
 
         if (abs(encoder - target) < 10) return true
 
-        if (encoder < target) {
-            armRotor.set(speed.absoluteValue)
-        } else {
-            armRotor.set(-speed.absoluteValue)
-        }
+        armRotor.set(speed * if (encoder < target) 1 else -1)
 
         return false
     }

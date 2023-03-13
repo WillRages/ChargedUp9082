@@ -14,7 +14,7 @@ class EndEffectorCommand : CommandBase() {
 
     override fun initialize() {}
     private val config = ConfigReader("Operator.lift.")
-    fun getACButton(path: String): Boolean {
+    private fun getACButton(path: String): Boolean {
         return RobotContainer.armController.getRawButton(config.getInt(path))
     }
 

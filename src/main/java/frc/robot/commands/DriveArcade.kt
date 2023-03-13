@@ -9,21 +9,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase
 import frc.robot.ConfigReader
 import frc.robot.RobotContainer
 
-// Library imports
-// Functioning Code Starts Here
 class DriveArcade : CommandBase() {
-    /** Creates a new DriveArcade.  */
     init {
-        // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(RobotContainer.drivetrain)
     }
 
     // Called when the command is initially scheduled.
     override fun initialize() {
-        RobotContainer.drivetrain.encoderLeft1.position = 0.0
-        RobotContainer.drivetrain.encoderLeft2.position = 0.0
-        RobotContainer.drivetrain.encoderRight1.position = 0.0
-        RobotContainer.drivetrain.encoderRight2.position = 0.0
+        RobotContainer.drivetrain.setZeroEncoders()
     }
 
     private val config = ConfigReader("Operator.drive.")
@@ -35,6 +28,7 @@ class DriveArcade : CommandBase() {
         val moveSpeed = RobotContainer.driverController.getRawAxis(
             config.getNestedInt("move_axis")
         )
+
         val rotateSpeed = -RobotContainer.driverController.getRawAxis(
             config.getNestedInt("rotate_axis")
         )

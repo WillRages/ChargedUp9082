@@ -1,0 +1,87 @@
+package frc.robot
+
+val configString = """
+    [Input.stick.axes]
+    sideways = 0
+    forward = 1
+    twist = 2
+    slider = 3
+
+    [Input.stick.buttons]
+    trigger = 1
+    side = 2
+    thumbs = { bl = 3, br = 4, tl = 5, tr = 6 }
+    base = [7, 8, 9, 10, 11, 12]
+
+    [Input.controller.axes]
+    left = { sideways = 0, forward = 1, trigger = 2 }
+    right = { sideways = 4, forward = 5, trigger = 3 }
+
+    [Input.controller.buttons]
+    letters = { a = 1, b = 2, x = 3, y = 4 }
+    bumpers = { left = 5, right = 6 }
+    squares = 7
+    menu = 8
+    sticks = { left = 9, right = 10 }
+
+    [Operator.drive]
+    # 40 in
+    # side of station to side of terminal = 61 in
+    # when statin flat, 64 inches
+    # 61-40 + (64 - (40 / 2)) - 1
+    controller_index = 0
+    move_axis = "Input.controller.axes.left.forward"
+    rotate_axis = "Input.controller.axes.right.sideways"
+    damping_axis = "Input.controller.axes.right.trigger"
+
+    [Operator.lift]
+    stick_index = 1
+    stick_deadzone = 0.2
+    claw_axis = "Input.stick.axes.forward"
+    cone = { consume = 3, barfing = 5 }
+    cube = { consume = 4, barfing = 6 }
+
+    # 4'10"
+
+    # Robot table contains all robot config
+    [Robot.wheels]
+    inch_to_encoder = 0.5972222222222222222 #43 ticks per 72 inch
+    ticks_per_degree = 0.15555555555555555
+    #ticks_per_rotation = 1024
+    #wheel_diameter_inch = 6
+    #ticks_per_inch = 54.3248872420336079 #ticks per rotation over perimeter (diameter pi)
+
+    [Robot.distance]
+    # divide voltage by 9.77mV to get cm
+    # https://www.maxbotix.com/firstrobotics
+    voltage_to_inch = 40.29691
+    port = 0
+
+    [Robot.gyro]
+    multiplier = 1.0
+    turn_epsilon = 20.0
+
+    [Robot.pid]
+    drive_pid = { p = 1.0, i = 0.5, d = 0.0 }
+    turn_pid = { p = 1.0, i = 0.0, d = 0.0 }
+
+    [Robot.limits]
+    max_turn_rate = 10.0
+    max_turn_accel = 30.0
+
+    [Robot.motors]
+    left_front = 3
+    left_back = 4
+    right_front = 1
+    right_back = 2
+    rotation_arm = 6
+    claw_motor = 7
+
+    [Robot.arm]
+    arm_limit = { lower = 0.0, upper = 120.0 }
+
+
+    [Auto]
+    distance_inch = 200.0
+    drive_speed = 0.3
+""".trimIndent()

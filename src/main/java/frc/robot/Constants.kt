@@ -4,9 +4,10 @@
 package frc.robot
 
 import com.moandjiezana.toml.Toml
-import java.io.File
-import java.io.FileInputStream
 import java.io.FileNotFoundException
+import java.nio.file.Files
+import java.nio.file.InvalidPathException
+import java.nio.file.Path
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -34,14 +35,20 @@ class ConfigReader(var currentConfigPath: String) {
     }
 
     private companion object Constants {
-        private val configFile = try {
-            FileInputStream(File("/home/config.toml"))
-        } catch (ignored: FileNotFoundException) {
-            try {
-                FileInputStream(File("src/main/java/frc/robot/config.toml"))
-            } catch (e: FileNotFoundException) {
-                throw RuntimeException(e)
+        const val INLINE_CONFIG = false
+
+        private val configFile: String = if (INLINE_CONFIG) {
+            configString
+        } else {
+            val paths = arrayOf("src/main/java/frc/robot/config.toml", "/home/config.toml")
+            var x: String? = null
+            for (i in paths) {
+                try {
+                    x = Files.readString(Path.of(i))
+                } catch (ignored: InvalidPathException) {
+                }
             }
+            x ?: throw FileNotFoundException("Could not find config file")
         }
 
         private val configReader = Toml().read(configFile)
