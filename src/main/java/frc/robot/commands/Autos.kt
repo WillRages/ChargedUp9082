@@ -12,7 +12,7 @@ import frc.robot.commands.movements.ClawControlCommand
 import frc.robot.commands.movements.DriveWithEncoders
 
 val driveBalanceAuto = SequentialCommandGroup(
-    ZeroHeadingCommand(RobotContainer.gyroSub),
+    ZeroHeadingCommand,
     // 5' - 40" + 64" - 2"(for overshoot)
     DriveWithEncoders(82.0, 0.5, RobotContainer.drivetrain),
     AutoBalanceCommand(RobotContainer.drivetrain, RobotContainer.gyroSub)
@@ -24,9 +24,41 @@ val driveForwardAuto = SequentialCommandGroup(
     DriveWithEncoders(36.06, -0.5, RobotContainer.drivetrain)
 )
 
-val dropCubeAuto = SequentialCommandGroup(
-    ArmEncoderCommand(RobotContainer.endEffector, 493.0, 0.5),
+val dropCube = SequentialCommandGroup(
+    // TODO: add proper encoder value later
+    ArmEncoderCommand(RobotContainer.endEffector, 116.0, 0.5),
     ClawControlCommand(RobotContainer.endEffector, direction = true, 1.0),
     ArmEncoderCommand(RobotContainer.endEffector, 0.0, 0.3),
+)
+
+val dropCubeAuto = SequentialCommandGroup(
+    dropCube,
     driveBalanceAuto,
+)
+
+val mobilityStationAuto = SequentialCommandGroup(
+    ZeroHeadingCommand,
+    DriveWithEncoders(143.0, 0.5, RobotContainer.drivetrain),
+    DriveWithEncoders(-43.0, 0.5, RobotContainer.drivetrain),
+    AutoBalanceCommand(RobotContainer.drivetrain, RobotContainer.gyroSub),
+    //Measurement Wise
+)
+
+val jarMobilityAuto = SequentialCommandGroup(
+    ZeroHeadingCommand,
+    DriveWithEncoders(82.0, 0.5, RobotContainer.drivetrain),
+    DriveWithEncoders(82.0, 0.5, RobotContainer.drivetrain),
+    DriveWithEncoders(-82.0, 0.5, RobotContainer.drivetrain),
+    AutoBalanceCommand(RobotContainer.drivetrain, RobotContainer.gyroSub),
+    //Logic Simplicity
+)
+
+val fullHogAuto = SequentialCommandGroup(
+    dropCube,
+    jarMobilityAuto,
+)
+
+val measureHogAuto = SequentialCommandGroup(
+    dropCube,
+    mobilityStationAuto,
 )

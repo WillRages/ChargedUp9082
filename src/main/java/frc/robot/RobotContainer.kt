@@ -30,9 +30,12 @@ class RobotContainer {
         // Set default commands of subsystems
 
         // Autonomous Chooser
-        autoChooser.setDefaultOption("Simple Drive Auto", driveForwardAuto)
+        autoChooser.setDefaultOption("Simple Drive", driveForwardAuto)
         autoChooser.addOption("Park on charge", driveBalanceAuto)
         autoChooser.addOption("Drop Cube", dropCubeAuto)
+        autoChooser.addOption("Cube Dropping Logic", fullHogAuto)
+        autoChooser.addOption("Simple Logic Mobility", jarMobilityAuto)
+        autoChooser.addOption("Cube Dropping Measurement", measureHogAuto)
         SmartDashboard.putData("Auto Chooser", autoChooser)
     }
 
@@ -45,13 +48,13 @@ class RobotContainer {
      * [Flight joysticks][edu.wpi.first.wpilibj2.command.button.CommandJoystick].
      */
     private fun configureBindings() {
-        driverController.button(1).onTrue(ZeroHeadingCommand(gyroSub))
+        driverController.button(1).onTrue(ZeroHeadingCommand)
         driverController.button(2).onTrue(AutoBalanceCommand(drivetrain, gyroSub))
     }
 
-    val autonomousCommand: Command?
-        get() = autoChooser.selected
+    val autonomousCommand: Command? get() = autoChooser.selected
 
+    // You're welcome for having you switch to kotlin -jaren
     companion object {
         private val config = ConfigReader("Operator.")
 

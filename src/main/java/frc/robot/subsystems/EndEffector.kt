@@ -20,6 +20,18 @@ class EndEffector : SubsystemBase() {
         clawMotor.idleMode = CANSparkMax.IdleMode.kBrake
     }
 
+    var armPower: Double
+        get() = armRotor.get()
+        set(value) {
+            if (((armRotor.encoder.position > -7) || (value < 0.0)) &&
+                ((armRotor.encoder.position < 116) || (value > 0.0))
+            ) {
+                armRotor.set(value)
+            } else {
+                armRotor.set(0.0)
+            }
+        }
+
     @Suppress("SpellCheckingInspection")
     fun liftyBoi(axisInput: Double, consumption: Boolean, barfing: Boolean) {/* TODO:
          * Replace the variable Axis_Input with Controller x Axis
@@ -33,19 +45,15 @@ class EndEffector : SubsystemBase() {
         config.currentConfigPath = ""
 
         // negative axisInput retracts arm, positive extends it
-        if (axisInput.absoluteValue > config.getDouble("Operator.lift.stick_deadzone") && (//@formatter:off
-                    ((armRotor.encoder.position > -7)  || (axisInput < 0.0)) &&
-                    ((armRotor.encoder.position < 116) || (axisInput > 0.0))
-                    || trigger)
-        ) {//@formatter:on
-            armRotor.set(axisInput)
-        } else {
-            armRotor.set(0.0)
+        if (axisInput.absoluteValue > config.getDouble("Operator.lift.stick_deadzone")) {
+            armPower = axisInput
         }
 
         if (trigger) {
+            armRotor.set(axisInput)
             armRotor.encoder.position = 0.0
         }
+
 
         if (consumption && !barfing) {
             clawMotor.set(-0.7)
@@ -61,7 +69,7 @@ class EndEffector : SubsystemBase() {
 
         if (abs(encoder - target) < 10) return true
 
-        armRotor.set(speed * if (encoder < target) 1 else -1)
+        armPower = speed * if (encoder < target) 1 else -1
 
         return false
     }

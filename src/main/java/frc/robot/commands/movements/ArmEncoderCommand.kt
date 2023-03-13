@@ -26,6 +26,6 @@ class ArmEncoderCommand(
     }
 
     override fun end(interrupted: Boolean) {
-        endEffector.setArmRotor(0.0)
+        endEffector.armPower = 0.0
     }
 }
